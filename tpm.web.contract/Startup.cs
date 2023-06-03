@@ -1,3 +1,6 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using CoC.MoonSheep.Business;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace tpm.web.contract
@@ -15,14 +20,6 @@ namespace tpm.web.contract
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            //var assembly = System.AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(i => i.GetName().Name.ToLower().Contains("business"));
-            //if (assembly != null)
-            //{
-            //    builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().InstancePerLifetimeScope()
-            //    .WithParameter(new ResolvedParameter((pi, ctx) => pi.ParameterType == typeof(ICacheManager),
-            //    (pi, ctx) => ctx.ResolveKeyed<ICacheManager>("main_cache")));
-            //}
         }
 
         public IConfiguration Configuration { get; }
@@ -32,11 +29,18 @@ namespace tpm.web.contract
         {
             services.ConfigAPI(Configuration);
             services.AddControllersWithViews();
+        }   
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterServiceDependencyAutofac();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Engine.ContainerManager = new ContainerManager(app.ApplicationServices.GetAutofacRoot());
+
             app.UseSession();
             if (env.IsDevelopment())
             {

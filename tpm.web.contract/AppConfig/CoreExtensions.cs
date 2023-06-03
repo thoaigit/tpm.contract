@@ -9,6 +9,7 @@ using System;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using tpm.business;
 using tpm.dto;
 
 namespace tpm.web.contract
@@ -18,20 +19,13 @@ namespace tpm.web.contract
         public static void ConfigAPI(this IServiceCollection services, IConfiguration Configuration)
         {
             AppSetting.Logger = new AppSettingLogger();
+            AppSetting.Connection = new ConnectionStrings();
             Configuration.Bind("Logger", AppSetting.Logger);
+            Configuration.Bind("ConnectionStrings", AppSetting.Connection);
 
             //services.AddAutoMapper();
             services.AddHttpContextAccessor();
             services.AddMemoryCache();
-
-            //if (AppSetting.Logger.SerilogEnable)
-            //{
-            //    if (AppSetting.Logger.SerilogDebug) Serilog.Debugging.SelfLog.Enable(Console.Error);
-            //    Serilog.Log.Logger = new LoggerConfiguration()
-            //        .WriteTo.Seq(AppSetting.Logger.SeqURI)
-            //        .CreateLogger();
-            //    services.AddSingleton<Core.Log.Interface.ILogger>(new SLogger(Serilog.Log.Logger, AppSetting.Logger.ClientName));
-            //}
 
             services.AddSession(options =>
             {
@@ -39,12 +33,6 @@ namespace tpm.web.contract
                 options.IdleTimeout = TimeSpan.FromSeconds(60 * 30);
                 options.Cookie.HttpOnly = true;
             });
-
-            services.AddScoped<HttpClient>(c => new HttpClient(new HttpClientHandler()
-                {
-                    AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-                })
-            );
 
             MemoryCacheOptions memCacheOption = new MemoryCacheOptions();
             //MemoryCacheManager memCache = new MemoryCacheManager(new MemoryCache(memCacheOption));
