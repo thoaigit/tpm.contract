@@ -9,20 +9,20 @@ using tpm.web.contract.Models;
 
 namespace tpm.web.contract.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
         }
 
+        [MvcAuthorize]
         public IActionResult Index()
         {
             return View();
         }
 
+        [MvcAuthorize]
         public IActionResult Privacy()
         {
             return View();

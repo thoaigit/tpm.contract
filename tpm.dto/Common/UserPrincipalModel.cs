@@ -1,6 +1,8 @@
-﻿namespace tpm.dto.admin
+﻿using System.Security.Claims;
+
+namespace tpm.dto.admin
 {
-    public class UserPrincipalModel
+    public class UserPrincipal : ClaimsPrincipal
     {
         public int UserID { get; set; }
         public string UserName { get; set; }
