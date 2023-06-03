@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using tpm.web.contract.Data;
 
 namespace tpm.web.contract
 {
@@ -32,6 +33,8 @@ namespace tpm.web.contract
         {
             services.ConfigAPI(Configuration);
             services.AddControllersWithViews();
+            services.AddDbContext<ServiceDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
