@@ -9,6 +9,7 @@ using System;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using tpm.dto;
 
 namespace tpm.web.contract
 {
