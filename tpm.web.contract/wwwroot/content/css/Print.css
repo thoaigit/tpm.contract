@@ -1,0 +1,117 @@
+﻿
+#divTableDetailContainer td {
+    height: 50px;
+}
+
+table {
+    page-break-inside: auto;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+.rgHeader {
+    border: solid 1px;
+}
+
+tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}
+
+
+.Center {
+    top: 25%;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+}
+
+.row {
+    clear:both;
+    width: 98%;
+    display: block;
+}
+
+.item1 {
+    width: 50%;
+    float: left;
+}
+
+.label {
+    float: left;
+    width: 145px;
+}
+
+.control {
+    width: 60%;
+    float: left;
+}
+
+.cell {
+    height: 30px;
+}
+
+
+body {
+    font-size: 20px;
+}
+
+table {
+    font-size: 20px;
+    
+}
+
+.divContentMainPrint {
+    display: table;
+    height: 1350px;
+    width: 100%;
+    position: relative;
+}
+@media screen {
+    #imgback {
+        display: none;
+    }
+
+    .Footer {
+        display: none;
+    }
+
+    .divContentMainPrint {
+        margin: 0 auto;
+    }
+}
+
+
+@media print {
+    #company {
+        padding-top: 20px;
+        padding-left: 15px;
+    }
+
+    .divContentMainPrint {
+        page-break-after: always;
+        height: 95%;
+        margin-left:20px;
+    }
+
+    #footer {
+        padding-right: 10px;
+    }
+
+    #imgback {
+        display: none;
+    }
+
+    .footer {
+        position: fixed;
+        bottom: 0px;
+    }
+
+
+   
+}
+
+table, th, td {
+    border: 1px solid black;
+    
+}

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menus>
+  <Menu>
+    <MenuID>1</MenuID>
+    <ParentID>0</ParentID>
+    <Controller></Controller>
+    <Title>Đơn hàng</Title>
+    <DisplayOrder>10</DisplayOrder>
+    <Action>/OutputFastSales</Action>
+    <Icon>fa fa-user-circle-o </Icon>
+    <BreadCrumbDefaultLink>/OutputFastSales</BreadCrumbDefaultLink>
+    <BreadCrumbDisplay>true</BreadCrumbDisplay>
+    <SecondaryTitle></SecondaryTitle>
+    <Permission></Permission> 
+  </Menu>
+  <Menu>
+    <MenuID>2</MenuID>
+    <ParentID>1</ParentID>
+    <Controller></Controller>
+    <Title>Danh sách đơn hàng</Title>
+    <DisplayOrder>10</DisplayOrder>
+    <Action>/OutputFastSales</Action>
+    <Icon>fa fa-list</Icon>
+    <BreadCrumbDefaultLink>/OutputFastSales</BreadCrumbDefaultLink>
+    <BreadCrumbDisplay>true</BreadCrumbDisplay>
+    <SecondaryTitle></SecondaryTitle>
+    <Permission>OutputFastSale.Read.CRMPartner,OutputFastSale.Read.CRMPartnerByUser</Permission>
+  </Menu>
+  <Menu>
+    <MenuID>3</MenuID>
+    <ParentID>1</ParentID>
+    <Controller></Controller>
+    <Title>Tạo mới đơn hàng</Title>
+    <DisplayOrder>10</DisplayOrder>
+    <Action>/OutputFastSales/Create</Action>
+    <Icon>fa fa-plus </Icon>
+    <BreadCrumbDefaultLink></BreadCrumbDefaultLink>
+    <BreadCrumbDisplay>true</BreadCrumbDisplay>
+    <SecondaryTitle></SecondaryTitle>
+    <Permission>OutputFastSale.Create.CRMPartner</Permission>
+  </Menu>
+  <Menu>
+    <MenuID>4</MenuID>
+    <ParentID>1</ParentID>
+    <Controller></Controller>
+    <Title>Chi tiết đơn hàng</Title>
+    <DisplayOrder>-1</DisplayOrder>
+    <Action>/OutputFastSales/Edit/</Action>
+    <Icon>fa fa-plus </Icon>
+    <BreadCrumbDefaultLink></BreadCrumbDefaultLink>
+    <BreadCrumbDisplay>true</BreadCrumbDisplay>
+    <SecondaryTitle></SecondaryTitle>
+    <Permission>OutputFastSale.Read.CRMPartner</Permission>
+  </Menu>
+
+  <Menu>
+    <MenuID>100</MenuID>
+    <ParentID>0</ParentID>
+    <Controller></Controller>
+    <Title>Thống kê</Title>
+    <DisplayOrder>10</DisplayOrder>
+    <Action>/CustomerTransactions</Action>
+    <Icon>fa fa-list</Icon>
+    <BreadCrumbDefaultLink>/CustomerTransactions/OrderManager</BreadCrumbDefaultLink>
+    <BreadCrumbDisplay>true</BreadCrumbDisplay>
+    <SecondaryTitle></SecondaryTitle>
+    <Permission></Permission>
+  </Menu>
+  <Menu>
+    <MenuID>101</MenuID>
+    <ParentID>100</ParentID>
+    <Controller></Controller>
+    <Title>Thống kê đơn hàng</Title>
+    <DisplayOrder>10</DisplayOrder>
+    <Action>/CustomerTransactions/OrderManager</Action>
+    <Icon>fa fa-list</Icon>
+    <BreadCrumbDefaultLink>/CustomerTransactions/OrderManager</BreadCrumbDefaultLink>
+    <BreadCrumbDisplay>true</BreadCrumbDisplay>
+    <SecondaryTitle></SecondaryTitle>
+    <Permission>OutputFastSaleRPT.Read.CRMPartner,OutputFastSaleRPT.Read.CRMPartnerByUser</Permission>
+  </Menu>
+  <Menu>
+    <MenuID>102</MenuID>
+    <ParentID>100</ParentID>
+    <Controller></Controller>
+    <Title>Thống kê PQT phát hành</Title>
+    <DisplayOrder>10</DisplayOrder>
+    <Action>/Reports/LastMileDelivery</Action>
+    <Icon>fa fa-list</Icon>
+    <BreadCrumbDefaultLink>/Reports/LastMileDelivery</BreadCrumbDefaultLink>
+    <BreadCrumbDisplay>true</BreadCrumbDisplay>
+    <SecondaryTitle></SecondaryTitle>
+    <Permission>CRMPartner.LastMileDeliveryReport</Permission>
+  </Menu>
+</Menus>
