@@ -17935,7 +17935,7 @@ html[data-color-theme=dark] .form-switch .form-check-input {
     -ms-flex-pack: center;
     justify-content: center;
     -ms-flex-align: center;
-    align-items: center
+    align-items: center;
 }
 
 .space {
@@ -37241,3 +37241,9 @@ label {
     text-overflow: ellipsis;
     position: relative;
 }
+#openPopup {
+    margin-bottom: 4px;
+    margin-left: 0px;
+}
+
+

@@ -1,0 +1,260 @@
+﻿
+<style>
+    /* CSS cho popup */
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
+        height: 70%;
+        padding: 20px;
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        z-index: 9999;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .popup input[type="text"],
+        [type="number"],
+        .popup select,
+        .popup button {
+            margin-top: 10px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .popup button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+    /* CSS cho phần tử nền mờ */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ mờ 50% */
+        z-index: 9998;
+    }
+
+    /* CSS cho lớp active khi hiển thị popup */
+    body.popup-active {
+        overflow: hidden; /* Ẩn thanh cuộn khi popup hiển thị */
+    }
+
+    .tab {
+        overflow: hidden;
+        background-color: #f1f1f1;
+    }
+
+        .tab button {
+            background-color: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    .tabcontent {
+        display: flex;
+        padding: 4px;
+        border: 1px solid #ccc;
+    }
+</style>
+<div class="page-header page-header-light shadow">
+    <div class="page-header-content d-lg-flex">
+        <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
+        </div>
+    </div>
+
+    <div class="page-header-content d-lg-flex border-top">
+        <div class="d-flex">
+            <div class="breadcrumb py-2">
+                <a asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="ph-house"></i></a>
+                <span class="breadcrumb-item active">Danh Sách</span>
+                <span class="breadcrumb-item active"><a asp-action="Index">DS Hợp Đồng</a></span>
+                <span class="breadcrumb-item active"><a asp-action="Create">Thêm Hợp Đồng</a></span>
+            </div>
+
+            <a href="#breadcrumb_elements"
+               class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto"
+               data-bs-toggle="collapse">
+                <i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1</button>
+    <button class="tablinks" onclick="openTab(event, 'Tab2')">Tab 2</button>
+    <button class="tablinks" onclick="openTab(event, 'Tab3')">Tab 3</button>
+</div>
+
+<div id="Tab1" class="tabcontent">
+    <h3>Content for Tab 1</h3>
+    <p>This is the content for Tab 1.</p>
+</div>
+
+<div id="Tab2" class="tabcontent">
+    <div class="card-body">
+        <a id="openPopup" class="btn btn-primary">Thêm Dịch Vụ</a>
+    </div>
+        <div class="card">            
+            <div id="myPopup" class="popup">
+                <h2>Nhập thông tin</h2>
+                <select id="serviceType">
+                    <option value="Service 1">Dịch vụ 1</option>
+                    <option value="Service 2">Dịch vụ 2</option>
+                    <option value="Service 3">Dịch vụ 3</option>
+                </select>
+                <select id="unit">
+                    <option value="Piece">Cái</option>
+                    <option value="Hour">Giờ</option>
+                    <option value="Kg">Kg</option>
+                </select>
+                <input type="text" placeholder="Đơn giá" id="unitPrice">
+                <input type="number" min="1" placeholder="Số lượng" id="quantity">
+                <input type="text" placeholder="Thành tiền" id="totalAmount">
+                <button id="saveButton">Lưu</button>
+                <button id="closePopup">Đóng</button>
+            </div>
+
+            <div id="overlay" class="overlay"></div>
+            <table class="table datatable-column-search-inputs">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Loại dịch vụ</th>
+                        <th>Đơn vị tính</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Dịch Vụ 1</td>
+                        <td>Trang</td>
+                        <td>100000</td>
+                        <td>1</td>
+                        <td>100000</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Dịch Vụ 1</td>
+                    <td>Trang</td>
+                    <td>100000</td>
+                    <td>1</td>
+                    <td>100000</td>
+                    <td>
+                        <a href="#">Edit</a>
+                        <a href="#">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+<div id="Tab3" class="tabcontent">
+    <h3>Content for Tab 3</h3>
+    <p>This is the content for Tab 3.</p>
+</div>
+
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.classList.add("active");
+    }
+
+    // Mở tab đầu tiên mặc định
+    document.getElementsByClassName("tablinks")[0].click();
+</script>
+
+<script>
+    document.getElementById("openPopup").addEventListener("click", function () {
+        document.getElementById("myPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+        document.body.classList.add("popup-active");
+    });
+
+    document.getElementById("closePopup").addEventListener("click", function () {
+        document.getElementById("myPopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+        document.body.classList.remove("popup-active");
+
+        // Xoá các dữ liệu đã nhập
+        document.getElementById("unitPrice").value = "";
+        document.getElementById("quantity").value = "";
+        document.getElementById("totalAmount").value = "";
+    });
+
+    // Tính toán tự động khi nhập đơn giá và số lượng
+    document.getElementById("unitPrice").addEventListener("input", calculateTotalAmount);
+    document.getElementById("quantity").addEventListener("input", calculateTotalAmount);
+
+    function calculateTotalAmount() {
+        var unitPrice = document.getElementById("unitPrice").value;
+        var quantity = document.getElementById("quantity").value;
+        var totalAmount = parseFloat(unitPrice) * parseFloat(quantity);
+
+        document.getElementById("totalAmount").value = totalAmount.toFixed(2);
+    }
+
+    document.getElementById("saveButton").addEventListener("click", function () {
+        var serviceType = document.getElementById("serviceType").value;
+        var unit = document.getElementById("unit").value;
+        var unitPrice = document.getElementById("unitPrice").value;
+        var quantity = document.getElementById("quantity").value;
+        var totalAmount = parseFloat(unitPrice) * parseFloat(quantity);
+
+        console.log("Loại dịch vụ: " + serviceType);
+        console.log("Đơn vị tính: " + unit);
+        console.log("Đơn giá: " + unitPrice);
+        console.log("Số lượng: " + quantity);
+        console.log("Thành tiền: " + totalAmount.toFixed(2));
+    });
+</script>
