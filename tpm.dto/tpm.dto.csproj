@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="Request\USR\**" />
-    <Compile Remove="Response\USR\**" />
     <Content Remove="Request\USR\**" />
-    <Content Remove="Response\USR\**" />
     <EmbeddedResource Remove="Request\USR\**" />
-    <EmbeddedResource Remove="Response\USR\**" />
     <None Remove="Request\USR\**" />
-    <None Remove="Response\USR\**" />
   </ItemGroup>
 
   <ItemGroup>

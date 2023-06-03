@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Configs\ApiConfig.cs" />
     <Compile Remove="Implement\CRMP\CustomerTransactionService.cs" />
     <Compile Remove="Implement\CRMP\GoogleAPIKeyService.cs" />
     <Compile Remove="Interface\CRMP\ICustomerService.cs" />

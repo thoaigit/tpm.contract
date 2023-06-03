@@ -9,6 +9,10 @@ using Core.DataAccess.Implement;
 using Core.DataAccess.Interface;
 using System.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Net.Http;
+using System.Net;
+using tpm.business;
+using tpm.dto;
 
 namespace tpm.web.contract
 {
@@ -21,6 +25,12 @@ namespace tpm.web.contract
         }
         private static void RegisterInstanceInBusinessProjectToUsingCache(ContainerBuilder builder)
         {
+            builder.Register(c => new HttpClient(new HttpClientHandler()
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            })).As<HttpClient>().InstancePerLifetimeScope();
+            builder.RegisterModule<AutoFacModule>();
+
             var assembly = System.AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(i => i.GetName().Name.ToLower().Contains("business"));
             if (assembly != null)
             {
@@ -29,7 +39,7 @@ namespace tpm.web.contract
         }
         private static void RegisterDefaultConnection(ContainerBuilder builder)
         {
-            builder.Register(c => new SqlConnection("")).As<IDbConnection>().InstancePerLifetimeScope();
+            builder.Register(c => new SqlConnection(AppSetting.Connection.DefaultConnection)).As<IDbConnection>().InstancePerLifetimeScope();
             builder.RegisterType<DapperReadOnlyRepository>().As<IReadOnlyRepository>().InstancePerLifetimeScope();
             builder.RegisterType<DapperRepository>().As<IRepository>().InstancePerLifetimeScope();
         }
