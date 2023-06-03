@@ -1,4 +1,4 @@
-﻿namespace tpm.web.contract
+﻿namespace tpm.dto
 {
     public class AppSetting
     {

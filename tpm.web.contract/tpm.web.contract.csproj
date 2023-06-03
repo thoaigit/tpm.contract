@@ -10,6 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\tpm.business\tpm.business.csproj" />
+    <ProjectReference Include="..\tpm.dto\tpm.dto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Core.DataAccess">
       <HintPath>..\tpm.dll\Core.DataAccess.dll</HintPath>
     </Reference>
