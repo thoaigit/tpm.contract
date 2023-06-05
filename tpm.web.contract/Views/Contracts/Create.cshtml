@@ -83,6 +83,13 @@
         padding: 4px;
         border: 1px solid #ccc;
     }
+    .toggle-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        color: #94bbff;
+    }
 </style>
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
@@ -188,8 +195,28 @@
 
 <div id="Tab3" class="tabcontent">
     <div class="card-body">
-        <a id="openPopup" class="btn btn-primary">Thêm Chi Tiết</a>
+        <a id="openPopup3" class="btn btn-primary">Thêm Chi Tiết</a>
     </div>
+    <div id="myPopup3" class="popup">
+                <h2>Nhập thông tin</h2>
+                <select id="serviceType">
+                    <option value="Service 1">Dịch vụ 1</option>
+                    <option value="Service 2">Dịch vụ 2</option>
+                    <option value="Service 3">Dịch vụ 3</option>
+                </select>
+                <select id="unit">
+                    <option value="Piece">Cái</option>
+                    <option value="Hour">Giờ</option>
+                    <option value="Kg">Kg</option>
+                </select>
+                <input type="text" placeholder="Đơn giá" id="unitPrice">
+                <input type="number" min="1" placeholder="Số lượng" id="quantity">
+                <input type="text" placeholder="Thành tiền" id="totalAmount">
+                <button id="saveButton">Lưu</button>
+                <button id="closePopup3">Đóng</button>
+            </div>
+
+            <div id="overlay" class="overlay"></div>
     <div class="content">
         <div class="card">
             <label style="text-align:center">Dịch vụ abc</label>
@@ -208,17 +235,19 @@
                         <td>1</td>
                         <td>2011/04/25</td>
                         <td>Biện Anh Pháp</td>
-                        <th style="text-align:center">
-                            <i class="fa-solid fa-toggle-on" style="color: #94bbff;"></i>
+                        <th>
+                            <button class="toggle-btn" style="color: #94bbff;">
+                                <i class="fa-solid fa-toggle-on fa-lg"></i>
+                            </button>
                         </th>
-                        <td style="text-align:center;">
+                        <td>
                             <span class="badge bg-danger bg-opacity-10 text-info"
                                   style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
                                 Chưa
                                 ký
                             </span>
                         </td>
-                        <td style="text-align:center;">
+                        <td>
                             <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
                             <a href="#"><i class="fa-solid fa-trash-can"></i></a>
                         </td>
@@ -228,7 +257,15 @@
         </div>
     </div>
 </div>
+<script>
+    const toggleBtn = document.querySelector('.toggle-btn');
+    let isToggleOn = true;
 
+    toggleBtn.addEventListener('click', function () {
+        isToggleOn = !isToggleOn;
+        toggleBtn.innerHTML = isToggleOn ? '<i class="fa-solid fa-toggle-on fa-lg"></i>' : '<i class="fa-solid fa-toggle-off fa-lg"></i>';
+    });
+</script>
 
 <script>
     function openTab(evt, tabName) {
@@ -253,6 +290,23 @@
 </script>
 
 <script>
+    document.getElementById("openPopup3").addEventListener("click", function () {
+        document.getElementById("myPopup3").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+        document.body.classList.add("popup-active");
+    });
+
+    document.getElementById("closePopup3").addEventListener("click", function () {
+        document.getElementById("myPopup3").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+        document.body.classList.remove("popup-active");
+
+        // Xoá các dữ liệu đã nhập
+        document.getElementById("unitPrice").value = "";
+        document.getElementById("quantity").value = "";
+        document.getElementById("totalAmount").value = "";
+    });
+
     document.getElementById("openPopup").addEventListener("click", function () {
         document.getElementById("myPopup").style.display = "block";
         document.getElementById("overlay").style.display = "block";
