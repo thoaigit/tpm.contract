@@ -25,8 +25,9 @@ namespace tpm.business
         }
 
         #region Create
-        public CRUDResult<ServiceRes> Create(ServiceCreateReq obj)
+        public CRUDResult<bool> Create(ServiceCreateReq obj)
         {
+            //các chức năng insert thường ko trả về object nên trả về là bool
             try
             {
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
@@ -44,24 +45,23 @@ namespace tpm.business
                 // Còn các tham số khác nữa
 
                 // Gọi stored procedure "[IDS].[Client_Create]" với các tham số đã được khai báo ở trên
-                var storedProcedureResult = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.Service_Create", param);
+                // các stored insert, Update thì call Execute
+                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param);
 
-                // Kiểm tra xem stored procedure có trả về kết quả và không rỗng
-                if (storedProcedureResult != null && storedProcedureResult.Any())
+                // Kiểm tra số dòng trả về
+                if (storedProcedureResult > 0)
                 {
-                    var createdClient = storedProcedureResult.First();
-
                     // Trả về kết quả thành công và đối tượng khách hàng vừa được tạo
-                    return new CRUDResult<ServiceRes> { StatusCode = CRUDStatusCodeRes.Success, Data = createdClient };
+                    return new CRUDResult<bool> { StatusCode = CRUDStatusCodeRes.Success, Data = true };
                 }
 
                 // Trả về lỗi "Dữ liệu truyền vào không hợp lệ" nếu không tìm thấy đối tượng khách hàng trong kết quả trả về
-                return new CRUDResult<ServiceRes> { StatusCode = CRUDStatusCodeRes.InvalidData, ErrorMessage = "Dữ liệu truyền vào không hợp lệ" };
+                return new CRUDResult<bool> { StatusCode = CRUDStatusCodeRes.InvalidData, ErrorMessage = "Dữ liệu chưa được cập nhật" };
             }
             catch (Exception ex)
             {
                 // Trả về lỗi "Có lỗi xảy ra" nếu có lỗi trong quá trình thực thi stored procedure hoặc xảy ra lỗi khác
-                return new CRUDResult<ServiceRes> { StatusCode = CRUDStatusCodeRes.Deny, ErrorMessage = "Có lỗi xảy ra" };
+                return new CRUDResult<bool> { StatusCode = CRUDStatusCodeRes.Deny, ErrorMessage = "Có lỗi xảy ra" };
             }
         }
 

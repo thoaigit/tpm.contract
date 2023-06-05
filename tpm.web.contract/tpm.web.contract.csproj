@@ -19,6 +19,9 @@
     <Reference Include="Core.DataAccess">
       <HintPath>..\tpm.dll\Core.DataAccess.dll</HintPath>
     </Reference>
+    <Reference Include="Core.DTO">
+      <HintPath>..\tpm.dll\Core.DTO.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

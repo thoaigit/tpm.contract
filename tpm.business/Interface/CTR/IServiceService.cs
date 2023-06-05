@@ -12,7 +12,7 @@ namespace tpm.business
 {
     public interface IServiceService : IDisposable
     {
-        CRUDResult<ServiceRes> Create(ServiceCreateReq obj);
+        CRUDResult<bool> Create(ServiceCreateReq obj);
        /* CRUDResult<ServiceRes> Update(int service_id, ServiceCreateReq obj);*/
     }
 }
