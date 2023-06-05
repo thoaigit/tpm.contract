@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
+using tpm.business;
 
 namespace tpm.web.contract
 {
@@ -28,6 +29,7 @@ namespace tpm.web.contract
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigAPI(Configuration);
+            services.AddScoped<UserRepository>();
             services.AddControllersWithViews();
         }   
 

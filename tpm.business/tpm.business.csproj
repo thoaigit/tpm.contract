@@ -33,6 +33,7 @@
     <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Dapper.FastCrud" Version="2.5.0.39" />
     <PackageReference Include="EPPlus" Version="5.7.5" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
@@ -55,6 +56,11 @@
   
   <ItemGroup>
     <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

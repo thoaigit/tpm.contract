@@ -17,15 +17,19 @@ namespace tpm.web.contract.Controllers
 {
     public class AccountsController : BaseController
     {
+        private readonly UserRepository userRepository;
 
-        public AccountsController()
+        public AccountsController(UserRepository userRepository)
         {
+            this.userRepository = userRepository;
         }
+
+        
 
         public ActionResult Login()
         {
             var user = SessionHelper.Get<UserPrincipal>(HttpContext.Session, SessionKeys.CurrentUser);
-            if(user != null && user.UserID > 0)
+            if (user != null && user.UserID > 0)
                 return RedirectToAction("Index", "Home");
             return View();
         }
@@ -35,17 +39,28 @@ namespace tpm.web.contract.Controllers
         {
             try
             {
-                SessionHelper.Set(HttpContext.Session, SessionKeys.CurrentUser, obj);
-
-                var url = HttpContext.Request.Cookies["returnUrl"] == null ? string.Empty : HttpContext.Request.Cookies["returnUrl"];
-
-                if (!string.IsNullOrEmpty(url))
+                string isValidLogin = userRepository.ValidateLogin(obj);
+                if (isValidLogin == "Success")
                 {
-                    return Redirect(url);
+                    // Lưu thông tin người dùng vào session
+                    SessionHelper.Set(HttpContext.Session, SessionKeys.CurrentUser, obj);
+
+                    var url = HttpContext.Request.Cookies["returnUrl"] ?? string.Empty;
+
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        return Redirect(url);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    // Thông báo lỗi đăng nhập không hợp lệ
+                    ModelState.AddModelError("", "Tên người dùng hoặc mật khẩu không chính xác.");
+                    return View();
                 }
             }
             catch (Exception)
@@ -53,6 +68,10 @@ namespace tpm.web.contract.Controllers
                 throw;
             }
         }
+
+
+
+
 
         public ActionResult Logout()
         {
