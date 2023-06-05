@@ -12,5 +12,9 @@ namespace tpm.web.contract.Controllers
         {
             return View();
         }
+        public IActionResult ServiceDetail()
+        {
+            return View();
+        }
     }
 }
