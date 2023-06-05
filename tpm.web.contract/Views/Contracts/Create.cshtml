@@ -7,13 +7,13 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 60%;
+        width: 40%;
         height: 70%;
         padding: 20px;
         background-color: #f8f8f8;
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
+        border-radius: 10px;
         z-index: 9999;
     }
 
@@ -111,7 +111,7 @@
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'Tab1')">Tab 1</button>
     <button class="tablinks" onclick="openTab(event, 'Tab2')">Tab 2</button>
-    <button class="tablinks" onclick="openTab(event, 'Tab3')">Tab 3</button>
+    <button class="tablinks" onclick="openTab(event, 'Tab3')">Chi Tiết Dịch Vụ</button>
 </div>
 
 <div id="Tab1" class="tabcontent">
@@ -187,8 +187,46 @@
 
 
 <div id="Tab3" class="tabcontent">
-    <h3>Content for Tab 3</h3>
-    <p>This is the content for Tab 3.</p>
+    <div class="card-body">
+        <a id="openPopup" class="btn btn-primary">Thêm Chi Tiết</a>
+    </div>
+    <div class="content">
+        <div class="card">
+            <label style="text-align:center">Dịch vụ abc</label>
+            <table class="table datatable-column-search-inputs">
+                <thead>
+                    <tr style="text-align:center;">
+                        <th>STT</th>
+                        <th>Ngày</th>
+                        <th>Nhân viên phụ trách</th>
+                        <th>Tình trạng</th>
+                        <th>Trạng Thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="text-align:center">
+                        <td>1</td>
+                        <td>2011/04/25</td>
+                        <td>Biện Anh Pháp</td>
+                        <th style="text-align:center">
+                            <i class="fa-solid fa-toggle-on" style="color: #94bbff;"></i>
+                        </th>
+                        <td style="text-align:center;">
+                            <span class="badge bg-danger bg-opacity-10 text-info"
+                                  style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
+                                Chưa
+                                ký
+                            </span>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 
