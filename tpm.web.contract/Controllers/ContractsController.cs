@@ -2,7 +2,7 @@
 
 namespace tpm.web.contract.Controllers
 {
-    public class ContactsController : Controller
+    public class ContractsController : Controller
     {
         public IActionResult Index()
         {
