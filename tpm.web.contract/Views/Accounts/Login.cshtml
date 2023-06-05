@@ -3,9 +3,8 @@
 @{
     ViewData["Title"] = "Đăng nhập";
 }
-
 <div class="login-container">
-    <h2>Đăng nhập</h2>
+    <h2>Đăng Nhập</h2>
     @using (Html.BeginForm("Login", "Accounts", FormMethod.Post))
     {
         @Html.ValidationSummary(true)
@@ -20,8 +19,8 @@
             @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
             <span class="text-danger">@Html.ValidationMessageFor(model => model.Password)</span>
         </div>
-        <div class="input-group">        
+        <div class="input-group">
             <button type="submit" class="btn btn-primary">Đăng nhập</button>
         </div>
-   }
+    }
 </div>
