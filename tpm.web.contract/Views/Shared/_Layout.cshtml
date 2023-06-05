@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using tpm.business.Helpers;
+@using tpm.dto.admin;
+@using Microsoft.AspNetCore.Http;
+
+
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8" />
@@ -55,14 +60,29 @@
                                         <li><a class="dropdown-item" asp-controller="Contracts" asp-action="Index">Danh Sách Hợp Đồng</a></li>
                                         <li><a class="dropdown-item" asp-controller="Contracts" asp-action="Create">Thêm Mới Hợp Đồng</a></li>
                                     </ul>
-                                </li>                                 
+                                </li>
                             </ul>
                             <div class="col mr-auto">
                                 <div class="d-lg-flex mb-2 mb-lg-0">
+                                    @{
+                                        var session = Context.Request.HttpContext.Session;
+                                    }
+
                                     <ul class="nav flex-row justify-content-end order-1 order-lg-2">
-                                        <a style="margin:0 10px; color: white !important" class="d-flex align-items-center text-body py-2" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                                        <a style="color:white !important" class="d-flex align-items-center text-body py-2" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                        @if (session.GetString(SessionKeys.CurrentUser) == null)
+                                        {
+                                            <a style="margin:0 10px; color: white !important" class="d-flex align-items-center text-body py-2" asp-controller="Accounts" asp-action="Login">Login</a>
+                                        }
+                                        else
+                                        {
+                                            var currentUser = session.GetString(SessionKeys.CurrentUser);
+                                            var email = currentUser.Split('|')[0];
+
+                                            <a style="margin:0 10px; color: white !important" class="d-flex align-items-center text-body py-2 " asp-controller="Accounts" asp-action="Logout">Log Out</a>
+                                        }
                                     </ul>
+
+
                                 </div>
                             </div>
                             <div class="d-none d-lg-block">
