@@ -136,10 +136,12 @@
         <div id="myPopup" class="popup">
             <h2>Nhập thông tin</h2>
             <select id="serviceType">
-                <option value="Service 1">Dịch vụ 1</option>
-                <option value="Service 2">Dịch vụ 2</option>
-                <option value="Service 3">Dịch vụ 3</option>
+                @foreach (var serviceType in ViewBag.ServiceTypes)
+                {
+                    <option value="@serviceType.Value">@serviceType.Text</option>
+                }
             </select>
+
             <select id="unit">
                 <option value="Piece">Cái</option>
                 <option value="Hour">Giờ</option>
@@ -165,16 +167,16 @@
                 </tr>
             </thead>
             <tbody>
-                @if (ViewBag.ObjList != null)
+                @if (ViewBag.Services != null)
                 {
                     var stt = 1;
-                    @foreach (var service in ViewBag.ObjList)
+                    @foreach (var service in ViewBag.Services)
                     {
                         // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
                         
                         <tr>
                             <td>@stt</td>
-                            <td>@service.Service_Type_ID</td>
+                            <td>@service.Service_Type_Name</td>
                             <td>@service.Unit</td>
                             <td>@service.Unit_Price</td>
                             <td>@service.Quantity</td>

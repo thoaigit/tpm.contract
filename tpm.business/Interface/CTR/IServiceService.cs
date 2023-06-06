@@ -15,7 +15,10 @@ namespace tpm.business
     {
         CRUDResult<bool> Create(ServiceCreateReq obj);
         IEnumerable<ServiceRes> ReadAll();
-        IEnumerable<ServiceRes> GetServicesByTypeId(int serviceTypeId);
+        IEnumerable<ServiceRes> GetServicesWithTypeName();
+
+
+
         /* CRUDResult<ServiceRes> Update(int service_id, ServiceCreateReq obj);*/
     }
 }

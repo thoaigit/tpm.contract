@@ -41,12 +41,14 @@ namespace tpm.business
             return result;
         }
 
-        public IEnumerable<ServiceRes> GetServicesByTypeId(int serviceTypeId)
+
+        public IEnumerable<ServiceRes> GetServicesWithTypeName()
         {
-            var parameters = new { ServiceTypeId = serviceTypeId };
-            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServiceNameByTypeId", parameters);
-            return result ?? new List<ServiceRes>();
+            return _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesWithTypeName");
         }
+
+
+
 
 
         #region Create

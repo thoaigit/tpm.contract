@@ -1,8 +1,10 @@
 ﻿using Core.DTO.Response;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using tpm.business;
 using tpm.dto.admin;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace tpm.web.contract.Controllers
 {
@@ -24,8 +26,16 @@ namespace tpm.web.contract.Controllers
         }
         public IActionResult Create()
         {
+            var services = _serviceService.GetServicesWithTypeName();
+            ViewBag.Services = services;
+            ViewBag.ServiceTypes = services.Select(s => new SelectListItem
+            {
+                Value = s.Service_Type_Name,
+                Text = s.Service_Type_Name
+            }).ToList(); // Tạo danh sách SelectListItem với giá trị và văn bản là Service_Type_Name
             return View();
         }
+
         public IActionResult ServiceDetail()
         {
             return View();
