@@ -23,9 +23,6 @@ namespace tpm.web.contract.Controllers
         {
             this.userRepository = userRepository;
         }
-
-        
-
         public ActionResult Login()
         {
             var user = SessionHelper.Get<UserPrincipal>(HttpContext.Session, SessionKeys.CurrentUser);

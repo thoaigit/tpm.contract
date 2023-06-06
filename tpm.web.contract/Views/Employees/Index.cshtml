@@ -14,9 +14,7 @@
                 <th>Mã NV</th>
                 <th>CCCD</th>
                 <th>Họ Tên</th>
-                <th>Giới Tính</th>
                 <th>Ngày Sinh</th>
-                <th>Địa chỉ</th>
                 <th>SĐT</th>
                 <th>Email</th>
                 <th>Chức Vụ</th>
@@ -25,7 +23,42 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+
+            @if (ViewBag.ObjList != null)
+            {
+               
+                @foreach (var employee in ViewBag.ObjList)
+                {
+                    // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
+
+                    <tr>
+                        <td>@employee.EmployeeID</td>
+                        <td>@employee.NationalityID</td>
+                        <td>@employee.FullName</td>
+                        <td>@employee.DOB</td>
+                        <td>@employee.Phone</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.EmployeeTypeID</td>
+                        <td>@employee.DepartmentID</td>
+                        <td>@employee.IsActived</td>
+                        <td>
+                            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                    // Tăng giá trị biến đếm sau mỗi lần lặp
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">Không có dữ liệu</td>
+                </tr>
+            }
+
+
+
+            @*<tr>
                 <td>NV01</td>
                 <td>3246720672</td>
                 <td>Choa Phu Hai</td>
@@ -156,7 +189,7 @@
                     <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
                     <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
                 </td>
-            </tr>
+            </tr>*@
         </tbody>
     </table>
 </div>

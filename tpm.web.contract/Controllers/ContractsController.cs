@@ -17,18 +17,15 @@ namespace tpm.web.contract.Controllers
             _validator = validator;
             _serviceTypeService = serviceTypeService;
         }
-      
+        [MvcAuthorize]
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Create(int serviceTypeId)
+        public IActionResult Create()
         {
-            var list = _serviceService.GetServicesByTypeId(serviceTypeId);
-            ViewBag.ObjList = list;
             return View();
         }
-
         public IActionResult ServiceDetail()
         {
             return View();
@@ -38,44 +35,42 @@ namespace tpm.web.contract.Controllers
             return View();
         }
 
-        
+        //[HttpPost]
+        //public IActionResult CreateService(ServiceCreateReq serviceReq)
+        //{
+        //    var validationResult = _validator.Validate(serviceReq);
 
-       /* [HttpPost]
-        public IActionResult CreateService(ServiceCreateReq serviceReq)
-        {
-            var validationResult = _validator.Validate(serviceReq);
+        //    if (!validationResult.IsValid)
+        //    {
+        //        foreach (var error in validationResult.Errors)
+        //        {
+        //            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+        //        }
 
-            if (!validationResult.IsValid)
-            {
-                foreach (var error in validationResult.Errors)
-                {
-                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-                }
-
-                return View(serviceReq);
-            }
+        //        return View(serviceReq);
+        //    }
 
            
-            var serviceType = _serviceTypeService.GetServiceTypeById(serviceReq.Service_Type_ID);
-            if (serviceType == null)
-            {
-                ModelState.AddModelError("", "Không tìm thấy loại dịch vụ.");
-                return View(serviceReq);
-            }
+        //    var serviceType = _serviceTypeService.GetServiceTypeById(serviceReq.Service_Type_ID);
+        //    if (serviceType == null)
+        //    {
+        //        ModelState.AddModelError("", "Không tìm thấy loại dịch vụ.");
+        //        return View(serviceReq);
+        //    }
 
           
-            serviceReq.Name = serviceType.ServiceTypeName;
+        //    serviceReq.Name = serviceType.ServiceTypeName;
 
-            var result = _serviceService.Create(serviceReq);
+        //    var result = _serviceService.Create(serviceReq);
 
-            if (result.StatusCode == CRUDStatusCodeRes.Success)
-            {
-                return RedirectToAction("GetAll", "Service");
-            }
+        //    if (result.StatusCode == CRUDStatusCodeRes.Success)
+        //    {
+        //        return RedirectToAction("GetAll", "Service");
+        //    }
 
-            ModelState.AddModelError("", "Có lỗi xảy ra khi tạo dịch vụ.");
+        //    ModelState.AddModelError("", "Có lỗi xảy ra khi tạo dịch vụ.");
 
-            return View(serviceReq);
-        }*/
+        //    return View(serviceReq);
+        //}
     }
 }
