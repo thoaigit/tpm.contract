@@ -17,15 +17,18 @@ namespace tpm.web.contract.Controllers
             _validator = validator;
             _serviceTypeService = serviceTypeService;
         }
-        [MvcAuthorize]
+      
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Create()
+        public IActionResult Create(int serviceTypeId)
         {
+            var list = _serviceService.GetServicesByTypeId(serviceTypeId);
+            ViewBag.ObjList = list;
             return View();
         }
+
         public IActionResult ServiceDetail()
         {
             return View();
@@ -35,7 +38,9 @@ namespace tpm.web.contract.Controllers
             return View();
         }
 
-        [HttpPost]
+        
+
+       /* [HttpPost]
         public IActionResult CreateService(ServiceCreateReq serviceReq)
         {
             var validationResult = _validator.Validate(serviceReq);
@@ -71,6 +76,6 @@ namespace tpm.web.contract.Controllers
             ModelState.AddModelError("", "Có lỗi xảy ra khi tạo dịch vụ.");
 
             return View(serviceReq);
-        }
+        }*/
     }
 }

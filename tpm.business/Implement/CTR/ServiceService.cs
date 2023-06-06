@@ -25,6 +25,30 @@ namespace tpm.business
             _objReadOnlyRepository = objReadOnlyRepository;
         }
 
+        public IEnumerable<ServiceRes> List()
+        {
+            return ReadAll();
+        }
+
+
+        public IEnumerable<ServiceRes> ReadAll()
+        {
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.Service_ReadAll");
+            if (result == null)
+            {
+                result = new List<ServiceRes>();
+            }
+            return result;
+        }
+
+        public IEnumerable<ServiceRes> GetServicesByTypeId(int serviceTypeId)
+        {
+            var parameters = new { ServiceTypeId = serviceTypeId };
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServiceNameByTypeId", parameters);
+            return result ?? new List<ServiceRes>();
+        }
+
+
         #region Create
         public CRUDResult<bool> Create(ServiceCreateReq obj)
         {

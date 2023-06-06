@@ -14,6 +14,9 @@ namespace tpm.business
     public interface IServiceService : IDisposable
     {
         CRUDResult<bool> Create(ServiceCreateReq obj);
-       /* CRUDResult<ServiceRes> Update(int service_id, ServiceCreateReq obj);*/
+        IEnumerable<ServiceRes> ReadAll();
+        IEnumerable<ServiceRes> GetServicesByTypeId(int serviceTypeId);
+        /* CRUDResult<ServiceRes> Update(int service_id, ServiceCreateReq obj);*/
     }
 }
+
