@@ -1,1 +1,162 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content">
+    <div class="card">
+        <div class="card-body">
+            <a class="btn btn-primary" asp-action="Create">Thêm Nhân Viên</a>
+        </div>
+    </div>
+    <table class="table datatable-column-search-inputs">
+        <thead>
+            <tr>
+                <th>Mã NV</th>
+                <th>CCCD</th>
+                <th>Họ Tên</th>
+                <th>Giới Tính</th>
+                <th>Ngày Sinh</th>
+                <th>Địa chỉ</th>
+                <th>SĐT</th>
+                <th>Email</th>
+                <th>Chức Vụ</th>
+                <th>Phòng Ban</th>
+                <th>Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>NV01</td>
+                <td>3246720672</td>
+                <td>Choa Phu Hai</td>
+                <td>Nam</td>
+                <td>2001/26/12</td>
+                <td>Hiệp Bình Phước - Thủ Đức</td>
+                <td>0923829652</td>
+                <td>phuhai.tienhphong@gmail.com</td>
+                <td>Dev</td>
+                <td>Ban thực tập</td>
+                <td>
+                    <span class="badge bg-danger bg-opacity-10 text-info"
+                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
+                        Sắp nghỉ
+                    </span>
+                </td>
+                <td>
+                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <td>NV01</td>
+                <td>3246720672</td>
+                <td>Choa Phu Hai</td>
+                <td>Nam</td>
+                <td>2001/26/12</td>
+                <td>Hiệp Bình Phước - Thủ Đức</td>
+                <td>0923829652</td>
+                <td>phuhai.tienhphong@gmail.com</td>
+                <td>Dev</td>
+                <td>Ban thực tập</td>
+                <td>
+                    <span class="badge bg-danger bg-opacity-10 text-info"
+                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
+                        Sắp nghỉ
+                    </span>
+                </td>
+                <td>
+                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <td>NV01</td>
+                <td>3246720672</td>
+                <td>Choa Phu Hai</td>
+                <td>Nam</td>
+                <td>2001/26/12</td>
+                <td>Hiệp Bình Phước - Thủ Đức</td>
+                <td>0923829652</td>
+                <td>phuhai.tienhphong@gmail.com</td>
+                <td>Dev</td>
+                <td>Ban thực tập</td>
+                <td>
+                    <span class="badge bg-danger bg-opacity-10 text-info"
+                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
+                        Sắp nghỉ
+                    </span>
+                </td>
+                <td>
+                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <td>NV01</td>
+                <td>3246720672</td>
+                <td>Choa Phu Hai</td>
+                <td>Nam</td>
+                <td>2001/26/12</td>
+                <td>Hiệp Bình Phước - Thủ Đức</td>
+                <td>0923829652</td>
+                <td>phuhai.tienhphong@gmail.com</td>
+                <td>Dev</td>
+                <td>Ban thực tập</td>
+                <td>
+                    <span class="badge bg-danger bg-opacity-10 text-info"
+                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
+                        Sắp nghỉ
+                    </span>
+                </td>
+                <td>
+                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <td>NV01</td>
+                <td>3246720672</td>
+                <td>Choa Phu Hai</td>
+                <td>Nam</td>
+                <td>2001/26/12</td>
+                <td>Hiệp Bình Phước - Thủ Đức</td>
+                <td>0923829652</td>
+                <td>phuhai.tienhphong@gmail.com</td>
+                <td>Dev</td>
+                <td>Ban thực tập</td>
+                <td>
+                    <span class="badge bg-danger bg-opacity-10 text-info"
+                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
+                        Sắp nghỉ
+                    </span>
+                </td>
+                <td>
+                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <td>NV01</td>
+                <td>3246720672</td>
+                <td>Choa Phu Hai</td>
+                <td>Nam</td>
+                <td>2001/26/12</td>
+                <td>Hiệp Bình Phước - Thủ Đức</td>
+                <td>0923829652</td>
+                <td>phuhai.tienhphong@gmail.com</td>
+                <td>Dev</td>
+                <td>Ban thực tập</td>
+                <td>
+                    <span class="badge bg-danger bg-opacity-10 text-info"
+                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
+                        Sắp nghỉ
+                    </span>
+                </td>
+                <td>
+                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
