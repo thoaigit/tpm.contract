@@ -3648,7 +3648,7 @@ textarea.form-control-lg {
     margin-left: calc(var(--border-width) * -1);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    border-radius:10px;
+    border-radius: 10px;
 }
 
 .input-group > .form-floating:not(:first-child) > .form-control,
@@ -37242,10 +37242,12 @@ label {
     text-overflow: ellipsis;
     position: relative;
 }
+
 #openPopup {
     margin-bottom: 4px;
     margin-left: 0px;
 }
+
 .input-group {
     margin-bottom: 10px;
 }
@@ -37254,6 +37256,7 @@ label {
 .text-danger {
     color: red;
 }
+
 .login-container {
     max-width: 400px;
     margin: 0 auto;
@@ -37316,3 +37319,45 @@ label {
         transition: background-color ease-in-out .15s,border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     }
 
+.list-contract {
+    text-align: center;
+}
+
+.column-right {
+    margin-left: 965px;
+}
+
+.card-body1 {
+    display: flex;
+    flex-wrap: nowrap;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 10px 0 0 10px;
+    color: var(--card-color)
+}
+
+.input-contract {
+    font-family: var(--body-font-family);
+    font-size: inherit;
+    line-height: inherit;
+    border: 1px solid rgb(174, 172, 172);
+    padding: 8px;
+    border-radius: 5px;
+    width: 350px;
+}
+
+.input-combobox {
+    font-family: var(--body-font-family);
+    font-size: inherit;
+    height: 41px;
+    border: 1px solid rgb(174, 172, 172);
+    padding: 9px;
+    border-radius: 5px;
+}
+
+.button-contract {
+    width: 40px;
+    border: 1px solid rgb(174, 172, 172);
+    padding: 8px;
+    border-radius: 5px;
+}
