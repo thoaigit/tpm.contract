@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tpm.dto.admin;
 using tpm.dto.admin.MBM;
-using tpm.dto.admin.Response.CTR;
+using tpm.dto.admin.Response;
 
 namespace tpm.business
 {

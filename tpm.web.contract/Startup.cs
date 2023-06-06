@@ -13,6 +13,9 @@ using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
 using tpm.business;
+using CoC.Business.DTO;
+using FluentValidation;
+using tpm.dto.admin;
 
 namespace tpm.web.contract
 {
@@ -31,7 +34,10 @@ namespace tpm.web.contract
             services.ConfigAPI(Configuration);
             services.AddScoped<UserRepository>();
             services.AddControllersWithViews();
-        }   
+            services.AddTransient<ServiceCreateReqValidator>();
+
+
+        }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {

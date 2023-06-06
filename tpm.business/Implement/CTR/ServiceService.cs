@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tpm.dto.admin;
 using tpm.dto.admin.MBM;
-using tpm.dto.admin.Response.CTR;
+using tpm.dto.admin.Response;
 
 namespace tpm.business
 {
@@ -35,16 +36,15 @@ namespace tpm.business
 
                 // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
                 param.Add("@Service_ID", obj.Service_ID);
-                param.Add("@Service_Name", obj.Service_Name);
                 param.Add("@Unit", obj.Unit);
                 param.Add("@Quantity", obj.Quantity);
                 param.Add("@Unit_Price", obj.Unit_Price);
                 param.Add("@Total_Amount", obj.Total_Amount);
                 param.Add("@Service_Type_ID", obj.Service_Type_ID);
 
-                // Còn các tham số khác nữa
+                
 
-                // Gọi stored procedure "[IDS].[Client_Create]" với các tham số đã được khai báo ở trên
+                
                 // các stored insert, Update thì call Execute
                 var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param);
 
@@ -86,6 +86,7 @@ namespace tpm.business
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+  
 
         ~ServiceService()
         {

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tpm.dto.admin.Response.CTR
+namespace tpm.dto.admin.Response
 {
     public class ServiceRes
     {
         public int Service_ID { get; set; }
-        public string Service_Name { get; set; }
         public string Unit { get; set; }
         public int Quantity { get; set; }
         public decimal Unit_Price { get; set; }
