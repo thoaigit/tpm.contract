@@ -8,188 +8,64 @@
             <a class="btn btn-primary" asp-action="Create">Thêm Nhân Viên</a>
         </div>
     </div>
-    <table class="table datatable-column-search-inputs">
-        <thead>
-            <tr>
-                <th>Mã NV</th>
-                <th>CCCD</th>
-                <th>Họ Tên</th>
-                <th>Ngày Sinh</th>
-                <th>SĐT</th>
-                <th>Email</th>
-                <th>Chức Vụ</th>
-                <th>Phòng Ban</th>
-                <th>Trạng Thái</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @if (ViewBag.ObjList != null)
-            {
-               
-                @foreach (var employee in ViewBag.ObjList)
-                {
-                    // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
-
-                    <tr>
-                        <td>@employee.EmployeeID</td>
-                        <td>@employee.NationalityID</td>
-                        <td>@employee.FullName</td>
-                        <td>@employee.DOB</td>
-                        <td>@employee.Phone</td>
-                        <td>@employee.Email</td>
-                        <td>@employee.EmployeeTypeID</td>
-                        <td>@employee.DepartmentID</td>
-                        <td>@employee.IsActived</td>
-                        <td>
-                            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="#"><i class="fa-solid fa-trash-can"></i></a>
-                        </td>
-                    </tr>
-                    // Tăng giá trị biến đếm sau mỗi lần lặp
-                }
-            }
-            else
-            {
+    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+        <label>
+            <span class="me-3">Filter:</span>
+            <div class="form-control-feedback form-control-feedback-end flex-fill">
+                <input type="search" class="form-control" placeholder="Type to filter..." aria-controls="DataTables_Table_0"/>
+            </div>
+            @*<div class="form-control-feedback-icon">
+                <i class="ph-magnifying-glass opacity-50"></i>
+            </div>*@
+        </label>
+        <table class="table datatable-column-search-inputs">
+            <thead>
                 <tr>
-                    <td colspan="7">Không có dữ liệu</td>
+                    <th>Mã NV</th>
+                    <th>CCCD</th>
+                    <th>Họ Tên</th>
+                    <th>Ngày Sinh</th>
+                    <th>SĐT</th>
+                    <th>Email</th>
+                    <th>Chức Vụ</th>
+                    <th>Phòng Ban</th>
+                    <th>Trạng Thái</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
 
+                @if (ViewBag.ObjList != null)
+                {
 
+                    @foreach (var employee in ViewBag.ObjList)
+                    {
+                        // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
 
-            @*<tr>
-                <td>NV01</td>
-                <td>3246720672</td>
-                <td>Choa Phu Hai</td>
-                <td>Nam</td>
-                <td>2001/26/12</td>
-                <td>Hiệp Bình Phước - Thủ Đức</td>
-                <td>0923829652</td>
-                <td>phuhai.tienhphong@gmail.com</td>
-                <td>Dev</td>
-                <td>Ban thực tập</td>
-                <td>
-                    <span class="badge bg-danger bg-opacity-10 text-info"
-                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
-                        Sắp nghỉ
-                    </span>
-                </td>
-                <td>
-                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>NV01</td>
-                <td>3246720672</td>
-                <td>Choa Phu Hai</td>
-                <td>Nam</td>
-                <td>2001/26/12</td>
-                <td>Hiệp Bình Phước - Thủ Đức</td>
-                <td>0923829652</td>
-                <td>phuhai.tienhphong@gmail.com</td>
-                <td>Dev</td>
-                <td>Ban thực tập</td>
-                <td>
-                    <span class="badge bg-danger bg-opacity-10 text-info"
-                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
-                        Sắp nghỉ
-                    </span>
-                </td>
-                <td>
-                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>NV01</td>
-                <td>3246720672</td>
-                <td>Choa Phu Hai</td>
-                <td>Nam</td>
-                <td>2001/26/12</td>
-                <td>Hiệp Bình Phước - Thủ Đức</td>
-                <td>0923829652</td>
-                <td>phuhai.tienhphong@gmail.com</td>
-                <td>Dev</td>
-                <td>Ban thực tập</td>
-                <td>
-                    <span class="badge bg-danger bg-opacity-10 text-info"
-                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
-                        Sắp nghỉ
-                    </span>
-                </td>
-                <td>
-                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>NV01</td>
-                <td>3246720672</td>
-                <td>Choa Phu Hai</td>
-                <td>Nam</td>
-                <td>2001/26/12</td>
-                <td>Hiệp Bình Phước - Thủ Đức</td>
-                <td>0923829652</td>
-                <td>phuhai.tienhphong@gmail.com</td>
-                <td>Dev</td>
-                <td>Ban thực tập</td>
-                <td>
-                    <span class="badge bg-danger bg-opacity-10 text-info"
-                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
-                        Sắp nghỉ
-                    </span>
-                </td>
-                <td>
-                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>NV01</td>
-                <td>3246720672</td>
-                <td>Choa Phu Hai</td>
-                <td>Nam</td>
-                <td>2001/26/12</td>
-                <td>Hiệp Bình Phước - Thủ Đức</td>
-                <td>0923829652</td>
-                <td>phuhai.tienhphong@gmail.com</td>
-                <td>Dev</td>
-                <td>Ban thực tập</td>
-                <td>
-                    <span class="badge bg-danger bg-opacity-10 text-info"
-                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
-                        Sắp nghỉ
-                    </span>
-                </td>
-                <td>
-                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>NV01</td>
-                <td>3246720672</td>
-                <td>Choa Phu Hai</td>
-                <td>Nam</td>
-                <td>2001/26/12</td>
-                <td>Hiệp Bình Phước - Thủ Đức</td>
-                <td>0923829652</td>
-                <td>phuhai.tienhphong@gmail.com</td>
-                <td>Dev</td>
-                <td>Ban thực tập</td>
-                <td>
-                    <span class="badge bg-danger bg-opacity-10 text-info"
-                          style="--bg-opacity: 1;color: rgba(var(--white-rgb), var(--text-opacity)) !important;background-color: rgba(var(--danger-rgb), var(--bg-opacity)) !important;">
-                        Sắp nghỉ
-                    </span>
-                </td>
-                <td>
-                    <a asp-area="" asp-controller="Employees" asp-action="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a asp-area="" asp-controller="Employees" asp-action="Delete"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>*@
-        </tbody>
-    </table>
+                        <tr>
+                            <td>@employee.EmployeeID</td>
+                            <td>@employee.NationalityID</td>
+                            <td>@employee.FullName</td>
+                            <td>@employee.DOB</td>
+                            <td>@employee.Phone</td>
+                            <td>@employee.Email</td>
+                            <td>@employee.EmployeeTypeID</td>
+                            <td>@employee.DepartmentID</td>
+                            <td>@employee.IsActived</td>
+                            <td>
+                                <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="#"><i class="fa-solid fa-trash-can"></i></a>
+                            </td>
+                        </tr>
+                        // Tăng giá trị biến đếm sau mỗi lần lặp
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">Không có dữ liệu</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
