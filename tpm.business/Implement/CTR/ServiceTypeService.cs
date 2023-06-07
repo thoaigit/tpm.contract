@@ -11,23 +11,27 @@ namespace tpm.business
 {
     public class ServiceTypeService : IServiceTypeService
     {
-        private readonly IRepository _repository;
-        private readonly IReadOnlyRepository _readOnlyRepository;
+        private readonly Lazy<IRepository> _objRepository;
+        private readonly Lazy<IReadOnlyRepository> _objReadOnlyRepository;
         private bool _disposedValue;
 
-        public ServiceTypeService(IRepository repository, IReadOnlyRepository readOnlyRepository)
+        public ServiceTypeService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
         {
-            _repository = repository;
-            _readOnlyRepository = readOnlyRepository;
+            _objRepository = objRepository;
+            _objReadOnlyRepository = objReadOnlyRepository;
         }
 
         public IEnumerable<ServiceTypeRes> GetAllServiceTypes()
         {
-            var result = _readOnlyRepository.StoreProcedureQuery<ServiceTypeRes>("CTR.ServiceType_ReadAll");
-            return result ?? new List<ServiceTypeRes>();
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceTypeRes>("CTR.ServiceType_ReadAll");
+            if (result == null)
+            {
+                result = new List<ServiceTypeRes>();
+            }
+            return result;
         }
 
-      
+
 
         protected virtual void Dispose(bool disposing)
         {
@@ -35,8 +39,10 @@ namespace tpm.business
             {
                 if (disposing)
                 {
-                    _repository.Dispose();
-                    _readOnlyRepository.Dispose();
+                    if (_objRepository.IsValueCreated)
+                        _objRepository.Value.Dispose();
+                    if (_objReadOnlyRepository.IsValueCreated)
+                        _objReadOnlyRepository.Value.Dispose();
                 }
                 _disposedValue = true;
             }

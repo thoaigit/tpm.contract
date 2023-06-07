@@ -10,9 +10,7 @@ namespace tpm.dto.admin
 {
     public class ServiceTypeRes
     {
-       
         public int Service_Type_ID { get; set; }
-
         public string Name { get; set; }
 
     }

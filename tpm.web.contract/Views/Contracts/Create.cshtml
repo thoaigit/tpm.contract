@@ -1,98 +1,6 @@
 ﻿@model IEnumerable<dynamic>
 
-<style>
-    /* CSS cho popup */
-    .popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 40%;
-        height: 70%;
-        padding: 20px;
-        background-color: #f8f8f8;
-        border: 1px solid #ccc;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-        z-index: 9999;
-    }
 
-        .popup h2 {
-            margin-top: 0;
-            font-size: 18px;
-        }
-
-        .popup input[type="text"],
-        [type="number"],
-        .popup select,
-        .popup button {
-            margin-top: 10px;
-            padding: 5px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .popup button {
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-    /* CSS cho phần tử nền mờ */
-    .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ mờ 50% */
-        z-index: 9998;
-    }
-
-    /* CSS cho lớp active khi hiển thị popup */
-    body.popup-active {
-        overflow: hidden; /* Ẩn thanh cuộn khi popup hiển thị */
-    }
-
-    .tab {
-        overflow: hidden;
-        background-color: #f1f1f1;
-    }
-
-        .tab button {
-            background-color: inherit;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-        }
-
-            .tab button:hover {
-                background-color: #ddd;
-            }
-
-            .tab button.active {
-                background-color: #ccc;
-            }
-
-    .tabcontent {
-        display: flex;
-        padding: 4px;
-        border: 1px solid #ccc;
-    }
-
-    .toggle-btn {
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        color: #94bbff;
-    }
-</style>
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
         <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
@@ -136,10 +44,17 @@
         <div id="myPopup" class="popup">
             <h2>Nhập thông tin</h2>
             <select id="serviceType">
-                @foreach (var serviceType in ViewBag.ServiceTypes)
+                @if (ViewBag.ServiceTypes != null && ViewBag.ServiceTypes.Count() > 0)
                 {
-                    <option value="@serviceType.Value">@serviceType.Text</option>
+                    @foreach (var serviceType in ViewBag.ServiceTypes)
+                    {
+                        <option value="@serviceType.Service_Type_ID">@serviceType.Name</option>
+                    }
                 }
+                else
+                {
+                    <p>Danh sách loại dịch vụ trống.</p>
+                }   
             </select>
 
             <select id="unit">
@@ -357,5 +272,45 @@
         console.log("Đơn giá: " + unitPrice);
         console.log("Số lượng: " + quantity);
         console.log("Thành tiền: " + totalAmount.toFixed(2));
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#saveButton').click(function () {
+            var serviceType = $('#serviceType').val();
+            var unit = $('#unit').val();
+            var unitPrice = $('#unitPrice').val();
+            var quantity = $('#quantity').val();
+            var totalAmount = $('#totalAmount').val();
+
+            var data = {
+                Service_Type_ID: serviceType,
+                Unit: unit,
+                Unit_Price: unitPrice,
+                Quantity: quantity,
+                Total_Amount: totalAmount
+            };
+
+            $.ajax({
+                url: '/Contracts/Create',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        // Xử lý khi tạo thành công, ví dụ hiển thị thông báo thành công
+                        alert("Tạo dịch vụ thành công!");
+                        // Cập nhật lại trang hoặc thực hiện các tác vụ khác sau khi tạo thành công
+                    } else {
+                        // Xử lý khi có lỗi, ví dụ hiển thị thông báo lỗi
+                        alert("Lỗi: " + result.error);
+                    }
+                },
+                error: function () {
+                    // Xử lý khi gặp lỗi trong quá trình gửi yêu cầu Ajax
+                    alert("Có lỗi xảy ra khi gửi yêu cầu Ajax");
+                }
+            });
+        });
     });
 </script>

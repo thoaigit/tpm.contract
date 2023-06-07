@@ -5,6 +5,8 @@ using System.Linq;
 using tpm.business;
 using tpm.dto.admin;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Dapper;
+using System;
 
 namespace tpm.web.contract.Controllers
 {
@@ -27,12 +29,7 @@ namespace tpm.web.contract.Controllers
         public IActionResult Create()
         {
             var services = _serviceService.GetServicesWithTypeName();
-            ViewBag.Services = services;
-            ViewBag.ServiceTypes = services.Select(s => new SelectListItem
-            {
-                Value = s.Service_Type_Name,
-                Text = s.Service_Type_Name
-            }).ToList(); // Tạo danh sách SelectListItem với giá trị và văn bản là Service_Type_Name
+            ViewBag.Services = services;           
             return View();
         }
 
@@ -40,47 +37,30 @@ namespace tpm.web.contract.Controllers
         {
             return View();
         }
-        public IActionResult CreateService()
+
+
+        [HttpPost]
+        public IActionResult Create(ServiceCreateReq obj)
         {
-            return View();
+            try
+            {
+                var serviceTypes = _serviceTypeService.GetAllServiceTypes();
+                ViewBag.ServiceTypes = serviceTypes;
+                var result = _serviceService.Create(obj);
+
+                if (result.StatusCode == CRUDStatusCodeRes.Success)
+                {
+                    return RedirectToAction("Create"); // Điều hướng đến action "Index" sau khi tạo thành công
+                }
+
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra");
+            }
+
+            return View(obj); // Trả về view với thông tin đối tượng đã nhập và thông báo lỗi
         }
-
-        //[HttpPost]
-        //public IActionResult CreateService(ServiceCreateReq serviceReq)
-        //{
-        //    var validationResult = _validator.Validate(serviceReq);
-
-        //    if (!validationResult.IsValid)
-        //    {
-        //        foreach (var error in validationResult.Errors)
-        //        {
-        //            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-        //        }
-
-        //        return View(serviceReq);
-        //    }
-
-           
-        //    var serviceType = _serviceTypeService.GetServiceTypeById(serviceReq.Service_Type_ID);
-        //    if (serviceType == null)
-        //    {
-        //        ModelState.AddModelError("", "Không tìm thấy loại dịch vụ.");
-        //        return View(serviceReq);
-        //    }
-
-          
-        //    serviceReq.Name = serviceType.ServiceTypeName;
-
-        //    var result = _serviceService.Create(serviceReq);
-
-        //    if (result.StatusCode == CRUDStatusCodeRes.Success)
-        //    {
-        //        return RedirectToAction("GetAll", "Service");
-        //    }
-
-        //    ModelState.AddModelError("", "Có lỗi xảy ra khi tạo dịch vụ.");
-
-        //    return View(serviceReq);
-        //}
     }
 }

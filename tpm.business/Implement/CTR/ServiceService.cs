@@ -60,17 +60,13 @@ namespace tpm.business
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
-                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
-                param.Add("@Service_ID", obj.Service_ID);
+                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào             
                 param.Add("@Unit", obj.Unit);
                 param.Add("@Quantity", obj.Quantity);
                 param.Add("@Unit_Price", obj.Unit_Price);
                 param.Add("@Total_Amount", obj.Total_Amount);
                 param.Add("@Service_Type_ID", obj.Service_Type_ID);
 
-                
-
-                
                 // các stored insert, Update thì call Execute
                 var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param);
 

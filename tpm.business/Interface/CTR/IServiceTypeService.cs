@@ -8,7 +8,7 @@ using tpm.dto.admin.Response;
 
 namespace tpm.business
 {
-    public interface IServiceTypeService
+    public interface IServiceTypeService : IDisposable
     {
         IEnumerable<ServiceTypeRes> GetAllServiceTypes();
         
