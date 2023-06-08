@@ -64,15 +64,34 @@ document.getElementById("closePopup").addEventListener("click", function () {
     document.getElementById("totalAmount").value = "";
 });
 
-// Tính toán tự động khi nhập đơn giá và số lượng
-document.getElementById("unitPrice").addEventListener("input", calculateTotalAmount);
-document.getElementById("quantity").addEventListener("input", calculateTotalAmount);
+function initializeScript() {
+    $('#unitPrice').inputmask({
+        alias: 'numeric',
+        groupSeparator: ',',
+        autoGroup: true,
+        digits: 0,
+        prefix: '',
+        rightAlign: false
+    });
 
-function calculateTotalAmount() {
-    var unitPrice = document.getElementById("unitPrice").value;
-    var quantity = document.getElementById("quantity").value;
-    var totalAmount = parseFloat(unitPrice) * parseFloat(quantity);
+    $('#unitPrice, #quantity').on('input', calculateTotalAmount);
 
-    document.getElementById("totalAmount").value = totalAmount.toFixed(2);
+    function calculateTotalAmount() {
+        var unitPrice = parseFloat($('#unitPrice').val().replace(/,/g, ''));
+        var quantity = parseFloat($('#quantity').val());
+        var totalAmount = unitPrice * quantity;
+
+        var formattedTotalAmount = totalAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        $('#totalAmount').val(formattedTotalAmount + ' VNĐ');
+    }
 }
+
+$(document).ready(function () {
+    initializeScript();
+});
+
+
+
+
 

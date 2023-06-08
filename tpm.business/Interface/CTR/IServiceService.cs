@@ -13,7 +13,8 @@ namespace tpm.business
 {
     public interface IServiceService : IDisposable
     {
-        CRUDResult<bool> Create(ServiceCreateReq obj);
+        bool Create(ServiceCreateReq obj);
+        bool Delete(int serviceid);
         IEnumerable<ServiceRes> ReadAll();
         IEnumerable<ServiceRes> GetServicesWithTypeName();
 

@@ -11,7 +11,7 @@ using System;
 namespace tpm.web.contract.Controllers
 {
     public class ContractsController : Controller
-    {   
+    {
         private readonly IServiceService _serviceService;
         private readonly ServiceCreateReqValidator _validator;
         private readonly IServiceTypeService _serviceTypeService;
@@ -26,10 +26,13 @@ namespace tpm.web.contract.Controllers
         {
             return View();
         }
+   
         public IActionResult Create()
         {
             var services = _serviceService.GetServicesWithTypeName();
-            ViewBag.Services = services;           
+            ViewBag.Services = services;
+            var serviceTypes = _serviceTypeService.GetAllServiceTypes();
+            ViewBag.ServiceTypes = serviceTypes;
             return View();
         }
 
@@ -39,29 +42,69 @@ namespace tpm.web.contract.Controllers
         }
 
 
+        
         [HttpPost]
-        public IActionResult Create(ServiceCreateReq obj)
+        public JsonResult Create(ServiceCreateReq objReq)
         {
             try
             {
-                var serviceTypes = _serviceTypeService.GetAllServiceTypes();
-                ViewBag.ServiceTypes = serviceTypes;
-                var result = _serviceService.Create(obj);
+                bool result = _serviceService.Create(objReq); // Gọi phương thức Create từ Service
 
-                if (result.StatusCode == CRUDStatusCodeRes.Success)
+                if (result)
                 {
-                    return RedirectToAction("Create"); // Điều hướng đến action "Index" sau khi tạo thành công
+                    return Json(new
+                    {
+                        objCodeStep = new
+                        {
+                            Status = CRUDStatusCodeRes.Success,
+                            Message = "Tạo mới thành công"
+                        }
+                    });
                 }
+                else
+                {
+                    return Json(new
+                    {
+                        objCodeStep = new
+                        {
+                            Status = CRUDStatusCodeRes.Deny,
+                            Message = "Tạo mới không thành công"
+                        }
+                    });
+                }
+            }
+            catch (Exception objEx)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Có lỗi xảy ra khi thực hiện tạo mới."
+                });
+            }
+        }
+        [HttpDelete]
+        public JsonResult Delete(int serviceID)
+        {
+            try
+            {
+                // Gọi phương thức xóa dịch vụ từ service
+                bool deleteResult = _serviceService.Delete(serviceID);
 
-                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                if (deleteResult)
+                {
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Xóa dịch vụ không thành công!" });
+                }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra");
+                return Json(new { success = false, message = "Có lỗi xảy ra trong quá trình xóa dịch vụ!", error = ex.Message });
             }
-
-            return View(obj); // Trả về view với thông tin đối tượng đã nhập và thông báo lỗi
         }
+
     }
 }
 

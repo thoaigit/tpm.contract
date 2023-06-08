@@ -398,7 +398,7 @@ tr {
 
 label {
     display: inherit;
-    margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 button {
@@ -37368,8 +37368,8 @@ label {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40%;
-    height: 70%;
+    width: auto;
+    height: auto;
     padding: 20px;
     background-color: #f8f8f8;
     border: 1px solid #ccc;

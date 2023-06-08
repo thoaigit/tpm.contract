@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<dynamic>
 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
@@ -31,107 +34,107 @@
     <button class="tablinks" onclick="openTab(event, 'Tab3')">Chi Tiết Dịch Vụ</button>
 </div>
 
-@*<div id="Tab1" class="tabcontent">
-    <div class="content-wrapper">
-        <div class="content-inner">
-            <div class="content">
-                <div class="card">
-                    <h6 style="font-size: 30px; text-align: center;margin: 15px 0px;color: #0066FF; ">Thêm Nhân Viên</h6>
-                    <form asp-action="Create" method="post" enctype="multipart/form-data">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <fieldset style="margin: 15px !important;">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">CCCD</label>
-                                        <input class="form-control" />
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label class="control-label">Tên Nhân Viên</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Giới Tính</label>
-                                        <select class="form-control">
-                                            <option value="1">Nam</option>
-                                            <option value="0">Nữ</option>
-                                        </select>
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Ngày Sinh</label>
-                                        <input class="form-control" />
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Địa Chỉ</label>
-                                        <input class="form-control" />
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Số Điện Thoại</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Email</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Chức Vụ</label>
-                                        <select class="form-control" asp-items="ViewBag.ChucVuList"></select>
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Phòng Ban</label>
-                                        <select class="form-control" asp-items="ViewBag.PhongBanList"></select>
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label">Tình Trạng</label>
-                                        <select class="form-control">
-                                            <option value="1">Đang Làm</option>
-                                            <option value="0">Nghỉ Việc</option>
-                                        </select>
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="control-label"></label>
-                                        <input type="file" class="form-control" accept=".jpg,.jpeg,.png">
-                                        <span class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <div style="justify-content:center" class="card-footer d-flex justify-content-center">
-                            <a class="btn btn-primary ms-3" style="text-decoration: none;"
-                               asp-action="Index">Quay Lại</a>
-                            <button style="width: 90px" type="submit" value="Tạo" class="btn btn-primary ms-3">Tạo</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<div id="Tab1" class="tabcontent">
+    @*<div class="content-wrapper">
+    <div class="content-inner">
+    <div class="content">
+    <div class="card">
+    <h6 style="font-size: 30px; text-align: center;margin: 15px 0px;color: #0066FF; ">Thêm Nhân Viên</h6>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset style="margin: 15px !important;">
+    <div class="row">
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">CCCD</label>
+    <input class="form-control" />
+    <span class="text-danger"></span>
     </div>
-</div>*@
+    </div>
+    <div class="col-lg-6">
+    <label class="control-label">Tên Nhân Viên</label>
+    <input type="text" class="form-control">
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Giới Tính</label>
+    <select class="form-control">
+    <option value="1">Nam</option>
+    <option value="0">Nữ</option>
+    </select>
+    <span class="text-danger"></span>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Ngày Sinh</label>
+    <input class="form-control" />
+    <span class="text-danger"></span>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Địa Chỉ</label>
+    <input class="form-control" />
+    <span class="text-danger"></span>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Số Điện Thoại</label>
+    <input type="text" class="form-control">
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Email</label>
+    <input type="text" class="form-control">
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Chức Vụ</label>
+    <select class="form-control" asp-items="ViewBag.ChucVuList"></select>
+    <span class="text-danger"></span>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Phòng Ban</label>
+    <select class="form-control" asp-items="ViewBag.PhongBanList"></select>
+    <span class="text-danger"></span>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label">Tình Trạng</label>
+    <select class="form-control">
+    <option value="1">Đang Làm</option>
+    <option value="0">Nghỉ Việc</option>
+    </select>
+    <span class="text-danger"></span>
+    </div>
+    </div>
+    <div class="col-lg-6">
+    <div class="mb-3">
+    <label class="control-label"></label>
+    <input type="file" class="form-control" accept=".jpg,.jpeg,.png">
+    <span class="text-danger"></span>
+    </div>
+    </div>
+    </div>
+    </fieldset>
+    <div style="justify-content:center" class="card-footer d-flex justify-content-center">
+    <a class="btn btn-primary ms-3" style="text-decoration: none;"
+    asp-action="Index">Quay Lại</a>
+    <button style="width: 90px" type="submit" value="Tạo" class="btn btn-primary ms-3">Tạo</button>
+    </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    </div>*@
+</div>
 
 <div id="Tab2" class="tabcontent">
     <div class="card-body">
@@ -140,8 +143,9 @@
     <div class="card">
         <div id="myPopup" class="popup">
             <h2>Nhập thông tin</h2>
-            <select id="serviceType">
-                @if (ViewBag.ServiceTypes != null && ViewBag.ServiceTypes.Count() > 0)
+            <label for="unitPrice">Loại Dịch Vụ:</label>
+            <select id="serviceTypeDropdown">
+                @if (ViewBag.ServiceTypes != null)
                 {
                     @foreach (var serviceType in ViewBag.ServiceTypes)
                     {
@@ -151,16 +155,21 @@
                 else
                 {
                     <p>Danh sách loại dịch vụ trống.</p>
-                }   
+                }
             </select>
 
+            <label for="unitPrice">Đơn Vị Tính:</label>
             <select id="unit">
-                <option value="Piece">Trang</option>
-                <option value="Hour">Video</option>
+                <option value="Trang">Trang</option>
+                <option value="Video">Video</option>
             </select>
-            <input type="text" placeholder="Đơn giá" id="unitPrice">
+
+            <label for="unitPrice">Giá Tiền:</label>
+            <input type="text" placeholder="Giá tiền (VNĐ)" id="unitPrice" class="input-currency">
+            <label for="unitPrice">Số Lượng:</label>
             <input type="number" min="1" placeholder="Số lượng" id="quantity">
-            <input type="text" placeholder="Thành tiền" id="totalAmount">
+            <label for="unitPrice">Tổng Tiền:</label>
+            <input type="text" placeholder="Thành tiền" id="totalAmount" class="input-currency">
             <button id="saveButton">Lưu</button>
             <button id="closePopup">Đóng</button>
         </div>
@@ -177,27 +186,24 @@
                     <th>Thành tiền</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="serviceTableBody">
                 @if (ViewBag.Services != null)
                 {
                     var stt = 1;
                     @foreach (var service in ViewBag.Services)
                     {
-                        // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
-                        
                         <tr>
                             <td>@stt</td>
                             <td>@service.Service_Type_Name</td>
                             <td>@service.Unit</td>
-                            <td>@service.Unit_Price</td>
+                            <td>@service.Unit_Price.ToString("N0")</td>
                             <td>@service.Quantity</td>
-                            <td>@service.Total_Amount</td>
+                            <td>@service.Total_Amount.ToString("N0")</td>
                             <td>
                                 <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="#"><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="#" class="delete-link" data-serviceid="@service.Service_ID"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
                         </tr>
-                        // Tăng giá trị biến đếm sau mỗi lần lặp
                         stt++;
                     }
                 }
@@ -208,6 +214,7 @@
                     </tr>
                 }
             </tbody>
+
         </table>
     </div>
 </div>
@@ -278,60 +285,100 @@
     </div>
 </div>
 
-<script>
-document.getElementById("saveButton").addEventListener("click", function () {
-    var serviceType = document.getElementById("serviceType").value;
-    var unit = document.getElementById("unit").value;
-    var unitPrice = document.getElementById("unitPrice").value;
-    var quantity = document.getElementById("quantity").value;
-    var totalAmount = parseFloat(unitPrice) * parseFloat(quantity);
-
-    console.log("Loại dịch vụ: " + serviceType);
-    console.log("Đơn vị tính: " + unit);
-    console.log("Đơn giá: " + unitPrice);
-    console.log("Số lượng: " + quantity);
-    console.log("Thành tiền: " + totalAmount.toFixed(2));
-});
-
-
-$(document).ready(function () {
-    $('#saveButton').click(function () {
-        var serviceType = $('#serviceType').val();
-        var unit = $('#unit').val();
-        var unitPrice = $('#unitPrice').val();
-        var quantity = $('#quantity').val();
-        var totalAmount = $('#totalAmount').val();
-
-        var data = {
-            Service_Type_ID: serviceType,
-            Unit: unit,
-            Unit_Price: unitPrice,
-            Quantity: quantity,
-            Total_Amount: totalAmount
-        };
-
-        $.ajax({
-            url: '/Contracts/Create',
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (result) {
-                if (result.success) {
-                    // Xử lý khi tạo thành công, ví dụ hiển thị thông báo thành công
-                    alert("Tạo dịch vụ thành công!");
-                    // Cập nhật lại trang hoặc thực hiện các tác vụ khác sau khi tạo thành công
-                } else {
-                    // Xử lý khi có lỗi, ví dụ hiển thị thông báo lỗi
-                    alert("Lỗi: " + result.error);
-                }
-            },
-            error: function () {
-                // Xử lý khi gặp lỗi trong quá trình gửi yêu cầu Ajax
-                alert("Có lỗi xảy ra khi gửi yêu cầu Ajax");
-            }
-        });
-    });
-});
-</script>
 
 <script src="~/assets/js/site.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.delete-link').click(function (event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+            var serviceID = $(this).data('serviceid');
+            var $deletedRow = $(this).closest('tr'); // Lấy thẻ cha là <tr> chứa dòng
+
+            // Gửi Ajax request để xóa dịch vụ
+            $.ajax({
+                url: '/Contracts/Delete',
+                type: 'DELETE',
+                dataType: 'json',
+                data: { serviceID: serviceID },
+                success: function (result) {
+                    alert("Xóa dịch vụ thành công!");
+
+                    // Loại bỏ dòng vừa click xoá khỏi bảng
+                    $deletedRow.remove();
+                },
+                error: function () {
+                    alert("Lỗi: Xóa dịch vụ không thành công!");
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#saveButton').click(function () {
+            var serviceTypeID = $('#serviceTypeDropdown').val();
+            var unit = $('#unit').val();
+            var unitPrice = parseFloat($('#unitPrice').val().replace(/,/g, ''));
+            var quantity = parseFloat($('#quantity').val());
+            var totalAmount = unitPrice * quantity;
+
+            var data = {
+                Service_Type_ID: serviceTypeID,
+                Unit: unit,
+                Unit_Price: unitPrice,
+                Quantity: quantity,
+                Total_Amount: totalAmount
+            };
+
+            // Gửi Ajax request với dữ liệu chứa chỉ Service_Type_ID
+            $.ajax({
+                url: '/Contracts/Create',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    if (response.objCodeStep && response.objCodeStep.Status === "Success") {
+                        // Ẩn popup
+                        document.getElementById("myPopup").style.display = "none";
+                        document.getElementById("overlay").style.display = "none";
+                        document.body.classList.remove("popup-active");
+                        alert(response.objCodeStep.Message);
+
+                        // Thêm một dòng mới vào bảng
+                        var newRow = createTableRow(data); // Tạo dòng từ dữ liệu thành công
+                        $('#serviceTableBody').append(newRow); // Chèn dòng vào bảng
+                    } else {
+                        alert(response.objCodeStep.Message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Lỗi: " + error);
+                }
+            });
+        });
+
+        // Hàm tạo một dòng mới từ dữ liệu
+        function createTableRow(service) {
+            var row = $('<tr></tr>');
+            row.append($('<td></td>').text(service.Service_Type_ID));
+            row.append($('<td></td>').text(service.Unit));
+            row.append($('<td></td>').text(service.Unit_Price));
+            row.append($('<td></td>').text(service.Quantity));
+            row.append($('<td></td>').text(service.Total_Amount));
+            return row;
+        }
+    });
+</script>
+
+
+
+
+
+

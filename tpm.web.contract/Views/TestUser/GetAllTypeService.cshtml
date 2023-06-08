@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "GetAllTypeService";
+}
+
+<h1>Loại dịch vụ</h1>
+<table class="table datatable-column-search-inputs">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Loại dịch vụ</th>          
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.Services != null)
+        {
+            
+            @foreach (var service in ViewBag.Services)
+            {
+                // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
+
+                <tr>
+                    <td>@service.Service_Type_ID</td>
+                    <td>@service.Name</td>
+        
+                </tr>
+                // Tăng giá trị biến đếm sau mỗi lần lặp
+             
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">Không có dữ liệu</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

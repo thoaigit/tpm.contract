@@ -4,6 +4,7 @@ using Core.DTO.Response;
 using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,9 +53,8 @@ namespace tpm.business
 
 
         #region Create
-        public CRUDResult<bool> Create(ServiceCreateReq obj)
+        public bool Create(ServiceCreateReq obj)
         {
-            //các chức năng insert thường ko trả về object nên trả về là bool
             try
             {
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
@@ -67,25 +67,56 @@ namespace tpm.business
                 param.Add("@Total_Amount", obj.Total_Amount);
                 param.Add("@Service_Type_ID", obj.Service_Type_ID);
 
-                // các stored insert, Update thì call Execute
-                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param);
+                // Thực hiện gọi stored procedure để thêm dữ liệu vào database
+                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param, commandType: CommandType.StoredProcedure);
 
                 // Kiểm tra số dòng trả về
                 if (storedProcedureResult > 0)
                 {
-                    // Trả về kết quả thành công và đối tượng khách hàng vừa được tạo
-                    return new CRUDResult<bool> { StatusCode = CRUDStatusCodeRes.Success, Data = true };
+                    // Trả về kết quả thành công
+                    return true;
                 }
 
-                // Trả về lỗi "Dữ liệu truyền vào không hợp lệ" nếu không tìm thấy đối tượng khách hàng trong kết quả trả về
-                return new CRUDResult<bool> { StatusCode = CRUDStatusCodeRes.InvalidData, ErrorMessage = "Dữ liệu chưa được cập nhật" };
+                // Trả về false nếu không tìm thấy dữ liệu trong kết quả trả về
+                return false;
             }
             catch (Exception ex)
             {
-                // Trả về lỗi "Có lỗi xảy ra" nếu có lỗi trong quá trình thực thi stored procedure hoặc xảy ra lỗi khác
-                return new CRUDResult<bool> { StatusCode = CRUDStatusCodeRes.Deny, ErrorMessage = "Có lỗi xảy ra" };
+                // Xử lý lỗi và ném ra ngoại lệ
+                throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
+
+        public bool Delete(int serviceId)
+        {
+            try
+            {
+                // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
+                var param = new DynamicParameters();
+
+                // Thêm tham số với giá trị từ serviceId truyền vào
+                param.Add("@Service_ID", serviceId);
+
+                // Thực hiện gọi stored procedure để xóa dữ liệu trong database
+                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Delete", param, commandType: CommandType.StoredProcedure);
+
+                // Kiểm tra số dòng trả về
+                if (storedProcedureResult > 0)
+                {
+                    // Trả về kết quả thành công
+                    return true;
+                }
+
+                // Trả về false nếu không tìm thấy dữ liệu trong kết quả trả về
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và ném ra ngoại lệ
+                throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
+            }
+        }
+
 
         #endregion
         protected virtual void Dispose(bool disposing)

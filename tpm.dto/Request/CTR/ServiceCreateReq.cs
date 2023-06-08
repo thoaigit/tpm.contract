@@ -12,7 +12,7 @@ namespace tpm.dto.admin
         public int Quantity { get; set; }
         public decimal Unit_Price { get; set; }
         public decimal Total_Amount { get; set; }
-        public int Service_Type_ID { get; set; } // Thay đổi tên thuộc tính từ Name thành Service_Type_ID      
+        public int Service_Type_ID { get; set; }      
     }
 
     public class ServiceCreateReqValidator : AbstractValidator<ServiceCreateReq>
