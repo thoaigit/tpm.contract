@@ -23,10 +23,24 @@ function openTab(evt, tabName) {
 
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.classList.add("active");
+
+    // Lưu tab hiện tại vào sessionStorage
+    var currentTab = '#' + evt.currentTarget.id;
+    sessionStorage.setItem('defaultTab', currentTab);
 }
 
-// Mở tab đầu tiên mặc định
-document.getElementsByClassName("tablinks")[0].click();
+// Xử lý sự kiện khi tải trang
+window.onload = function () {
+    // Kiểm tra xem tab mặc định đã được lưu trong sessionStorage chưa
+    var defaultTab = sessionStorage.getItem('defaultTab');
+    if (defaultTab) {
+        // Nếu đã có tab mặc định, nhấp vào tab tương ứng để duy trì tab hiện tại
+        document.querySelector(defaultTab).click();
+    } else {
+        // Nếu chưa có tab mặc định, nhấp vào tab đầu tiên để đặt tab mặc định
+        document.getElementById("tab1").click();
+    }
+};
 
 
 

@@ -29,9 +29,9 @@
 </div>
 
 <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Tab1')">Hợp Đồng</button>
-    <button class="tablinks" onclick="openTab(event, 'Tab2')">Dịch Vụ</button>
-    <button class="tablinks" onclick="openTab(event, 'Tab3')">Chi Tiết Dịch Vụ</button>
+    <button id="tab1" class="tablinks" onclick="openTab(event, 'Tab1')">Hợp Đồng</button>
+    <button id="tab2" class="tablinks" onclick="openTab(event, 'Tab2')">Dịch Vụ</button>
+    <button id="tab3" class="tablinks" onclick="openTab(event, 'Tab3')">Chi Tiết Dịch Vụ</button>
 </div>
 
 <div id="Tab1" class="tabcontent">
@@ -343,39 +343,19 @@
                 type: 'POST',
                 dataType: 'json',
                 data: data,
-                success: function (response) {
-                    if (response.objCodeStep && response.objCodeStep.Status === "Success") {
-                        // Ẩn popup
-                        document.getElementById("myPopup").style.display = "none";
-                        document.getElementById("overlay").style.display = "none";
-                        document.body.classList.remove("popup-active");
-                        alert(response.objCodeStep.Message);
-
-                        // Thêm một dòng mới vào bảng
-                        var newRow = createTableRow(data); // Tạo dòng từ dữ liệu thành công
-                        $('#serviceTableBody').append(newRow); // Chèn dòng vào bảng
-                    } else {
-                        alert(response.objCodeStep.Message);
-                    }
+                success: function (result) {
+                    alert("Tạo dịch vụ thành công!");
+                    // Tải lại dữ liệu bảng bằng Ajax
+                    location.reload();
                 },
-                error: function (xhr, status, error) {
-                    alert("Lỗi: " + error);
+                error: function (error) {
+                    alert("Lỗi: " + error.responseText);
                 }
             });
         });
-
-        // Hàm tạo một dòng mới từ dữ liệu
-        function createTableRow(service) {
-            var row = $('<tr></tr>');
-            row.append($('<td></td>').text(service.Service_Type_ID));
-            row.append($('<td></td>').text(service.Unit));
-            row.append($('<td></td>').text(service.Unit_Price));
-            row.append($('<td></td>').text(service.Quantity));
-            row.append($('<td></td>').text(service.Total_Amount));
-            return row;
-        }
     });
 </script>
+
 
 
 
