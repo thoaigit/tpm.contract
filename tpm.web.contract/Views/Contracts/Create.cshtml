@@ -31,7 +31,7 @@
     <button class="tablinks" onclick="openTab(event, 'Tab3')">Chi Tiết Dịch Vụ</button>
 </div>
 
-<div id="Tab1" class="tabcontent">
+@*<div id="Tab1" class="tabcontent">
     <div class="content-wrapper">
         <div class="content-inner">
             <div class="content">
@@ -131,13 +131,7 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-</div>
+</div>*@
 
 <div id="Tab2" class="tabcontent">
     <div class="card-body">
@@ -161,9 +155,8 @@
             </select>
 
             <select id="unit">
-                <option value="Piece">Cái</option>
-                <option value="Hour">Giờ</option>
-                <option value="Kg">Kg</option>
+                <option value="Piece">Trang</option>
+                <option value="Hour">Video</option>
             </select>
             <input type="text" placeholder="Đơn giá" id="unitPrice">
             <input type="number" min="1" placeholder="Số lượng" id="quantity">
@@ -284,136 +277,61 @@
         </div>
     </div>
 </div>
-<script>
-    const toggleBtn = document.querySelector('.toggle-btn');
-    let isToggleOn = true;
-
-    toggleBtn.addEventListener('click', function () {
-        isToggleOn = !isToggleOn;
-        toggleBtn.innerHTML = isToggleOn ? '<i class="fa-solid fa-toggle-on fa-lg"></i>' : '<i class="fa-solid fa-toggle-off fa-lg"></i>';
-    });
-</script>
 
 <script>
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
+document.getElementById("saveButton").addEventListener("click", function () {
+    var serviceType = document.getElementById("serviceType").value;
+    var unit = document.getElementById("unit").value;
+    var unitPrice = document.getElementById("unitPrice").value;
+    var quantity = document.getElementById("quantity").value;
+    var totalAmount = parseFloat(unitPrice) * parseFloat(quantity);
 
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
+    console.log("Loại dịch vụ: " + serviceType);
+    console.log("Đơn vị tính: " + unit);
+    console.log("Đơn giá: " + unitPrice);
+    console.log("Số lượng: " + quantity);
+    console.log("Thành tiền: " + totalAmount.toFixed(2));
+});
 
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.remove("active");
-        }
 
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.classList.add("active");
-    }
+$(document).ready(function () {
+    $('#saveButton').click(function () {
+        var serviceType = $('#serviceType').val();
+        var unit = $('#unit').val();
+        var unitPrice = $('#unitPrice').val();
+        var quantity = $('#quantity').val();
+        var totalAmount = $('#totalAmount').val();
 
-    // Mở tab đầu tiên mặc định
-    document.getElementsByClassName("tablinks")[0].click();
-</script>
+        var data = {
+            Service_Type_ID: serviceType,
+            Unit: unit,
+            Unit_Price: unitPrice,
+            Quantity: quantity,
+            Total_Amount: totalAmount
+        };
 
-<script>
-    document.getElementById("openPopup3").addEventListener("click", function () {
-        document.getElementById("myPopup3").style.display = "block";
-        document.getElementById("overlay").style.display = "block";
-        document.body.classList.add("popup-active");
-    });
-
-    document.getElementById("closePopup3").addEventListener("click", function () {
-        document.getElementById("myPopup3").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-        document.body.classList.remove("popup-active");
-
-        // Xoá các dữ liệu đã nhập
-        document.getElementById("unitPrice").value = "";
-        document.getElementById("quantity").value = "";
-        document.getElementById("totalAmount").value = "";
-    });
-
-    document.getElementById("openPopup").addEventListener("click", function () {
-        document.getElementById("myPopup").style.display = "block";
-        document.getElementById("overlay").style.display = "block";
-        document.body.classList.add("popup-active");
-    });
-
-    document.getElementById("closePopup").addEventListener("click", function () {
-        document.getElementById("myPopup").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-        document.body.classList.remove("popup-active");
-
-        // Xoá các dữ liệu đã nhập
-        document.getElementById("unitPrice").value = "";
-        document.getElementById("quantity").value = "";
-        document.getElementById("totalAmount").value = "";
-    });
-
-    // Tính toán tự động khi nhập đơn giá và số lượng
-    document.getElementById("unitPrice").addEventListener("input", calculateTotalAmount);
-    document.getElementById("quantity").addEventListener("input", calculateTotalAmount);
-
-    function calculateTotalAmount() {
-        var unitPrice = document.getElementById("unitPrice").value;
-        var quantity = document.getElementById("quantity").value;
-        var totalAmount = parseFloat(unitPrice) * parseFloat(quantity);
-
-        document.getElementById("totalAmount").value = totalAmount.toFixed(2);
-    }
-
-    document.getElementById("saveButton").addEventListener("click", function () {
-        var serviceType = document.getElementById("serviceType").value;
-        var unit = document.getElementById("unit").value;
-        var unitPrice = document.getElementById("unitPrice").value;
-        var quantity = document.getElementById("quantity").value;
-        var totalAmount = parseFloat(unitPrice) * parseFloat(quantity);
-
-        console.log("Loại dịch vụ: " + serviceType);
-        console.log("Đơn vị tính: " + unit);
-        console.log("Đơn giá: " + unitPrice);
-        console.log("Số lượng: " + quantity);
-        console.log("Thành tiền: " + totalAmount.toFixed(2));
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('#saveButton').click(function () {
-            var serviceType = $('#serviceType').val();
-            var unit = $('#unit').val();
-            var unitPrice = $('#unitPrice').val();
-            var quantity = $('#quantity').val();
-            var totalAmount = $('#totalAmount').val();
-
-            var data = {
-                Service_Type_ID: serviceType,
-                Unit: unit,
-                Unit_Price: unitPrice,
-                Quantity: quantity,
-                Total_Amount: totalAmount
-            };
-
-            $.ajax({
-                url: '/Contracts/Create',
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                success: function (result) {
-                    if (result.success) {
-                        // Xử lý khi tạo thành công, ví dụ hiển thị thông báo thành công
-                        alert("Tạo dịch vụ thành công!");
-                        // Cập nhật lại trang hoặc thực hiện các tác vụ khác sau khi tạo thành công
-                    } else {
-                        // Xử lý khi có lỗi, ví dụ hiển thị thông báo lỗi
-                        alert("Lỗi: " + result.error);
-                    }
-                },
-                error: function () {
-                    // Xử lý khi gặp lỗi trong quá trình gửi yêu cầu Ajax
-                    alert("Có lỗi xảy ra khi gửi yêu cầu Ajax");
+        $.ajax({
+            url: '/Contracts/Create',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function (result) {
+                if (result.success) {
+                    // Xử lý khi tạo thành công, ví dụ hiển thị thông báo thành công
+                    alert("Tạo dịch vụ thành công!");
+                    // Cập nhật lại trang hoặc thực hiện các tác vụ khác sau khi tạo thành công
+                } else {
+                    // Xử lý khi có lỗi, ví dụ hiển thị thông báo lỗi
+                    alert("Lỗi: " + result.error);
                 }
-            });
+            },
+            error: function () {
+                // Xử lý khi gặp lỗi trong quá trình gửi yêu cầu Ajax
+                alert("Có lỗi xảy ra khi gửi yêu cầu Ajax");
+            }
         });
     });
+});
 </script>
+
+<script src="~/assets/js/site.js"></script>
