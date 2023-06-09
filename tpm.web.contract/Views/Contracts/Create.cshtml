@@ -209,7 +209,7 @@
                             <td>@service.Quantity</td>
                             <td>@service.Total_Amount.ToString("N0")</td>
                             <td>
-                                <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a class="openPopup" data-serviceid="@service.Service_ID" href="#"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <a href="#" class="delete-link" data-serviceid="@service.Service_ID"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
                         </tr>
@@ -294,12 +294,7 @@
     </div>
 </div>
 
-
 <script src="~/assets/js/site.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-
-
 <script>
     $(document).ready(function () {
         $('.delete-link').click(function (event) {
@@ -330,8 +325,71 @@
 
 
 <script>
+    // Sự kiện click cho nút "Thêm"
+    document.getElementById("openPopup").addEventListener("click", function () {
+        openCreatePopup();
+    });
+
+    // Sự kiện click cho nút chỉnh sửa
+    var editButtons = document.getElementsByClassName("openPopup");
+    for (var i = 0; i < editButtons.length; i++) {
+        editButtons[i].addEventListener("click", function () {
+            var serviceID = $(this).data('serviceid');
+            openEditPopup(serviceID);
+        });
+    }
+
+
+
+    // Hàm mở popup tạo mới dịch vụ
+    function openCreatePopup() {
+        // Hiển thị popup và overlay
+        document.getElementById("myPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+        document.body.classList.add("popup-active");
+    }
+
+    // Hàm mở popup chỉnh sửa dịch vụ
+    function openEditPopup(serviceID) {
+        // Hiển thị popup và overlay
+        document.getElementById("myPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+        document.body.classList.add("popup-active");
+
+        if (serviceID) {
+            // Gán dữ liệu dịch vụ vào các trường input
+            var service = getServiceByID(serviceID);
+            if (service) {
+                document.getElementById("serviceTypeDropdown").selectedIndex = getIndexByValue(document.getElementById("serviceTypeDropdown"), service.Service_Type_Name);
+                document.getElementById("unitDropdown").selectedIndex = getIndexByValue(document.getElementById("unitDropdown"), service.Unit);
+                document.getElementById("unitPrice").value = service.Unit_Price;
+                document.getElementById("quantity").value = service.Quantity;
+                document.getElementById("totalAmount").value = service.Total_Amount;
+            }
+        }
+
+    }
+    function getIndexByValue(selectElement, value) {
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === value) {
+                return i;
+            }
+        }
+        return -1; // Nếu không tìm thấy giá trị trong dropdown
+    }
+
+    // Hàm lấy dữ liệu dịch vụ theo ID
+    function getServiceByID(serviceID) {
+        var services = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Services))');
+        return services.find(function (service) {
+            return service.Service_ID === serviceID;
+        }) || null;
+    }
+
+    // Sự kiện click cho nút "Lưu"
     $(document).ready(function () {
         $('#saveButton').click(function () {
+            var serviceID = $(this).data('serviceid');
             var serviceTypeID = $('#serviceTypeDropdown').val();
             var unitID = $('#unitDropdown').val();
             var unitPrice = parseFloat($('#unitPrice').val().replace(/,/g, ''));
@@ -339,6 +397,7 @@
             var totalAmount = unitPrice * quantity;
 
             var data = {
+                Service_ID: serviceID,
                 Service_Type_ID: serviceTypeID,
                 Unit_ID: unitID,
                 Unit_Price: unitPrice,
@@ -346,24 +405,63 @@
                 Total_Amount: totalAmount
             };
 
-            // Gửi Ajax request với dữ liệu chứa chỉ Service_Type_ID
-            $.ajax({
-                url: '/Contracts/Create',
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                success: function (result) {
-                    alert("Tạo dịch vụ thành công!");
-                    // Tải lại dữ liệu bảng bằng Ajax
-                    location.reload();
-                },
-                error: function (error) {
-                    alert("Lỗi: " + error.responseText);
-                }
-            });
+            if (serviceID) {
+                // Gửi Ajax request để cập nhật dịch vụ
+                $.ajax({
+                    url: '/Contracts/Update',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (result) {
+                        alert("Cập nhật dịch vụ thành công!");
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert("Lỗi: " + error.responseText);
+                    }
+                });
+            } else {
+                // Gửi Ajax request để tạo mới dịch vụ
+                $.ajax({
+                    url: '/Contracts/Create',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (result) {
+                        alert("Tạo dịch vụ thành công!");
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert("Lỗi: " + error.responseText);
+                    }
+                });
+            }
         });
     });
+
+    // Hàm đóng popup
+    document.getElementById("closePopup").addEventListener("click", function () {
+        document.getElementById("myPopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+        document.body.classList.remove("popup-active");
+
+        // Xoá các dữ liệu đã nhập
+        document.getElementById("unitPrice").value = "";
+        document.getElementById("quantity").value = "";
+        document.getElementById("totalAmount").value = "";
+    });
 </script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+
+
+
+
+
+
 
 
 

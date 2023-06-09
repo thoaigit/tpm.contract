@@ -45,7 +45,12 @@ namespace tpm.business
 
         public IEnumerable<ServiceRes> GetServicesWithTypeName()
         {
-            return _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesWithTypeName");
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesWithTypeName");
+            if (result == null)
+            {
+                result = new List<ServiceRes>();
+            }
+            return result;
         }
 
 
