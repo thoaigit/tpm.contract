@@ -15,11 +15,13 @@ namespace tpm.web.contract.Controllers
         private readonly IServiceService _serviceService;
         private readonly ServiceCreateReqValidator _validator;
         private readonly IServiceTypeService _serviceTypeService;
-        public ContractsController(IServiceService serviceService, ServiceCreateReqValidator validator, IServiceTypeService serviceTypeService)
+        private readonly IUnitService _serviceUnit;
+        public ContractsController(IServiceService serviceService, ServiceCreateReqValidator validator, IServiceTypeService serviceTypeService, IUnitService serviceUnit)
         {
             _serviceService = serviceService;
             _validator = validator;
             _serviceTypeService = serviceTypeService;
+            _serviceUnit = serviceUnit;
         }
         [MvcAuthorize]
         public IActionResult Index()
@@ -30,9 +32,13 @@ namespace tpm.web.contract.Controllers
         public IActionResult Create()
         {
             var services = _serviceService.GetServicesWithTypeName();
-            ViewBag.Services = services;
             var serviceTypes = _serviceTypeService.GetAllServiceTypes();
+            var unit = _serviceUnit.GetAllUnits();
+
+            ViewBag.Services = services;
             ViewBag.ServiceTypes = serviceTypes;
+            ViewBag.Unit = unit;
+          
             return View();
         }
 

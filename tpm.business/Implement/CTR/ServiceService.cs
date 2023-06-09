@@ -61,7 +61,7 @@ namespace tpm.business
                 var param = new DynamicParameters();
 
                 // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào             
-                param.Add("@Unit", obj.Unit);
+                param.Add("@Unit_ID", obj.Unit_ID);
                 param.Add("@Quantity", obj.Quantity);
                 param.Add("@Unit_Price", obj.Unit_Price);
                 param.Add("@Total_Amount", obj.Total_Amount);

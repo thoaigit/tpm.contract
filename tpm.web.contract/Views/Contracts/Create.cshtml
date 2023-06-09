@@ -158,10 +158,19 @@
                 }
             </select>
 
-            <label for="unitPrice">Đơn Vị Tính:</label>
-            <select id="unit">
-                <option value="Trang">Trang</option>
-                <option value="Video">Video</option>
+            <label for="unit">Đơn Vị Tính:</label>
+            <select id="unitDropdown">
+                @if (ViewBag.Unit != null)
+                {
+                    @foreach (var unit in ViewBag.Unit)
+                    {
+                        <option value="@unit.Unit_ID">@unit.Unit</option>
+                    }
+                }
+                else
+                {
+                    <p>Danh sách đơn vị tính trống.</p>
+                }
             </select>
 
             <label for="unitPrice">Giá Tiền:</label>
@@ -324,14 +333,14 @@
     $(document).ready(function () {
         $('#saveButton').click(function () {
             var serviceTypeID = $('#serviceTypeDropdown').val();
-            var unit = $('#unit').val();
+            var unitID = $('#unitDropdown').val();
             var unitPrice = parseFloat($('#unitPrice').val().replace(/,/g, ''));
             var quantity = parseFloat($('#quantity').val());
             var totalAmount = unitPrice * quantity;
 
             var data = {
                 Service_Type_ID: serviceTypeID,
-                Unit: unit,
+                Unit_ID: unitID,
                 Unit_Price: unitPrice,
                 Quantity: quantity,
                 Total_Amount: totalAmount
