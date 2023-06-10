@@ -3644,12 +3644,12 @@ textarea.form-control-lg {
     border-bottom-right-radius: 0
 }
 
-.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+/*.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
     margin-left: calc(var(--border-width) * -1);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-radius: 10px;
-}
+}*/
 
 .input-group > .form-floating:not(:first-child) > .form-control,
 .input-group > .form-floating:not(:first-child) > .form-select {
@@ -17005,12 +17005,17 @@ kbd[data-color-theme=dark] {
     overflow-y: scroll
 }
 
-@media (min-width:768px) {
+@media (max-width: 768px) {
     .custom-scrollbars * {
-        -ms-overflow-style: -ms-autohiding-scrollbar;
-        scrollbar-width: thin;
-        scrollbar-color: var(--gray-600) var(--gray-300)
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        scrollbar-color: transparent transparent;
+        overflow: auto;
     }
+}
+
+
+
 
     .custom-scrollbars ::-webkit-scrollbar {
         height: .5rem;
@@ -35827,7 +35832,8 @@ body {
 
 .content {
     -ms-flex-positive: 1;
-    flex-grow: 1
+    flex-grow: 1;
+    width:100%;
 }
 
     .content::after {
@@ -37333,7 +37339,8 @@ label {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 10px 0 0 10px;
-    color: var(--card-color)
+    color: var(--card-color);
+    width:100%;
 }
 
 .input-contract {
@@ -37452,3 +37459,4 @@ body.popup-active {
     cursor: pointer;
     color: #94bbff;
 }
+
