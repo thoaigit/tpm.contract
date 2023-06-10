@@ -35,105 +35,83 @@
 </div>
 
 <div id="Tab1" class="tabcontent">
-    @*<div class="content-wrapper">
-    <div class="content-inner">
-    <div class="content">
+    <div class="card-body" >
+        <a id="openPopup4" style="margin-bottom: 4px; margin-left: 0px;" class="btn btn-primary">Thêm Hợp Đồng</a>
+    </div>
     <div class="card">
-    <h6 style="font-size: 30px; text-align: center;margin: 15px 0px;color: #0066FF; ">Thêm Nhân Viên</h6>
-    <form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <fieldset style="margin: 15px !important;">
-    <div class="row">
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">CCCD</label>
-    <input class="form-control" />
-    <span class="text-danger"></span>
+        <div id="myPopup4" class="popup">
+            <h2>Nhập thông tin</h2>
+            <label for="unitPrice">Mã hợp đồng:</label>
+            <input type="text" placeholder="VD: MH-370" class="input-currency">
+            <label for="unitPrice">Tên Cty:</label>
+            <input type="text" placeholder="Cty TNHH xxx" class="input-currency">
+            <div>
+                <div class="date-container" style="display: inline-block;">
+                    <label for="start-date">Ngày bắt đầu:</label>
+                    <input style="margin-right: 10px;" type="date" id="start-date" name="start-date">
+                </div>
+                <div class="date-container" style="display: inline-block;">
+                    <label for="end-date">Ngày kết thúc:</label>
+                    <input type="date" id="end-date" name="end-date">
+                </div>
+            </div>
+            <label for="unitPrice">Tên khách hàng:</label>
+            <input type="text" placeholder="Nguyễn Văn A" class="input-currency">
+            <label for="unitPrice">SĐT:</label>
+            <input type="text" placeholder="098xxxxxxx" class="input-currency">
+            <label for="unitPrice">Tên nhân viên:</label>
+            <input type="text" placeholder="B Phú Hải" class="input-currency">
+            <button id="saveButton">Lưu</button>
+            <button id="closePopup4">Đóng</button>
+        </div>
+        <div id="overlay" class="overlay"></div>
+        <table class="table datatable-column-search-inputs">
+            <thead>
+                <tr>
+                    <th>Mã HĐ</th>
+                    <th>Tên Cty</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Tên khách hàng</th>
+                    <th>SĐT</th>
+                    <th>Tên nhân viên</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="serviceTableBody">
+                @if (ViewBag.Services != null)
+                {
+                    var stt = 1;
+                    @foreach (var service in ViewBag.Services)
+                    {
+                        <tr>
+                            <td>@stt</td>
+                            <td>@service.Service_Type_Name</td>
+                            <td>@service.Unit</td>
+                            <td>@service.Unit_Price.ToString("N0")</td>
+                            <td>@service.Quantity</td>
+                            <td>@service.Total_Amount.ToString("N0")</td>
+                            <td>
+                                <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="#" class="delete-link" data-serviceid="@service.Service_ID"><i class="fa-solid fa-trash-can"></i></a>
+                            </td>
+                        </tr>
+                        stt++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">Không có dữ liệu</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
     </div>
-    </div>
-    <div class="col-lg-6">
-    <label class="control-label">Tên Nhân Viên</label>
-    <input type="text" class="form-control">
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Giới Tính</label>
-    <select class="form-control">
-    <option value="1">Nam</option>
-    <option value="0">Nữ</option>
-    </select>
-    <span class="text-danger"></span>
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Ngày Sinh</label>
-    <input class="form-control" />
-    <span class="text-danger"></span>
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Địa Chỉ</label>
-    <input class="form-control" />
-    <span class="text-danger"></span>
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Số Điện Thoại</label>
-    <input type="text" class="form-control">
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Email</label>
-    <input type="text" class="form-control">
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Chức Vụ</label>
-    <select class="form-control" asp-items="ViewBag.ChucVuList"></select>
-    <span class="text-danger"></span>
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Phòng Ban</label>
-    <select class="form-control" asp-items="ViewBag.PhongBanList"></select>
-    <span class="text-danger"></span>
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label">Tình Trạng</label>
-    <select class="form-control">
-    <option value="1">Đang Làm</option>
-    <option value="0">Nghỉ Việc</option>
-    </select>
-    <span class="text-danger"></span>
-    </div>
-    </div>
-    <div class="col-lg-6">
-    <div class="mb-3">
-    <label class="control-label"></label>
-    <input type="file" class="form-control" accept=".jpg,.jpeg,.png">
-    <span class="text-danger"></span>
-    </div>
-    </div>
-    </div>
-    </fieldset>
-    <div style="justify-content:center" class="card-footer d-flex justify-content-center">
-    <a class="btn btn-primary ms-3" style="text-decoration: none;"
-    asp-action="Index">Quay Lại</a>
-    <button style="width: 90px" type="submit" value="Tạo" class="btn btn-primary ms-3">Tạo</button>
-    </div>
-    </form>
-    </div>
-    </div>
-    </div>
-    </div>*@
+
+
+    <div id="overlay" class="overlay"></div>
 </div>
 
 <div id="Tab2" class="tabcontent">
@@ -231,7 +209,7 @@
 
 <div id="Tab3" class="tabcontent">
     <div class="card-body">
-        <a id="openPopup3" class="btn btn-primary">Thêm Chi Tiết</a>
+        <a id="openPopup3" style="margin-bottom: 4px; margin-left: 0px;" class="btn btn-primary">Thêm Chi Tiết</a>
     </div>
     <div id="myPopup3" class="popup">
         <h2>Nhập thông tin</h2>
