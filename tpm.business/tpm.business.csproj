@@ -7,12 +7,16 @@
   <ItemGroup>
     <Compile Remove="Implement\RPT\**" />
     <Compile Remove="Interface\RPT\**" />
+    <Compile Remove="Repositories\**" />
     <Content Remove="Implement\RPT\**" />
     <Content Remove="Interface\RPT\**" />
+    <Content Remove="Repositories\**" />
     <EmbeddedResource Remove="Implement\RPT\**" />
     <EmbeddedResource Remove="Interface\RPT\**" />
+    <EmbeddedResource Remove="Repositories\**" />
     <None Remove="Implement\RPT\**" />
     <None Remove="Interface\RPT\**" />
+    <None Remove="Repositories\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +37,7 @@
     <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Dapper.FastCrud" Version="2.5.0.39" />
     <PackageReference Include="EPPlus" Version="5.7.5" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />

@@ -13,10 +13,14 @@ namespace tpm.web.contract.Controllers
     public class TestUserController : Controller
     {
         private readonly ITestUserService _testUserService;
+        private readonly IServiceTypeService _serviceTypeService;
+        private readonly IServiceService _serviceService;
 
-        public TestUserController(ITestUserService testUserService)
+        public TestUserController(ITestUserService testUserService, IServiceTypeService serviceTypeService, IServiceService serviceService)
         {
             _testUserService = testUserService;
+            _serviceTypeService = serviceTypeService;
+            _serviceService = serviceService;
         }
 
         public IActionResult GetAll()
@@ -24,6 +28,13 @@ namespace tpm.web.contract.Controllers
             var list = _testUserService.ReadAll();
             ViewBag.ObjList = list;
             return View();
+        }
+        public IActionResult GetAllTypeService()
+        {
+            var services = _serviceService.GetServicesWithTypeName();
+            ViewBag.Services = services;
+            return View();
+            
         }
     }
 }
