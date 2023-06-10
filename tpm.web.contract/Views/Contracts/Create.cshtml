@@ -61,7 +61,7 @@
             <input type="text" placeholder="098xxxxxxx" class="input-currency">
             <label for="unitPrice">Tên nhân viên:</label>
             <input type="text" placeholder="B Phú Hải" class="input-currency">
-            <button id="saveButton">Lưu</button>
+            <button id="saveButton4">Lưu</button>
             <button id="closePopup4">Đóng</button>
         </div>
         <div id="overlay" class="overlay"></div>
@@ -109,9 +109,6 @@
 
         </table>
     </div>
-
-
-    <div id="overlay" class="overlay"></div>
 </div>
 
 <div id="Tab2" class="tabcontent">
@@ -121,7 +118,7 @@
     <div class="card">
         <div id="myPopup" class="popup">
             <h2>Nhập thông tin</h2>
-            <label for="unitPrice">Loại Dịch Vụ:</label>
+            <label for="serviceType">Loại Dịch Vụ:</label>
             <select id="serviceTypeDropdown">
                 @if (ViewBag.ServiceTypes != null)
                 {
@@ -153,9 +150,9 @@
 
             <label for="unitPrice">Giá Tiền:</label>
             <input type="text" placeholder="Giá tiền (VNĐ)" id="unitPrice" class="input-currency">
-            <label for="unitPrice">Số Lượng:</label>
+            <label for="quantity">Số Lượng:</label>
             <input type="number" min="1" placeholder="Số lượng" id="quantity">
-            <label for="unitPrice">Tổng Tiền:</label>
+            <label for="totalAmount">Tổng Tiền:</label>
             <input type="text" placeholder="Thành tiền" id="totalAmount" class="input-currency">
             <button id="saveButton">Lưu</button>
             <button id="closePopup">Đóng</button>
@@ -313,6 +310,7 @@
     for (var i = 0; i < editButtons.length; i++) {
         editButtons[i].addEventListener("click", function () {
             var serviceID = $(this).data('serviceid');
+            console.log(serviceID);
             openEditPopup(serviceID);
         });
     }
@@ -360,7 +358,7 @@
     function getServiceByID(serviceID) {
         var services = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Services))');
         return services.find(function (service) {
-            return service.Service_ID === serviceID;
+            return service.Service_ID === serviceID;         
         }) || null;
     }
 

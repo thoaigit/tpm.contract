@@ -42,41 +42,9 @@ window.onload = function () {
     }
 };
 
-//PopupTab1
-document.getElementById("openPopup4").addEventListener("click", function () {
-    document.getElementById("myPopup4").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    document.body.classList.add("popup-active");
-});
 
-document.getElementById("closePopup4").addEventListener("click", function () {
-    document.getElementById("myPopup4").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
-    document.body.classList.remove("popup-active");
 
-    // Xoá các dữ liệu đã nhập
-    document.getElementById("unitPrice").value = "";
-    document.getElementById("quantity").value = "";
-    document.getElementById("totalAmount").value = "";
-});
 
-//PopupTab2
-document.getElementById("openPopup").addEventListener("click", function () {
-    document.getElementById("myPopup").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    document.body.classList.add("popup-active");
-});
-
-document.getElementById("closePopup").addEventListener("click", function () {
-    document.getElementById("myPopup").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
-    document.body.classList.remove("popup-active");
-
-    // Xoá các dữ liệu đã nhập
-    document.getElementById("unitPrice").value = "";
-    document.getElementById("quantity").value = "";
-    document.getElementById("totalAmount").value = "";
-});
 
 //PopupTab3
 document.getElementById("openPopup3").addEventListener("click", function () {
@@ -87,6 +55,23 @@ document.getElementById("openPopup3").addEventListener("click", function () {
 
 document.getElementById("closePopup3").addEventListener("click", function () {
     document.getElementById("myPopup3").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+    document.body.classList.remove("popup-active");
+
+    // Xoá các dữ liệu đã nhập
+    document.getElementById("unitPrice").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("totalAmount").value = "";
+});
+
+document.getElementById("openPopup4").addEventListener("click", function () {
+    document.getElementById("myPopup4").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+    document.body.classList.add("popup-active");
+});
+
+document.getElementById("closePopup4").addEventListener("click", function () {
+    document.getElementById("myPopup4").style.display = "none";
     document.getElementById("overlay").style.display = "none";
     document.body.classList.remove("popup-active");
 
