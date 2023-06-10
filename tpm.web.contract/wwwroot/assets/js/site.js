@@ -44,6 +44,9 @@ window.onload = function () {
 
 
 
+
+
+//PopupTab3
 document.getElementById("openPopup3").addEventListener("click", function () {
     document.getElementById("myPopup3").style.display = "block";
     document.getElementById("overlay").style.display = "block";
@@ -61,14 +64,14 @@ document.getElementById("closePopup3").addEventListener("click", function () {
     document.getElementById("totalAmount").value = "";
 });
 
-document.getElementById("openPopup").addEventListener("click", function () {
-    document.getElementById("myPopup").style.display = "block";
+document.getElementById("openPopup4").addEventListener("click", function () {
+    document.getElementById("myPopup4").style.display = "block";
     document.getElementById("overlay").style.display = "block";
     document.body.classList.add("popup-active");
 });
 
-document.getElementById("closePopup").addEventListener("click", function () {
-    document.getElementById("myPopup").style.display = "none";
+document.getElementById("closePopup4").addEventListener("click", function () {
+    document.getElementById("myPopup4").style.display = "none";
     document.getElementById("overlay").style.display = "none";
     document.body.classList.remove("popup-active");
 
@@ -77,6 +80,7 @@ document.getElementById("closePopup").addEventListener("click", function () {
     document.getElementById("quantity").value = "";
     document.getElementById("totalAmount").value = "";
 });
+
 
 function initializeScript() {
     $('#unitPrice').inputmask({
