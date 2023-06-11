@@ -10,6 +10,7 @@ namespace tpm.dto.admin
         public string Password { get; set; }
         public string Phone { get; set; }   
         public string Email { get; set; }
-
-    }
+		public string CFName { get; set; }
+		public string DisplayName { get; set; }
+	}
 }

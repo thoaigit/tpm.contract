@@ -47,8 +47,8 @@
 					@*<div class="status-indicator-container">
 						<img src="/assets/images/demo/users/face11.jpg" class="w-32px h-32px rounded-pill" alt="">
 					</div>*@
-					<span class="name-icon name-icon-T"></span>
-					<span class="d-none d-md-inline-block mx-md-2">asdsada@*@Html.Raw(string.Format("{0}", Model.FullName))*@</span>
+					<span class="name-icon name-icon-@Html.Raw(Model.CFName)"></span>
+					<span class="d-none d-md-inline-block mx-md-2">@Html.Raw(string.Format("{0}", Model.FullName))</span>
 				</a>
 
 				<div class="dropdown-menu dropdown-menu-end">

@@ -12,7 +12,5 @@ namespace tpm.dto.admin.Response
 		public string Password { get; set; }
 		public bool? IsLocked { get; set; }
 		public DateTime LockedDate { get; set; }
-		public string CFName { get; set; }
-		public string DisplayName { get; set; }
 	}
 }

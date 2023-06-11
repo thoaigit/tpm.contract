@@ -41,15 +41,20 @@ namespace tpm.web.contract.Controllers
 				{
 					// Thông báo lỗi đăng nhập không hợp lệ
 					ModelState.AddModelError("", "Thông tin đăng nhập không chính xác.");
-					return View();
+					return PartialView("Loginv1");
 				}
-                var userPrincipal = userresult.Data;
-				if (!userPrincipal.Password.Equals(obj.password))
+                var objuser = userresult.Data;
+				if (!objuser.Password.Equals(obj.password))
 				{
 					ModelState.AddModelError("", "Thông tin đăng nhập không chính xác.");
-					return View();
+					return PartialView("Loginv1");
 				}
-
+                UserPrincipal userPrincipal = new UserPrincipal() { 
+                    FullName = objuser.FullName,
+                    UserID= objuser.UserID,
+                    Phone = $"0{objuser.Phone}",
+                    Email = objuser.Email
+                };
 				List<string> splitName = userPrincipal.FullName.Split(' ').ToList();
 				string name = splitName[splitName.Count - 1].Substring(0, 1);
 				string DisplayName = userPrincipal.FullName;

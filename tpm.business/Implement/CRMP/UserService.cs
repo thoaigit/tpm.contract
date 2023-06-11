@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using tpm.dto.admin;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace tpm.business
 {
@@ -24,7 +25,9 @@ namespace tpm.business
 
         public async Task<CRUDResult<UserRes>> login(UserLoginReq obj)
         {
-            var result = await _objReadOnlyRepository.Value.SQLQueryFirstorDefaultAsync<UserRes>("[USR].[User_GetDataLogin]");
+            var result = await _objReadOnlyRepository.Value.Connection.QuerySingleOrDefaultAsync<UserRes>("[USR].[User_GetDataLogin]", new {
+				@Keyword = obj.keyword
+			}, commandType: CommandType.StoredProcedure);
 			if (result == null) 
                 return new CRUDResult<UserRes> { StatusCode = CRUDStatusCodeRes.ResourceNotFound };
 
