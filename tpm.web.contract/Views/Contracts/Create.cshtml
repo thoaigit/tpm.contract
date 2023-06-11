@@ -5,25 +5,65 @@
     BreadCrumb.Add("<span class='breadcrumb-item active'> Tạo mới</span>");
     ViewBag.BreadCrumb = BreadCrumb;
 }
+<style>
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+    }
 
-<div class="page-header page-header-light shadow">
-    <div class="page-header-content d-lg-flex border-top">
-        <div class="d-flex">
-            <div class="breadcrumb py-2">
-                <a asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="ph-house"></i></a>
-                <span class="breadcrumb-item active">Danh Sách</span>
-                <span class="breadcrumb-item active"><a asp-action="Index">DS Hợp Đồng</a></span>
-                <span class="breadcrumb-item active"><a asp-action="Create">Thêm Hợp Đồng</a></span>
-            </div>
+        .popup h2 {
+            margin-top: 0;
+        }
 
-            <a href="#breadcrumb_elements"
-               class="btn btn-light align-self-center collapsed d-lg-none border-transparent rounded-pill p-0 ms-auto"
-               data-bs-toggle="collapse">
-                <i class="ph-caret-down collapsible-indicator ph-sm m-1"></i>
-            </a>
-        </div>
-    </div>
-</div>
+        .popup label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .popup select,
+        .popup input[type="text"],
+        .popup input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .popup .input-currency {
+            text-align: right;
+        }
+
+        .popup button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        display: none;
+    }
+
+</style>
+
 
 <div class="tab">
     <button id="tab1" class="tablinks" onclick="openTab(event, 'Tab1')">Hợp Đồng</button>
@@ -32,7 +72,7 @@
 </div>
 
 <div id="Tab1" class="tabcontent">
-    <div class="card-body" >
+    <div class="card-body">
         <a id="openPopup4" style="margin-bottom: 4px; margin-left: 0px;" class="btn btn-primary">Thêm Hợp Đồng</a>
     </div>
     <div class="card">
@@ -181,8 +221,9 @@
                             <td>@service.Quantity</td>
                             <td>@service.Total_Amount.ToString("N0")</td>
                             <td>
-                                <a class="openPopup" data-serviceid="@service.Service_ID" href="#"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="#" class="delete-link" data-serviceid="@service.Service_ID"><i class="fa-solid fa-trash-can"></i></a>
+                                <a class="openPopup" data-serviceid="@service.Service_ID" href="#" onclick="openEditPopup(@service.Service_ID)"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="#" class="delete-link" data-serviceid="@service.Service_ID" onclick="deleteService(event, @service.Service_ID)"><i class="fa-solid fa-trash-can"></i></a>
+
                             </td>
                         </tr>
                         stt++;
@@ -268,32 +309,30 @@
 
 <script src="~/assets/js/site.js"></script>
 <script>
-    $(document).ready(function () {
-        $('.delete-link').click(function (event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+    function deleteService(event, serviceID) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
 
-            var serviceID = $(this).data('serviceid');
-            var $deletedRow = $(this).closest('tr'); // Lấy thẻ cha là <tr> chứa dòng
+        var $deletedRow = $(event.target).closest('tr'); // Lấy thẻ cha là <tr> chứa dòng
 
-            // Gửi Ajax request để xóa dịch vụ
-            $.ajax({
-                url: '/Contracts/Delete',
-                type: 'DELETE',
-                dataType: 'json',
-                data: { serviceID: serviceID },
-                success: function (result) {
-                    alert("Xóa dịch vụ thành công!");
+        // Gửi Ajax request để xóa dịch vụ
+        $.ajax({
+            url: '/Contracts/Delete',
+            type: 'DELETE',
+            dataType: 'json',
+            data: { serviceID: serviceID },
+            success: function (result) {
+                alert("Xóa dịch vụ thành công!");
 
-                    // Loại bỏ dòng vừa click xoá khỏi bảng
-                    $deletedRow.remove();
-                },
-                error: function () {
-                    alert("Lỗi: Xóa dịch vụ không thành công!");
-                }
-            });
+                // Loại bỏ dòng vừa click xoá khỏi bảng
+                $deletedRow.remove();
+            },
+            error: function () {
+                alert("Lỗi: Xóa dịch vụ không thành công!");
+            }
         });
-    });
+    }
 </script>
+
 
 <script>
     // Sự kiện click cho nút "Thêm"
@@ -374,7 +413,8 @@
                         location.reload();
                     },
                     error: function (error) {
-                        alert("Lỗi: " + error.responseText);
+                        console.log("Lỗi khi cập nhật dịch vụ:", error);
+                        alert("Lỗi khi cập nhật dịch vụ. Vui lòng kiểm tra console log.");
                     }
                 });
             } else {
@@ -383,7 +423,7 @@
                     type: 'POST',
                     dataType: 'json',
                     data: data,
-                    success: function (response) {
+                    success: function (data) {
                         // Hiển thị thông báo
                         alert("Tạo dịch vụ thành công!");
 
@@ -391,41 +431,48 @@
                         $("#myPopup").hide();
                         $(".overlay").hide();
                         $("body").removeClass("popup-active");
+                        $("#unitPrice").val("");
+                        $("#quantity").val("");
+                        $("#totalAmount").val("");
 
                         // Lấy thông tin dịch vụ mới từ kết quả trả về
-                        var newService = response.Service;
-                        console.log(response);
+                        var newService = data.service[0];
+                        console.log(newService);
 
-                        // Tạo chuỗi HTML cho dòng mới trong bảng
-                        var newRow = '<tr>' +
-                            '<td>' + 5 + '</td>' +
-                            '<td>' + newService.Service_Type_Name + '</td>' +
-                            '<td>' + newService.Unit + '</td>' +
-                            '<td>' + newService.Unit_Price.toFixed(2) + '</td>' +
-                            '<td>' + newService.Quantity + '</td>' +
-                            '<td>' + newService.Total_Amount.toFixed(2) + '</td>' +
-                            '<td>' +
-                            '<a class="openPopup" data-serviceid="' + newService.Service_ID + '" href="#"><i class="fa-solid fa-pen-to-square"></i></a>' +
-                            '<a href="#" class="delete-link" data-serviceid="' + newService.Service_ID + '"><i class="fa-solid fa-trash-can"></i></a>' +
-                            '</td>' +
-                            '</tr>';
+                        try {
+                            // Tạo chuỗi HTML cho dòng mới trong bảng
+                            var newRow = '<tr>' +
+                                '<td>' + ($('.table.datatable-column-search-inputs.service tbody tr').length + 1) + '</td>' +
+                                '<td>' + newService.service_Type_Name + '</td>' +
+                                '<td>' + newService.unit + '</td>' +
+                                '<td>' + newService.unit_Price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>' +
+                                '<td>' + newService.quantity + '</td>' +
+                                '<td>' + newService.total_Amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>' +
+                                '<td>' +
+                                '<a class="openPopup" data-serviceid="' + newService.service_ID + '" href="#" onclick="openEditPopup(' + newService.service_ID + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
+                                '<a href="#" class="delete-link" data-serviceid="' + newService.service_ID + '" onclick="deleteService(event, ' + newService.service_ID + ')"><i class="fa-solid fa-trash-can"></i></a>' +
+                                '</td>' +
+                                '</tr>';
 
-                        // Append dòng mới vào bảng
-                        $('#serviceTableBody').append(newRow);
+                            $('.table.datatable-column-search-inputs.service tbody').append(newRow);
+
+
+
+                        } catch (error) {
+                            console.log("Lỗi khi thêm dịch vụ vào bảng:", error);
+                            alert("Lỗi khi thêm dịch vụ vào bảng. Vui lòng kiểm tra console log.");
+                        }
                     },
                     error: function (error) {
-                        // Hiển thị thông báo lỗi
-                        alert("Lỗi: " + error.responseText);
+                        console.log("Lỗi khi tạo dịch vụ:", error);
+                        alert("Lỗi khi tạo dịch vụ. Vui lòng kiểm tra console log.");
                     }
                 });
-
-
-
-
-
             }
         });
     });
+
+
 
     // Hàm đóng popup
     $("#closePopup").click(function () {

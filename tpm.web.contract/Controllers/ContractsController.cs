@@ -24,7 +24,7 @@ namespace tpm.web.contract.Controllers
             _serviceTypeService = serviceTypeService;
             _serviceUnit = serviceUnit;
         }
-        [MvcAuthorize]
+       
         public IActionResult Index()
         {
             return View();
@@ -91,9 +91,10 @@ namespace tpm.web.contract.Controllers
                 return Json(new
                 {
                     success = false,
-                    message = "Có lỗi xảy ra khi thực hiện tạo mới."
+                    message = "Có lỗi xảy ra khi thực hiện tạo mới: " + objEx.Message
                 });
             }
+
         }
 
 

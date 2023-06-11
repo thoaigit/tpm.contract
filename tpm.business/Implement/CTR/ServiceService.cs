@@ -56,7 +56,7 @@ namespace tpm.business
 
         public IEnumerable<ServiceRes> GetServicesByID(int Service_ID)
         {
-            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesByID");
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesByID", new { Service_ID });
             if (result == null)
             {
                 result = new List<ServiceRes>();
