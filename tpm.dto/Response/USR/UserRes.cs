@@ -9,5 +9,10 @@ namespace tpm.dto.admin.Response
         public long Phone { get; set; }
         public string Email { get; set; }
         public string FullName { get; set; }
-    }
+		public string Password { get; set; }
+		public bool? IsLocked { get; set; }
+		public DateTime LockedDate { get; set; }
+		public string CFName { get; set; }
+		public string DisplayName { get; set; }
+	}
 }

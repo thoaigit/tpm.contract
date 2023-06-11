@@ -17,48 +17,63 @@ namespace tpm.web.contract.Controllers
 {
     public class AccountsController : BaseController
     {
-        private readonly UserRepository userRepository;
+        private readonly IUserService _userService;
 
-        public AccountsController(UserRepository userRepository)
+        public AccountsController(IUserService userService)
         {
-            this.userRepository = userRepository;
+			_userService = userService;
         }
         public ActionResult Login()
         {
             var user = SessionHelper.Get<UserPrincipal>(HttpContext.Session, SessionKeys.CurrentUser);
             if (user != null && user.UserID > 0)
                 return RedirectToAction("Index", "Home");
-            return View();
+            return PartialView("Loginv1");
         }
 
         [HttpPost]
-        public ActionResult Login(UserPrincipal obj)
+        public async Task<ActionResult> Login(UserLoginReq obj)
         {
             try
             {
-                string isValidLogin = userRepository.ValidateLogin(obj);
-                if (isValidLogin == "Success")
+                var userresult = await _userService.login(obj);
+                if (userresult.StatusCode != Core.DTO.Response.CRUDStatusCodeRes.Success || userresult.Data == null)
+				{
+					// Thông báo lỗi đăng nhập không hợp lệ
+					ModelState.AddModelError("", "Thông tin đăng nhập không chính xác.");
+					return View();
+				}
+                var userPrincipal = userresult.Data;
+				if (!userPrincipal.Password.Equals(obj.password))
+				{
+					ModelState.AddModelError("", "Thông tin đăng nhập không chính xác.");
+					return View();
+				}
+
+				List<string> splitName = userPrincipal.FullName.Split(' ').ToList();
+				string name = splitName[splitName.Count - 1].Substring(0, 1);
+				string DisplayName = userPrincipal.FullName;
+				if (splitName.Count > 2)
+				{
+					DisplayName = string.Format("{0} {1}", splitName[splitName.Count - 2], splitName[splitName.Count - 1]);
+				}
+				userPrincipal.CFName = StringHelper.ToUnsignString(name);
+				userPrincipal.DisplayName = DisplayName;
+
+				// Lưu thông tin người dùng vào session
+				SessionHelper.Set(HttpContext.Session, SessionKeys.CurrentUser, userPrincipal);
+
+                var url = HttpContext.Request.Cookies["returnUrl"] ?? string.Empty;
+
+                if (!string.IsNullOrEmpty(url))
                 {
-                    // Lưu thông tin người dùng vào session
-                    SessionHelper.Set(HttpContext.Session, SessionKeys.CurrentUser, obj);
-
-                    var url = HttpContext.Request.Cookies["returnUrl"] ?? string.Empty;
-
-                    if (!string.IsNullOrEmpty(url))
-                    {
-                        return Redirect(url);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return Redirect(url);
                 }
                 else
                 {
-                    // Thông báo lỗi đăng nhập không hợp lệ
-                    ModelState.AddModelError("", "Tên người dùng hoặc mật khẩu không chính xác.");
-                    return View();
+                    return RedirectToAction("Index", "Home");
                 }
+                
             }
             catch (Exception)
             {

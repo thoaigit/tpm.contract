@@ -1,4 +1,4 @@
-﻿
+﻿@model tpm.dto.admin.UserPrincipal
 <!-- Main navbar -->
 <div class="navbar navbar-expand-xl navbar-static shadow">
 	<div class="container-fluid">
@@ -306,10 +306,11 @@
 		<ul class="nav gap-1 flex-xl-1 justify-content-end order-0 order-xl-1">
 			<li class="nav-item nav-item-dropdown-xl dropdown">
 				<a href="#" class="navbar-nav-link align-items-center rounded-pill p-1" data-bs-toggle="dropdown">
-					<div class="status-indicator-container">
+					@*<div class="status-indicator-container">
 						<img src="/assets/images/demo/users/face11.jpg" class="w-32px h-32px rounded-pill" alt="">
-					</div>
-					<span class="d-none d-md-inline-block mx-md-2">Victoria</span>
+					</div>*@
+					<span class="name-icon name-icon-T"></span>
+					<span class="d-none d-md-inline-block mx-md-2">asdsada@*@Html.Raw(string.Format("{0}", Model.FullName))*@</span>
 				</a>
 
 				<div class="dropdown-menu dropdown-menu-end">
