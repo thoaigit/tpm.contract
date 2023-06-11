@@ -39,25 +39,25 @@ namespace tpm.web.contract
                 filterContext.Result = new UnauthorizedResult();
                 return;
             }
-            var user = SessionHelper.Get<UserPrincipal>(filterContext.HttpContext.Session, SessionKeys.CurrentUser);
-            if (user == null)
-            {
-                if (filterContext.HttpContext.Request.IsAjaxRequest())
-                {
-                    filterContext.Result = new UnauthorizedResult();
-                    return;
-                }
-                string currentUrl = filterContext.HttpContext.Request?.Path.Value;
-                CookieOptions option = new()
-                {
-                    Expires = DateTime.Now.AddMinutes(30)
-                };
-                filterContext.HttpContext.Response.Cookies.Append("returnUrl", currentUrl, option);
-                //auth failed, redirect to login page
-                filterContext.Result = new RedirectResult("~/accounts/login");
-                return;
-            }
-            filterContext.HttpContext.User = user;
+            //var user = SessionHelper.Get<UserPrincipal>(filterContext.HttpContext.Session, SessionKeys.CurrentUser);
+            //if (user == null)
+            //{
+            //    if (filterContext.HttpContext.Request.IsAjaxRequest())
+            //    {
+            //        filterContext.Result = new UnauthorizedResult();
+            //        return;
+            //    }
+            //    string currentUrl = filterContext.HttpContext.Request?.Path.Value;
+            //    CookieOptions option = new()
+            //    {
+            //        Expires = DateTime.Now.AddMinutes(30)
+            //    };
+            //    filterContext.HttpContext.Response.Cookies.Append("returnUrl", currentUrl, option);
+            //    //auth failed, redirect to login page
+            //    filterContext.Result = new RedirectResult("~/accounts/login");
+            //    return;
+            //}
+            //filterContext.HttpContext.User = user;
         }
     }
 

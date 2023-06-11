@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<dynamic>
-
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> BreadCrumb = new List<string>();
+    BreadCrumb.Add("<a href='/Contracts/Index' class='breadcrumb-item'>Hợp đồng</a>");
+    BreadCrumb.Add("<span class='breadcrumb-item active'> Tạo mới</span>");
+    ViewBag.BreadCrumb = BreadCrumb;
 }
 
 <div class="page-header page-header-light shadow">
-    <div class="page-header-content d-lg-flex">
-        <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
-        </div>
-    </div>
-
     <div class="page-header-content d-lg-flex border-top">
         <div class="d-flex">
             <div class="breadcrumb py-2">

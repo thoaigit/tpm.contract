@@ -19,7 +19,7 @@ namespace tpm.web.contract.Controllers
         [MvcAuthorize]
         public IActionResult Index()
         {
-            return View();
+            return View("Indexv1");
         }
 
         [MvcAuthorize]
