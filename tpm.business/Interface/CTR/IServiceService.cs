@@ -1,5 +1,6 @@
 ﻿using CoC.Business.DTO;
 using Core.DTO.Response;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace tpm.business
 {
     public interface IServiceService : IDisposable
     {
-        bool Create(ServiceCreateReq obj);
+        bool Create(ServiceCreateReq obj,out int newServiceID);
         bool Delete(int serviceid);
         IEnumerable<ServiceRes> ReadAll();
+        IEnumerable<ServiceRes> GetServicesByID(int Service_ID);
         IEnumerable<ServiceRes> GetServicesWithTypeName();
+       
 
 
 

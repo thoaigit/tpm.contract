@@ -2,6 +2,7 @@
 using Core.DataAccess.Interface;
 using Core.DTO.Response;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -53,13 +54,21 @@ namespace tpm.business
             return result;
         }
 
+        public IEnumerable<ServiceRes> GetServicesByID(int Service_ID)
+        {
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesByID");
+            if (result == null)
+            {
+                result = new List<ServiceRes>();
+            }
+            return result;
+        }
 
-        
 
 
 
         #region Create
-        public bool Create(ServiceCreateReq obj)
+        public bool Create(ServiceCreateReq objReq, out int newServiceID)
         {
             try
             {
@@ -67,23 +76,27 @@ namespace tpm.business
                 var param = new DynamicParameters();
 
                 // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào             
-                param.Add("@Unit_ID", obj.Unit_ID);
-                param.Add("@Quantity", obj.Quantity);
-                param.Add("@Unit_Price", obj.Unit_Price);
-                param.Add("@Total_Amount", obj.Total_Amount);
-                param.Add("@Service_Type_ID", obj.Service_Type_ID);
+                param.Add("@Unit_ID", objReq.Unit_ID);
+                param.Add("@Quantity", objReq.Quantity);
+                param.Add("@Unit_Price", objReq.Unit_Price);
+                param.Add("@Total_Amount", objReq.Total_Amount);
+                param.Add("@Service_Type_ID", objReq.Service_Type_ID);
+                param.Add("@Service_ID", dbType: DbType.Int32, direction: ParameterDirection.Output); // Thêm tham số đầu ra
 
                 // Thực hiện gọi stored procedure để thêm dữ liệu vào database
-                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param, commandType: CommandType.StoredProcedure);
+                _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param, commandType: CommandType.StoredProcedure);
 
-                // Kiểm tra số dòng trả về
-                if (storedProcedureResult > 0)
+                // Lấy giá trị Service_ID mới từ tham số đầu ra
+                newServiceID = param.Get<int>("@Service_ID");
+
+                // Kiểm tra Service_ID mới
+                if (newServiceID > 0)
                 {
                     // Trả về kết quả thành công
                     return true;
                 }
 
-                // Trả về false nếu không tìm thấy dữ liệu trong kết quả trả về
+                // Trả về false nếu không tạo mới được dữ liệu
                 return false;
             }
             catch (Exception ex)
@@ -92,6 +105,11 @@ namespace tpm.business
                 throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
+        #endregion
+
+
+
+
 
         public bool Delete(int serviceId)
         {
@@ -124,7 +142,6 @@ namespace tpm.business
         }
 
 
-        #endregion
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)

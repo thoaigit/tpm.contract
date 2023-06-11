@@ -7,6 +7,7 @@ using tpm.dto.admin;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Dapper;
 using System;
+using tpm.dto.admin.Response;
 
 namespace tpm.web.contract.Controllers
 {
@@ -48,23 +49,29 @@ namespace tpm.web.contract.Controllers
         }
 
 
-        
+
         [HttpPost]
         public JsonResult Create(ServiceCreateReq objReq)
         {
             try
             {
-                bool result = _serviceService.Create(objReq); // Gọi phương thức Create từ Service
+                int newServiceID = 0;
+
+                bool result = _serviceService.Create(objReq, out newServiceID);
 
                 if (result)
                 {
+                    // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
+                    var newService = _serviceService.GetServicesByID(newServiceID);
+
                     return Json(new
                     {
                         objCodeStep = new
                         {
                             Status = CRUDStatusCodeRes.Success,
                             Message = "Tạo mới thành công"
-                        }
+                        },
+                        Service = newService // Trả về thông tin dịch vụ mới
                     });
                 }
                 else
@@ -88,6 +95,8 @@ namespace tpm.web.contract.Controllers
                 });
             }
         }
+
+
         [HttpDelete]
         public JsonResult Delete(int serviceID)
         {

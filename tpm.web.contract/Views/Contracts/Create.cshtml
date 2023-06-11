@@ -158,8 +158,8 @@
             <button id="closePopup">Đóng</button>
         </div>
 
-        <div id="overlay" class="overlay"></div>
-        <table class="table datatable-column-search-inputs">
+        <div class="overlay"></div>
+        <table class="table datatable-column-search-inputs service">
             <thead>
                 <tr>
                     <th>STT</th>
@@ -227,7 +227,7 @@
         <button id="closePopup3">Đóng</button>
     </div>
 
-    <div id="overlay" class="overlay"></div>
+    <div class="overlay"></div>
     <div class="content">
         <div class="card">
             <label style="text-align:center">Dịch vụ abc</label>
@@ -298,78 +298,63 @@
     });
 </script>
 
-
 <script>
     // Sự kiện click cho nút "Thêm"
-    document.getElementById("openPopup").addEventListener("click", function () {
+    $("#openPopup").click(function () {
         openCreatePopup();
     });
 
     // Sự kiện click cho nút chỉnh sửa
-    var editButtons = document.getElementsByClassName("openPopup");
-    for (var i = 0; i < editButtons.length; i++) {
-        editButtons[i].addEventListener("click", function () {
-            var serviceID = $(this).data('serviceid');
-            console.log(serviceID);
-            openEditPopup(serviceID);
-        });
-    }
-
-
+    $(".openPopup").click(function () {
+        var serviceID = $(this).data('serviceid');
+        console.log(serviceID);
+        openEditPopup(serviceID);
+    });
 
     // Hàm mở popup tạo mới dịch vụ
     function openCreatePopup() {
-        // Hiển thị popup và overlay
-        document.getElementById("myPopup").style.display = "block";
-        document.getElementById("overlay").style.display = "block";
-        document.body.classList.add("popup-active");
+        $("#myPopup").show();
+        $(".overlay").show();
+        $("body").addClass("popup-active");
     }
 
     // Hàm mở popup chỉnh sửa dịch vụ
     function openEditPopup(serviceID) {
-        // Hiển thị popup và overlay
-        document.getElementById("myPopup").style.display = "block";
-        document.getElementById("overlay").style.display = "block";
-        document.body.classList.add("popup-active");
+        $("#myPopup").show();
+        $(".overlay").show();
+        $("body").addClass("popup-active");
 
         if (serviceID) {
-            // Gán dữ liệu dịch vụ vào các trường input
             var service = getServiceByID(serviceID);
             if (service) {
-                document.getElementById("serviceTypeDropdown").selectedIndex = getIndexByValue(document.getElementById("serviceTypeDropdown"), service.Service_Type_Name);
-                document.getElementById("unitDropdown").selectedIndex = getIndexByValue(document.getElementById("unitDropdown"), service.Unit);
-                document.getElementById("unitPrice").value = service.Unit_Price;
-                document.getElementById("quantity").value = service.Quantity;
-                document.getElementById("totalAmount").value = service.Total_Amount;
+                $("#serviceTypeDropdown").prop("selectedIndex", getIndexByValue($("#serviceTypeDropdown"), service.Service_Type_Name));
+                $("#unitDropdown").prop("selectedIndex", getIndexByValue($("#unitDropdown"), service.Unit));
+                $("#unitPrice").val(service.Unit_Price);
+                $("#quantity").val(service.Quantity);
+                $("#totalAmount").val(service.Total_Amount);
             }
         }
-
     }
+
     function getIndexByValue(selectElement, value) {
-        for (var i = 0; i < selectElement.options.length; i++) {
-            if (selectElement.options[i].value === value) {
-                return i;
-            }
-        }
-        return -1; // Nếu không tìm thấy giá trị trong dropdown
+        return selectElement.find("option[value='" + value + "']").index();
     }
 
-    // Hàm lấy dữ liệu dịch vụ theo ID
     function getServiceByID(serviceID) {
-        var services = JSON.parse('@Html.Raw(Json.Serialize(ViewBag.Services))');
+        var services = @Html.Raw(Json.Serialize(ViewBag.Services));
         return services.find(function (service) {
-            return service.Service_ID === serviceID;         
+            return service.Service_ID === serviceID;
         }) || null;
     }
 
     // Sự kiện click cho nút "Lưu"
     $(document).ready(function () {
-        $('#saveButton').click(function () {
+        $("#saveButton").click(function () {
             var serviceID = $(this).data('serviceid');
-            var serviceTypeID = $('#serviceTypeDropdown').val();
-            var unitID = $('#unitDropdown').val();
-            var unitPrice = parseFloat($('#unitPrice').val().replace(/,/g, ''));
-            var quantity = parseFloat($('#quantity').val());
+            var serviceTypeID = $("#serviceTypeDropdown").val();
+            var unitID = $("#unitDropdown").val();
+            var unitPrice = parseFloat($("#unitPrice").val().replace(/,/g, ''));
+            var quantity = parseFloat($("#quantity").val());
             var totalAmount = unitPrice * quantity;
 
             var data = {
@@ -382,7 +367,6 @@
             };
 
             if (serviceID) {
-                // Gửi Ajax request để cập nhật dịch vụ
                 $.ajax({
                     url: '/Contracts/Update',
                     type: 'POST',
@@ -397,36 +381,67 @@
                     }
                 });
             } else {
-                // Gửi Ajax request để tạo mới dịch vụ
                 $.ajax({
                     url: '/Contracts/Create',
                     type: 'POST',
                     dataType: 'json',
                     data: data,
-                    success: function (result) {
+                    success: function (response) {
+                        // Hiển thị thông báo
                         alert("Tạo dịch vụ thành công!");
-                        location.reload();
+
+                        // Ẩn popup và overlay
+                        $("#myPopup").hide();
+                        $(".overlay").hide();
+                        $("body").removeClass("popup-active");
+
+                        // Lấy thông tin dịch vụ mới từ kết quả trả về
+                        var newService = response.Service;
+                        console.log(response);
+
+                        // Tạo chuỗi HTML cho dòng mới trong bảng
+                        var newRow = '<tr>' +
+                            '<td>' + 5 + '</td>' +
+                            '<td>' + newService.Service_Type_Name + '</td>' +
+                            '<td>' + newService.Unit + '</td>' +
+                            '<td>' + newService.Unit_Price.toFixed(2) + '</td>' +
+                            '<td>' + newService.Quantity + '</td>' +
+                            '<td>' + newService.Total_Amount.toFixed(2) + '</td>' +
+                            '<td>' +
+                            '<a class="openPopup" data-serviceid="' + newService.Service_ID + '" href="#"><i class="fa-solid fa-pen-to-square"></i></a>' +
+                            '<a href="#" class="delete-link" data-serviceid="' + newService.Service_ID + '"><i class="fa-solid fa-trash-can"></i></a>' +
+                            '</td>' +
+                            '</tr>';
+
+                        // Append dòng mới vào bảng
+                        $('#serviceTableBody').append(newRow);
                     },
                     error: function (error) {
+                        // Hiển thị thông báo lỗi
                         alert("Lỗi: " + error.responseText);
                     }
                 });
+
+
+
+
+
             }
         });
     });
 
     // Hàm đóng popup
-    document.getElementById("closePopup").addEventListener("click", function () {
-        document.getElementById("myPopup").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-        document.body.classList.remove("popup-active");
+    $("#closePopup").click(function () {
+        $("#myPopup").hide();
+        $(".overlay").hide();
+        $("body").removeClass("popup-active");
 
-        // Xoá các dữ liệu đã nhập
-        document.getElementById("unitPrice").value = "";
-        document.getElementById("quantity").value = "";
-        document.getElementById("totalAmount").value = "";
+        $("#unitPrice").val("");
+        $("#quantity").val("");
+        $("#totalAmount").val("");
     });
 </script>
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
