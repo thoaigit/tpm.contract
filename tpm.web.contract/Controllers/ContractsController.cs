@@ -61,8 +61,8 @@ namespace tpm.web.contract.Controllers
 
                 if (result)
                 {
-                    // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
-                    var newService = _serviceService.GetServicesByID(newServiceID);
+					// Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
+					var newService = _serviceService.GetServicesByID(newServiceID);
 
                     return Json(new
                     {

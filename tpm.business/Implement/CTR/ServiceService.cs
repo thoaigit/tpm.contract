@@ -81,13 +81,9 @@ namespace tpm.business
                 param.Add("@Unit_Price", objReq.Unit_Price);
                 param.Add("@Total_Amount", objReq.Total_Amount);
                 param.Add("@Service_Type_ID", objReq.Service_Type_ID);
-                param.Add("@Service_ID", dbType: DbType.Int32, direction: ParameterDirection.Output); // Thêm tham số đầu ra
 
                 // Thực hiện gọi stored procedure để thêm dữ liệu vào database
-                _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Create", param, commandType: CommandType.StoredProcedure);
-
-                // Lấy giá trị Service_ID mới từ tham số đầu ra
-                newServiceID = param.Get<int>("@Service_ID");
+                newServiceID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("CTR.Service_Create", param, commandType: CommandType.StoredProcedure);
 
                 // Kiểm tra Service_ID mới
                 if (newServiceID > 0)
