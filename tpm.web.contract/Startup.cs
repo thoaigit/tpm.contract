@@ -35,6 +35,7 @@ namespace tpm.web.contract
             services.AddScoped<UserRepository>();
             services.AddControllersWithViews();
             services.AddTransient<ServiceCreateReqValidator>();
+            services.AddTransient<EmployeeCreateReqValidator>();
 
 
         }

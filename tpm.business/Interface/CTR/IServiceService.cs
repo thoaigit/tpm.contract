@@ -14,7 +14,7 @@ namespace tpm.business
 {
     public interface IServiceService : IDisposable
     {
-        bool Create(ServiceCreateReq obj,out int newServiceID);
+        bool Create(ServiceCreateReq objReq, out int newServiceID);
         bool Update(ServiceCreateReq objReq, int Service_ID);
         bool Delete(int serviceid);
         IEnumerable<ServiceRes> ReadAll();

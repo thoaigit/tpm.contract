@@ -1,9 +1,12 @@
 ﻿using Core.DataAccess.Interface;
+using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tpm.dto.admin;
 using tpm.dto.admin.Response;
 
 namespace tpm.business
@@ -35,6 +38,130 @@ namespace tpm.business
             }
             return result;
         }
+
+        public IEnumerable<EmployeeRes> GetEmployeesWithTypeName()
+        {
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeWithTypeName");
+            if (result == null)
+            {
+                result = new List<EmployeeRes>();
+            }
+            return result;
+        }
+
+        public IEnumerable<EmployeeRes> GetEmployeesByID(int EmployeeID)
+        {
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeByID", new { EmployeeID });
+            if (result == null)
+            {
+                result = new List<EmployeeRes>();
+            }
+            return result;
+        }
+
+        #region Create
+        public bool Create(EmployeeCreateReq objReq, out int newEmployeeID)
+        {
+            try
+            {
+                // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
+                var param = new DynamicParameters();
+
+                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào             
+                param.Add("@FullName", objReq.FullName);
+                param.Add("@DOB", objReq.DOB);
+                param.Add("@DepartmentID", objReq.DepartmentID);
+                param.Add("@PositionID", objReq.PositionID);
+                param.Add("@GenderID", objReq.GenderID);
+                param.Add("@Phone", objReq.Phone);
+                param.Add("@Email", objReq.Email);
+                param.Add("@EmployeeTypeID", objReq.EmployeeTypeID);
+
+                // Thực hiện gọi stored procedure để thêm dữ liệu vào database
+                newEmployeeID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("HRM.Employee_Create", param, commandType: CommandType.StoredProcedure);
+
+                // Kiểm tra Service_ID mới
+                if (newEmployeeID > 0)
+                {
+                    // Trả về kết quả thành công
+                    return true;
+                }
+
+                // Trả về false nếu không tạo mới được dữ liệu
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và ném ra ngoại lệ
+                throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
+            }
+        }
+        #endregion
+
+        #region Update
+        public bool Update(EmployeeCreateReq objReq, int EmployeeID)
+        {
+            try
+            {
+                // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
+                var param = new DynamicParameters();
+
+                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
+                param.Add("@EmployeeID", EmployeeID);
+                param.Add("@FullName", objReq.FullName);
+                param.Add("@DOB", objReq.DOB);
+                param.Add("@DepartmentID", objReq.DepartmentID);
+                param.Add("@PositionID", objReq.PositionID);
+                param.Add("@GenderID", objReq.GenderID);
+                param.Add("@Phone", objReq.Phone);
+                param.Add("@Email", objReq.Email);
+                param.Add("@EmployeeTypeID", objReq.EmployeeTypeID);
+
+                // Thực hiện gọi stored procedure để cập nhật dữ liệu trong database
+                _objReadOnlyRepository.Value.Connection.Execute("HRM.Employee_Update", param, commandType: CommandType.StoredProcedure);
+
+                // Trả về kết quả thành công
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và ném ra ngoại lệ
+                throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
+            }
+        }
+        #endregion
+
+        #region Delete
+        public bool Delete(int EmployeeID)
+        {
+            try
+            {
+                // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
+                var param = new DynamicParameters();
+
+                // Thêm tham số với giá trị từ serviceId truyền vào
+                param.Add("@EmployeeID", EmployeeID);
+
+                // Thực hiện gọi stored procedure để xóa dữ liệu trong database
+                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("HRM.Employee_Detete", param, commandType: CommandType.StoredProcedure);
+
+                // Kiểm tra số dòng trả về
+                if (storedProcedureResult > 0)
+                {
+                    // Trả về kết quả thành công
+                    return true;
+                }
+
+                // Trả về false nếu không tìm thấy dữ liệu trong kết quả trả về
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và ném ra ngoại lệ
+                throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
+            }
+        }
+        #endregion
 
         protected virtual void Dispose(bool disposing)
         {

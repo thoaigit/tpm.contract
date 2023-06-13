@@ -40,5 +40,10 @@
       <HintPath>..\tpm.dll\Core.DTO.dll</HintPath>
     </Reference>
   </ItemGroup>
+    
+		
+  <ItemGroup>
+    <Folder Include="Request\HRM\" />
+  </ItemGroup>
 
 </Project>
