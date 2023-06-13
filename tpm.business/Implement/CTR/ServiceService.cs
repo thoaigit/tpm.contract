@@ -53,7 +53,7 @@ namespace tpm.business
             }
             return result;
         }
-
+ 
         public IEnumerable<ServiceRes> GetServicesByID(int Service_ID)
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesByID", new { Service_ID });
@@ -63,9 +63,6 @@ namespace tpm.business
             }
             return result;
         }
-
-
-
 
         #region Create
         public bool Create(ServiceCreateReq objReq, out int newServiceID)
@@ -103,10 +100,38 @@ namespace tpm.business
         }
         #endregion
 
+        #region Update
+        public bool Update(ServiceCreateReq objReq, int Service_ID)
+        {
+            try
+            {
+                // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
+                var param = new DynamicParameters();
 
+                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
+                param.Add("@Service_ID", Service_ID);
+                param.Add("@Unit_ID", objReq.Unit_ID);
+                param.Add("@Quantity", objReq.Quantity);
+                param.Add("@Unit_Price", objReq.Unit_Price);
+                param.Add("@Total_Amount", objReq.Total_Amount);
+                param.Add("@Service_Type_ID", objReq.Service_Type_ID);
 
+                // Thực hiện gọi stored procedure để cập nhật dữ liệu trong database
+                _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Update", param, commandType: CommandType.StoredProcedure);
 
+                // Trả về kết quả thành công
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi và ném ra ngoại lệ
+                throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
+            }
+        }
 
+        #endregion
+
+        #region Delete
         public bool Delete(int serviceId)
         {
             try
@@ -136,7 +161,7 @@ namespace tpm.business
                 throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
-
+        #endregion
 
         protected virtual void Dispose(bool disposing)
         {

@@ -29,7 +29,16 @@ namespace tpm.web.contract.Controllers
         {
             return View();
         }
-   
+
+        [HttpGet]
+        public IActionResult GetService(int Service_ID)
+        {
+            var getService = _serviceService.GetServicesByID(Service_ID);
+
+            return Json(new { Service = getService });
+        }
+
+
         public IActionResult Create()
         {
             var services = _serviceService.GetServicesWithTypeName();
@@ -50,6 +59,7 @@ namespace tpm.web.contract.Controllers
 
 
 
+        #region Create Post
         [HttpPost]
         public JsonResult Create(ServiceCreateReq objReq)
         {
@@ -96,8 +106,57 @@ namespace tpm.web.contract.Controllers
             }
 
         }
+        #endregion
+
+        #region Update
+        [HttpPost]
+        public IActionResult Update(ServiceCreateReq objReq, int Service_ID)
+        {
+            try
+            {
+                bool result = _serviceService.Update(objReq, Service_ID);
+
+                if (result)
+                {
+                    // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
+                    var updateService = _serviceService.GetServicesByID(Service_ID);
+
+                    return Json(new
+                    {
+                        objCodeStep = new
+                        {
+                            Status = CRUDStatusCodeRes.Success,
+                            Message = "Tạo mới thành công"
+                        },
+                        Service = updateService // Trả về thông tin dịch vụ mới
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        objCodeStep = new
+                        {
+                            Status = CRUDStatusCodeRes.Deny,
+                            Message = "Tạo mới không thành công"
+                        }
+                    });
+                }
+            }
+            catch (Exception objEx)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Có lỗi xảy ra khi thực hiện tạo mới: " + objEx.Message
+                });
+            }
+        }
 
 
+        #endregion
+
+        #region Delete
         [HttpDelete]
         public JsonResult Delete(int serviceID)
         {
@@ -120,6 +179,7 @@ namespace tpm.web.contract.Controllers
                 return Json(new { success = false, message = "Có lỗi xảy ra trong quá trình xóa dịch vụ!", error = ex.Message });
             }
         }
+        #endregion
 
     }
 }

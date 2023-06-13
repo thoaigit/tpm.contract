@@ -94,6 +94,13 @@ function initializeScript() {
         rightAlign: false
     });
 
+    var unitPrice = parseFloat($('#unitPrice').val().replace(/,/g, ''));
+    var quantity = parseFloat($('#quantity').val());
+    var totalAmount = unitPrice * quantity;
+
+    // Định dạng và gán giá trị mặc định cho totalAmount
+    $('#totalAmount').val(totalAmount.toLocaleString() + ' VNĐ');
+
     $('#unitPrice, #quantity').on('input', calculateTotalAmount);
 
     function calculateTotalAmount() {
@@ -101,15 +108,15 @@ function initializeScript() {
         var quantity = parseFloat($('#quantity').val());
         var totalAmount = unitPrice * quantity;
 
-        var formattedTotalAmount = totalAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-        $('#totalAmount').val(formattedTotalAmount + ' VNĐ');
+        $('#totalAmount').val(totalAmount.toLocaleString() + ' VNĐ');
     }
 }
 
 $(document).ready(function () {
     initializeScript();
 });
+
+
 
 
 
