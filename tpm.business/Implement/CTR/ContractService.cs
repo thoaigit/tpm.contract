@@ -6,83 +6,84 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using tpm.dto.admin;
 using tpm.dto.admin.Response;
+using tpm.dto.admin;
 
 namespace tpm.business
 {
-    public class EmployeeService : IEmployeeService
+    public class ContractService : IContractService
     {
         private readonly Lazy<IRepository> _objRepository;
         private readonly Lazy<IReadOnlyRepository> _objReadOnlyRepository;
         private bool _disposedValue;
 
-        public EmployeeService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
+        public ContractService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
         {
             _objRepository = objRepository;
             _objReadOnlyRepository = objReadOnlyRepository;
         }
-
-        public IEnumerable<EmployeeRes> List()
+        public IEnumerable<ContractRes> List()
         {
             return ReadAll();
         }
 
 
-        public IEnumerable<EmployeeRes> ReadAll()
+        public IEnumerable<ContractRes> ReadAll()
         {
-            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.Employee_ReadAll");
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ContractRes>("CTR.Contract_ReadAll");
             if (result == null)
             {
-                result = new List<EmployeeRes>();
-            }
-            return result;
-        }    
-
-        public IEnumerable<EmployeeRes> GetEmployeesWithTypeName()
-        {
-            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeWithTypeName");
-            if (result == null)
-            {
-                result = new List<EmployeeRes>();
+                result = new List<ContractRes>();
             }
             return result;
         }
 
-        public IEnumerable<EmployeeRes> GetEmployeesByID(int ID)
+
+        public IEnumerable<ContractRes> GetContractsWithTypeName()
         {
-            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeByID", new { ID });
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ContractRes>("CTR.GetContractsWithTypeName");
             if (result == null)
             {
-                result = new List<EmployeeRes>();
+                result = new List<ContractRes>();
+            }
+            return result;
+        }
+
+        public IEnumerable<ContractRes> GetContractsByID(int Contract_ID)
+        {
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ContractRes>("CTR.GetContractByID", new { Contract_ID });
+            if (result == null)
+            {
+                result = new List<ContractRes>();
             }
             return result;
         }
 
         #region Create
-        public bool Create(EmployeeCreateReq objReq, out int newID)
+        public bool Create(ContractCreateReq objReq, out int newContractID)
         {
             try
             {
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
-                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
-                param.Add("@EmployeeID", objReq.EmployeeID);
-                param.Add("@FullName", objReq.FullName);
-                param.Add("@DOB", objReq.DOB);
-                param.Add("@DepartmentID", objReq.DepartmentID);
-                param.Add("@PositionID", objReq.PositionID);
-                param.Add("@GenderID", objReq.GenderID);
+                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào             
+                param.Add("@Contract_Type_ID", objReq.Contract_Type_ID);
+                param.Add("@Contract_Number", objReq.Contract_Number);
+                param.Add("@Customer_Company_Name", objReq.Customer_Company_Name);
+                param.Add("@Address", objReq.Address);
                 param.Add("@Phone", objReq.Phone);
+                param.Add("@MobilePhone", objReq.MobilePhone);
+                param.Add("@TIN", objReq.TIN);
                 param.Add("@Email", objReq.Email);
-                param.Add("@EmployeeTypeID", objReq.EmployeeTypeID);
+               
+
 
                 // Thực hiện gọi stored procedure để thêm dữ liệu vào database
-                newID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("HRM.Employee_Create", param, commandType: CommandType.StoredProcedure);
+                newContractID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("CTR.Contract_Create", param, commandType: CommandType.StoredProcedure);
 
                 // Kiểm tra Service_ID mới
-                if (newID > 0)
+                if (newContractID > 0)
                 {
                     // Trả về kết quả thành công
                     return true;
@@ -100,7 +101,7 @@ namespace tpm.business
         #endregion
 
         #region Update
-        public bool Update(EmployeeCreateReq objReq, int ID)
+        public bool Update(ContractCreateReq objReq, int Contract_ID)
         {
             try
             {
@@ -108,19 +109,19 @@ namespace tpm.business
                 var param = new DynamicParameters();
 
                 // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
-                param.Add("@ID", ID);
-                param.Add("@EmployeeID", objReq.EmployeeID);
-                param.Add("@FullName", objReq.FullName);
-                param.Add("@DOB", objReq.DOB);
-                param.Add("@DepartmentID", objReq.DepartmentID);
-                param.Add("@PositionID", objReq.PositionID);
-                param.Add("@GenderID", objReq.GenderID);
+                param.Add("@Contract_ID", Contract_ID);
+                param.Add("@Contract_Type_ID", objReq.Contract_Type_ID);
+                param.Add("@Contract_Number", objReq.Contract_Number);
+                param.Add("@Customer_Company_Name", objReq.Customer_Company_Name);
+                param.Add("@Address", objReq.Address);
                 param.Add("@Phone", objReq.Phone);
+                param.Add("@MobilePhone", objReq.MobilePhone);
+                param.Add("@TIN", objReq.TIN);
                 param.Add("@Email", objReq.Email);
-                param.Add("@EmployeeTypeID", objReq.EmployeeTypeID);
+            
 
                 // Thực hiện gọi stored procedure để cập nhật dữ liệu trong database
-                _objReadOnlyRepository.Value.Connection.Execute("HRM.Employee_Update", param, commandType: CommandType.StoredProcedure);
+                _objReadOnlyRepository.Value.Connection.Execute("CTR.Contract_Update", param, commandType: CommandType.StoredProcedure);
 
                 // Trả về kết quả thành công
                 return true;
@@ -131,10 +132,11 @@ namespace tpm.business
                 throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
+
         #endregion
 
         #region Delete
-        public bool Delete(int ID)
+        public bool Delete(int contractID)
         {
             try
             {
@@ -142,10 +144,10 @@ namespace tpm.business
                 var param = new DynamicParameters();
 
                 // Thêm tham số với giá trị từ serviceId truyền vào
-                param.Add("@ID", ID);
+                param.Add("@Contract_ID", contractID);
 
                 // Thực hiện gọi stored procedure để xóa dữ liệu trong database
-                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("HRM.Employee_Detete", param, commandType: CommandType.StoredProcedure);
+                var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("CTR.Contract_Delete", param, commandType: CommandType.StoredProcedure);
 
                 // Kiểm tra số dòng trả về
                 if (storedProcedureResult > 0)
@@ -186,7 +188,8 @@ namespace tpm.business
             GC.SuppressFinalize(this);
         }
 
-        ~EmployeeService()
+
+        ~ContractService()
         {
             Dispose(false);
         }

@@ -7,35 +7,7 @@
 }
 
 
-    @*<style>
-    /* Định dạng chung cho tab */
-    .tab {
-        overflow: hidden;
-    }
 
-    /* Định dạng cho các nút tab */
-    .tab button {
-        background-color: #f2f2f2;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 10px 20px;
-        transition: background-color 0.3s;
-        font-size: 16px;
-    }
-
-    /* Định dạng cho nút tab được chọn */
-    .tab button.active {
-        background-color: #ccc;
-    }
-
-    /* Định dạng cho nội dung của các tab */
-    .tabcontent {
-        display: none;
-        padding: 20px;
-        background-color:rgb(241,244,249);
-    }
-</style>*@
 
 
 <div class="tab">
@@ -46,80 +18,110 @@
 
 <div id="Tab1" class="tabcontent">
     <div class="card-body">
-        <a id="openPopup4" style="margin-bottom: 4px; margin-left: 0px;" class="btn btn-primary">Thêm Hợp Đồng</a>
+        <a id="openPopupC" style="margin-bottom: 4px; margin-left: 0px;" class="btn btn-primary">Thêm Hợp Đồng</a>
     </div>
     <div class="card">
-        <div id="myPopup4" class="popup">
+        <div id="myPopupC" class="popup">
             <h2>Nhập thông tin</h2>
-            <label for="unitPrice">Mã hợp đồng:</label>
-            <input type="text" placeholder="VD: MH-370" class="input-currency">
-            <label for="unitPrice">Tên Cty:</label>
-            <input type="text" placeholder="Cty TNHH xxx" class="input-currency">
-            <div>
-                <div class="date-container" style="display: inline-block;">
-                    <label for="start-date">Ngày bắt đầu:</label>
-                    <input style="margin-right: 10px;" type="date" id="start-date" name="start-date">
+            <div class="form-row">
+                <div class="form-column">
+                    <label for="contractType">Loại Hợp Đồng:</label>
+                    <select id="contractsTypeDropdown">
+                        @if (ViewBag.ContractTypes != null)
+                        {
+                            @foreach (var contracttype in ViewBag.ContractTypes)
+                            {
+                                <option value="@contracttype.Contract_Type_ID">@contracttype.Contract_Type_Name</option>
+                            }
+                        }
+                        else
+                        {
+                            <p>Danh sách trống.</p>
+                        }
+                    </select>
+                    <label for="contractNumber">Số Hợp Đồng:</label>
+                    <input type="text" placeholder="Số Hợp Đồng" id="contractNumber">
+                    <label for="customerCompanyName">Tên Công Ty:</label>
+                    <input type="text" placeholder="Tên Công Ty" id="customerCompanyName">
                 </div>
-                <div class="date-container" style="display: inline-block;">
-                    <label for="end-date">Ngày kết thúc:</label>
-                    <input type="date" id="end-date" name="end-date">
+                <div class="form-column">
+                    <label for="address">Địa Chỉ Liên Hệ:</label>
+                    <input type="text" id="address">
+                    <label for="address">Địa Chỉ Công Ty:</label>
+                    <input type="text" id="address2">
+                    <label for="phone">Điện Thoại:</label>
+                    <input type="text" placeholder="09(xxxx)" id="phone">
                 </div>
+                <div class="form-column">
+                    <label for="mobilePhone">Điện Thoại Di Động:</label>
+                    <input type="text" placeholder="09(xxxx)" id="mobilePhone">
+                    <label for="tin">Mã Số Thuế:</label>
+                    <input type="text" placeholder="Mã số Thuế" id="tin">
+                    <label for="email">Email:</label>
+                    <input type="text" placeholder="abc@gmail.com" id="email">
+                </div>
+
             </div>
-            <label for="unitPrice">Tên khách hàng:</label>
-            <input type="text" placeholder="Nguyễn Văn A" class="input-currency">
-            <label for="unitPrice">SĐT:</label>
-            <input type="text" placeholder="098xxxxxxx" class="input-currency">
-            <label for="unitPrice">Tên nhân viên:</label>
-            <input type="text" placeholder="B Phú Hải" class="input-currency">
-            <button id="saveButton4">Lưu</button>
-            <button id="closePopup4">Đóng</button>
+            <div class="form-buttons">
+                <button id="saveButtonC">Lưu</button>
+                <button id="closePopupC">Đóng</button>
+            </div>
         </div>
-        <div id="overlay" class="overlay"></div>
-        <table class="table datatable-column-search-inputs">
-            <thead>
-                <tr>
-                    <th>Mã HĐ</th>
-                    <th>Tên Cty</th>
-                    <th>Ngày bắt đầu</th>
-                    <th>Ngày kết thúc</th>
-                    <th>Tên khách hàng</th>
-                    <th>SĐT</th>
-                    <th>Tên nhân viên</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="serviceTableBody">
-                @if (ViewBag.Services != null)
-                {
-                    var stt = 1;
-                    @foreach (var service in ViewBag.Services)
-                    {
-                        <tr>
-                            <td>@stt</td>
-                            <td>@service.Service_Type_Name</td>
-                            <td>@service.Unit</td>
-                            <td>@service.Unit_Price.ToString("N0")</td>
-                            <td>@service.Quantity</td>
-                            <td>@service.Total_Amount.ToString("N0")</td>
-                            <td>
-                                <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="#" class="delete-link" data-serviceid="@service.Service_ID"><i class="fa-solid fa-trash-can"></i></a>
-                            </td>
-                        </tr>
-                        stt++;
-                    }
-                }
-                else
+    </div>
+
+    <div class="overlay"></div>
+    <table class="table datatable-column-search-inputs contract" >
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Loại Hợp Đồng</th>
+                <th>Số Hợp Đồng</th>
+                <th>Tên Cty</th>
+                <th>Địa Chỉ LH</th>
+                <th>Địa Chỉ Cty</th>
+                <th>Điện Thoại</th>
+                <th>Điện Thoại Di Động</th>
+                <th>Mã Số Thuế</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="contractTableBody">
+            @if (ViewBag.Contracts != null)
+            {
+                var stt = 1;
+                @foreach (var contract in ViewBag.Contracts)
                 {
                     <tr>
-                        <td colspan="7">Không có dữ liệu</td>
+                        <td>@stt</td>
+                        <td>@contract.Contract_Type_Name</td>
+                        <td>@contract.Contract_Number</td>
+                        <td>@contract.Customer_Company_Name</td>
+                        <td>@contract.Address</td>
+                        <td>@contract.Address</td>
+                        <td>@contract.Phone</td>
+                        <td>@contract.MobilePhone</td>
+                        <td>@contract.TIN</td>
+                        <td>@contract.Email</td>
+                        <td>
+                            <a data-serviceid="@contract.Contract_ID" href="#" onclick="openEditPopupC(@contract.Contract_ID)"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#" class="delete-link" data-serviceid="@contract.Contract_ID" onclick="deleteContract(event, @contract.Contract_ID)"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
                     </tr>
+                    stt++;
                 }
-            </tbody>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">Không có dữ liệu</td>
+                </tr>
+            }
+        </tbody>
 
-        </table>
-    </div>
+    </table>
 </div>
+
 
 <div id="Tab2" class="tabcontent">
     <div class="card-body">
@@ -305,6 +307,32 @@
         });
     }
 </script>
+
+<script>
+    function deleteContract(event, contractID) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+        var $deletedRow = $(event.target).closest('tr'); // Lấy thẻ cha là <tr> chứa dòng
+
+        // Gửi Ajax request để xóa dịch vụ
+        $.ajax({
+            url: '/Contracts/DeleteContract',
+            type: 'DELETE',
+            dataType: 'json',
+            data: { contractID: contractID },
+            success: function (result) {
+                alert("Xóa dịch vụ thành công!");
+
+                // Loại bỏ dòng vừa click xoá khỏi bảng
+                $deletedRow.remove();
+            },
+            error: function () {
+                alert("Lỗi: Xóa dịch vụ không thành công!");
+            }
+        });
+    }
+</script>
+
 <script>
     var selectedServiceID;
 
@@ -395,7 +423,7 @@
                 Quantity: quantity,
                 Total_Amount: totalAmount,
             };
-           
+
 
             if (serviceID) {
                 $.ajax({
@@ -442,7 +470,7 @@
 
                         // Lấy thông tin dịch vụ mới từ kết quả trả về
                         var newService = data.service[0];
-                       
+
 
                         try {
                             // Tạo chuỗi HTML cho dòng mới trong bảng
@@ -487,6 +515,213 @@
         $("#totalAmount").val("");
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+<script>
+    var selectedContractID;
+
+    $("#openPopupC").click(function () {
+        openCreatePopupC();
+    });
+
+    function openCreatePopupC() {
+        $("#myPopupC").show();
+        $(".overlay").show();
+        $("body").addClass("popup-active");
+    }
+
+    function openEditPopupC(contractID) {
+        $("#myPopupC").show();
+        $(".overlay").show();
+        $("body").addClass("popup-active");
+        selectedContractID = contractID;
+
+        if (contractID) {
+            getContractByID(contractID, function (getContract) {
+                if (getContract) {
+                    var contractTypeName = getContract.contract_Type_Name;              
+                    var $contractsTypeDropdown = $("#contractsTypeDropdown");
+
+
+                    $contractsTypeDropdown
+                        .find("option")
+                        .filter(function () {
+                            return $(this).text().trim() === contractTypeName;
+                        })
+                        .prop("selected", true);
+
+                    $("#contractNumber").val(getContract.contract_Number);
+                    $("#customerCompanyName").val(getContract.customer_Company_Name);
+                    $("#address").val(getContract.address);
+                    $("#address2").val(getContract.address);
+                    $("#phone").val(getContract.phone);
+                    $("#mobilePhone").val(getContract.mobilePhone);
+                    $("#tin").val(getContract.tin);
+                    $("#email").val(getContract.email);
+                }
+            });
+        }
+    }
+
+    function getIndexByValue(selectElement, value) {
+        return selectElement.find("option[value='" + value + "']").index();
+    }
+
+    function getContractByID(contractID, callback) {
+        $.ajax({
+            url: "/Contracts/GetContract",
+            type: "GET",
+            dataType: "json",
+            data: { Contract_ID: contractID },
+            success: function (data) {
+                var getContract = data.contract[0];
+
+                if (typeof callback === "function") {
+                    callback(getContract);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Lỗi khi lấy dịch vụ:", error);
+                alert("Lỗi khi lấy dịch vụ. Vui lòng kiểm tra console log.");
+            },
+        });
+    }
+
+    $(document).ready(function () {
+        $("#saveButtonC").click(function () {
+            var contractID = selectedContractID;
+            var contractTypeID = $("#contractsTypeDropdown").val();
+            var contractNumber = $("#contractNumber").val();
+            var customerCompanyName = $("#customerCompanyName").val();
+            var address = $("#address").val();
+            var phone = $("#phone").val();
+            var mobilePhone = $("#mobilePhone").val();
+            var tin = $("#tin").val();
+            var email = $("#email").val();
+
+            var data = {
+                Contract_ID: contractID,
+                Contract_Type_ID: contractTypeID,
+                Contract_Number: contractNumber,
+                Customer_Company_Name: customerCompanyName,
+                Address: address,
+                Phone: phone,
+                MobilePhone: mobilePhone,
+                TIN: tin,
+                Email: email
+            };
+
+
+            if (contractID) {
+                $.ajax({
+                    url: "/Contracts/UpdateContract",
+                    type: "POST",
+                    dataType: "json",
+                    data: data,
+                    success: function (data) {
+                        console.log(data);
+                        alert("Cập nhật dịch vụ thành công!");
+                        // Ẩn popup
+                        $("#myPopupC").hide();
+                        $(".overlay").hide();
+                        $("body").removeClass("popup-active");
+
+                        $("#contractNumber").val("");
+                        $("#customerCompanyName").val("");
+                        $("#address").val("");
+                        $("#phone").val("");
+                        $("#mobilePhone").val("");
+                        $("#tin").val("");
+                        $("#email").val("");
+
+                        
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.log("Lỗi khi cập nhật dịch vụ:", error);
+                        alert("Lỗi khi cập nhật dịch vụ. Vui lòng kiểm tra console log.");
+                    }
+                });
+
+
+            } else {
+                $.ajax({
+                    url: '/Contracts/CreateContract',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        // Hiển thị thông báo
+                        alert("Tạo dịch vụ thành công!");
+
+                        // Ẩn popup
+                        $("#myPopupC").hide();
+                        $(".overlay").hide();
+                        $("body").removeClass("popup-active");
+
+                        $("#contractNumber").val("");
+                        $("#customerCompanyName").val("");
+                        $("#address").val("");
+                        $("#phone").val("");
+                        $("#mobilePhone").val("");
+                        $("#tin").val("");
+                        $("#email").val("");
+                        var newContract = data.contract[0];
+
+
+                        try {
+                            // Tạo chuỗi HTML cho dòng mới trong bảng
+                            var newRow = '<tr>' +
+                                '<td>' + ($('.table.datatable-column-search-inputs.contract tbody tr').length + 1) + '</td>' +
+                                '<td>' + newContract.contract_Type_Name + '</td>' +
+                                '<td>' + newContract.contract_Number + '</td>' +
+                                '<td>' + newContract.customer_Company_Name + '</td>' +
+                                '<td>' + newContract.address + '</td>' +
+                                '<td>' + newContract.address + '</td>' +
+                                '<td>' + newContract.phone + '</td>' +
+                                '<td>' + newContract.mobilePhone + '</td>' +
+                                '<td>' + newContract.tin + '</td>' +
+                                '<td>' + newContract.email + '</td>' +
+                                '<td>' +
+                                '<a data-serviceid="' + newContract.contract_ID + '" href="#" onclick="openEditPopupC(' + newContract.contract_ID + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
+                                '<span class="icon-space"></span>' + // Khoảng cách giữa hai biểu tượng
+                                '<a href="#" class="delete-link" data-serviceid="' + newContract.contract_ID + '" onclick="deleteContract(event, ' + newContract.contract_ID + ')"><i class="fa-solid fa-trash-can"></i></a>' +
+                                '</td>' +
+                                '</td>' +
+                                '</tr>';
+
+                            // Thêm dòng mới vào bảng
+                            $('.table.datatable-column-search-inputs.contract tbody').append(newRow);
+                        } catch (ex) {
+                            console.log("Lỗi khi thêm dịch vụ vào bảng:", ex);
+                        }
+                    },
+                    error: function (error) {
+                        console.log("Lỗi khi tạo dịch vụ:", error);
+                        alert("Lỗi khi tạo dịch vụ. Vui lòng kiểm tra console log.");
+                    }
+                });
+            }
+        });
+    });
+
+    $("#closePopupC").click(function () {
+        $("#myPopupC").hide();
+        $(".overlay").hide();
+        $("body").removeClass("popup-active");
+
+        $("#contractNumber").val("");
+        $("#customerCompanyName").val("");
+        $("#address").val("");
+        $("#phone").val("");
+        $("#mobilePhone").val("");
+        $("#tin").val("");
+        $("#email").val("");
+    });
+</script>
+
 
 
 

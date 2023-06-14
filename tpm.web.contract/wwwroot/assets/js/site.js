@@ -66,22 +66,7 @@ document.getElementById("closePopup3").addEventListener("click", function () {
     document.getElementById("totalAmount").value = "";
 });
 
-document.getElementById("openPopup4").addEventListener("click", function () {
-    document.getElementById("myPopup4").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    document.body.classList.add("popup-active");
-});
 
-document.getElementById("closePopup4").addEventListener("click", function () {
-    document.getElementById("myPopup4").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
-    document.body.classList.remove("popup-active");
-
-    // Xoá các dữ liệu đã nhập
-    document.getElementById("unitPrice").value = "";
-    document.getElementById("quantity").value = "";
-    document.getElementById("totalAmount").value = "";
-});
 
 
 function initializeScript() {
