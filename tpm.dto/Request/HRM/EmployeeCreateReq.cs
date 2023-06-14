@@ -10,6 +10,7 @@ namespace tpm.dto.admin
 {
     public class EmployeeCreateReq : BaseDTO
     {
+        public string EmployeeID { get; set; }  
         public string FullName { get; set; }
         public DateTime DOB { get; set; }
         public int DepartmentID { get; set; }
@@ -24,6 +25,8 @@ namespace tpm.dto.admin
     {
         public EmployeeCreateReqValidator()
         {
+            RuleFor(x => x.EmployeeID)
+                .NotEmpty().WithMessage("ID nhân viên không được để trống.");
             RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("Tên đầy đủ không được để trống.");
 

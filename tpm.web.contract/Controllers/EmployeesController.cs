@@ -43,9 +43,9 @@ namespace tpm.web.contract.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetEmployee(int EmployeeID)
+        public IActionResult GetEmployee(int ID)
         {
-            var getEmployee = _employeeService.GetEmployeesByID(EmployeeID);
+            var getEmployee = _employeeService.GetEmployeesByID(ID);
 
             return Json(new { Employee = getEmployee });
         }
@@ -57,14 +57,14 @@ namespace tpm.web.contract.Controllers
         {
             try
             {
-                int newEmployeeID = 0;
+                int newID = 0;
 
-                bool result = _employeeService.Create(objReq, out newEmployeeID);
+                bool result = _employeeService.Create(objReq, out newID);
 
                 if (result)
                 {
                     // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
-                    var newEmployee = _employeeService.GetEmployeesByID(newEmployeeID);
+                    var newEmployee = _employeeService.GetEmployeesByID(newID);
 
                     return Json(new
                     {
@@ -102,16 +102,16 @@ namespace tpm.web.contract.Controllers
 
         #region Update
         [HttpPost]
-        public IActionResult Update(EmployeeCreateReq objReq, int EmployeeID)
+        public IActionResult Update(EmployeeCreateReq objReq, int ID)
         {
             try
             {
-                bool result = _employeeService.Update(objReq, EmployeeID);
+                bool result = _employeeService.Update(objReq, ID);
 
                 if (result)
                 {
                     // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
-                    var updateEmployee = _employeeService.GetEmployeesByID(EmployeeID);
+                    var updateEmployee = _employeeService.GetEmployeesByID(ID);
 
                     return Json(new
                     {
@@ -150,12 +150,12 @@ namespace tpm.web.contract.Controllers
 
         #region Delete
         [HttpDelete]
-        public JsonResult Delete(int EmployeeID)
+        public JsonResult Delete(int ID)
         {
             try
             {
                 // Gọi phương thức xóa dịch vụ từ service
-                bool deleteResult = _employeeService.Delete(EmployeeID);
+                bool deleteResult = _employeeService.Delete(ID);
 
                 if (deleteResult)
                 {

@@ -49,9 +49,9 @@ namespace tpm.business
             return result;
         }
 
-        public IEnumerable<EmployeeRes> GetEmployeesByID(int EmployeeID)
+        public IEnumerable<EmployeeRes> GetEmployeesByID(int ID)
         {
-            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeByID", new { EmployeeID });
+            var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeByID", new { ID });
             if (result == null)
             {
                 result = new List<EmployeeRes>();
@@ -60,14 +60,15 @@ namespace tpm.business
         }
 
         #region Create
-        public bool Create(EmployeeCreateReq objReq, out int newEmployeeID)
+        public bool Create(EmployeeCreateReq objReq, out int newID)
         {
             try
             {
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
-                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào             
+                // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
+                param.Add("@EmployeeID", objReq.EmployeeID);
                 param.Add("@FullName", objReq.FullName);
                 param.Add("@DOB", objReq.DOB);
                 param.Add("@DepartmentID", objReq.DepartmentID);
@@ -78,10 +79,10 @@ namespace tpm.business
                 param.Add("@EmployeeTypeID", objReq.EmployeeTypeID);
 
                 // Thực hiện gọi stored procedure để thêm dữ liệu vào database
-                newEmployeeID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("HRM.Employee_Create", param, commandType: CommandType.StoredProcedure);
+                newID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("HRM.Employee_Create", param, commandType: CommandType.StoredProcedure);
 
                 // Kiểm tra Service_ID mới
-                if (newEmployeeID > 0)
+                if (newID > 0)
                 {
                     // Trả về kết quả thành công
                     return true;
@@ -99,7 +100,7 @@ namespace tpm.business
         #endregion
 
         #region Update
-        public bool Update(EmployeeCreateReq objReq, int EmployeeID)
+        public bool Update(EmployeeCreateReq objReq, int ID)
         {
             try
             {
@@ -107,7 +108,8 @@ namespace tpm.business
                 var param = new DynamicParameters();
 
                 // Thêm các tham số với giá trị từ các thuộc tính của đối tượng obj truyền vào
-                param.Add("@EmployeeID", EmployeeID);
+                param.Add("@ID", ID);
+                param.Add("@EmployeeID", objReq.EmployeeID);
                 param.Add("@FullName", objReq.FullName);
                 param.Add("@DOB", objReq.DOB);
                 param.Add("@DepartmentID", objReq.DepartmentID);
@@ -132,7 +134,7 @@ namespace tpm.business
         #endregion
 
         #region Delete
-        public bool Delete(int EmployeeID)
+        public bool Delete(int ID)
         {
             try
             {
@@ -140,7 +142,7 @@ namespace tpm.business
                 var param = new DynamicParameters();
 
                 // Thêm tham số với giá trị từ serviceId truyền vào
-                param.Add("@EmployeeID", EmployeeID);
+                param.Add("@ID", ID);
 
                 // Thực hiện gọi stored procedure để xóa dữ liệu trong database
                 var storedProcedureResult = _objReadOnlyRepository.Value.Connection.Execute("HRM.Employee_Detete", param, commandType: CommandType.StoredProcedure);

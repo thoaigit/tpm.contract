@@ -10,11 +10,11 @@ namespace tpm.business
 {
     public interface IEmployeeService : IDisposable
     {
-        bool Create(EmployeeCreateReq objReq, out int EmployeeID);
-        bool Update(EmployeeCreateReq objReq, int EmployeeID);
-        bool Delete(int EmployeeID);
+        bool Create(EmployeeCreateReq objReq, out int ID);
+        bool Update(EmployeeCreateReq objReq, int ID);
+        bool Delete(int ID);
         IEnumerable<EmployeeRes> ReadAll();
-        IEnumerable<EmployeeRes> GetEmployeesByID(int EmployeeID);
+        IEnumerable<EmployeeRes> GetEmployeesByID(int ID);
         IEnumerable<EmployeeRes> GetEmployeesWithTypeName();
     }
 }

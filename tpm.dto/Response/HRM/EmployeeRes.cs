@@ -8,7 +8,8 @@ namespace tpm.dto.admin.Response
 {
     public class EmployeeRes
     {
-        public int EmployeeID { get; set; }
+        public int ID { get; set; } 
+        public string EmployeeID { get; set; }
         public string FullName { get; set; }
         public DateTime DOB { get; set; }
         public string PositionName { get; set; }
