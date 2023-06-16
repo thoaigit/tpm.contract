@@ -19,9 +19,11 @@ namespace tpm.web.contract.Controllers
         private readonly IUnitService _serviceUnit;
         private readonly IContractService _contractService;
         private readonly IContractTypeService _contractTypeService;
+        private readonly ContractCreateReqValidator _validationRules;
 
         public ContractsController(IServiceService serviceService, ServiceCreateReqValidator validator, 
-            IServiceTypeService serviceTypeService, IUnitService serviceUnit,IContractService contractService, IContractTypeService contractTypeService)
+            IServiceTypeService serviceTypeService, IUnitService serviceUnit,IContractService contractService, 
+            IContractTypeService contractTypeService,ContractCreateReqValidator validationRules)
         {
             _serviceService = serviceService;
             _validator = validator;
@@ -29,8 +31,7 @@ namespace tpm.web.contract.Controllers
             _serviceUnit = serviceUnit;
             _contractService = contractService;
             _contractTypeService = contractTypeService;
-      
-
+            _validationRules = validationRules;
         }
        
         public IActionResult Index()
@@ -38,6 +39,7 @@ namespace tpm.web.contract.Controllers
             return View();
         }
 
+        #region GetService
         [HttpGet]
         public IActionResult GetService(int Service_ID)
         {
@@ -45,7 +47,9 @@ namespace tpm.web.contract.Controllers
 
             return Json(new { Service = getService });
         }
+        #endregion
 
+        #region GetContract
         [HttpGet]
         public IActionResult GetContract(int Contract_ID)
         {
@@ -53,8 +57,9 @@ namespace tpm.web.contract.Controllers
 
             return Json(new { Contract = getContract });
         }
+        #endregion
 
-
+        #region Create
         public IActionResult Create()
         {
             var services = _serviceService.GetServicesWithTypeName();
@@ -73,13 +78,7 @@ namespace tpm.web.contract.Controllers
 
             return View();
         }
-
-        public IActionResult ServiceDetail()
-        {
-            return View();
-        }
-
-
+        #endregion
 
         #region Create Post
         [HttpPost]
@@ -325,6 +324,12 @@ namespace tpm.web.contract.Controllers
         }
         #endregion
 
+        #region ServiceDetail
+        public IActionResult ServiceDetail()
+        {
+            return View();
+        }
+        #endregion
     }
 }
 

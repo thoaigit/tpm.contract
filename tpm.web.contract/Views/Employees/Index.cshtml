@@ -22,19 +22,19 @@
                     <label for="employeeID">Mã Nhân Viên:</label>
                     <input type="text" placeholder="Mã Nhân Viên" id="employeeID">
                     <label for="FullName">Họ và tên:</label>
-                    <input type="text" placeholder="Họ Tên" id="fullName" ">
+                    <input type="text" placeholder="Họ Tên" id="fullName">
                     <label for="genderType">Giới tính:</label>
                     <select id="genderTypeDropdown">
                         @if (ViewBag.Genders != null)
                         {
-                        @foreach (var gender in ViewBag.Genders)
-                        {
-                        <option value="@gender.GenderID">@gender.GenderName</option>
-                        }
+                            @foreach (var gender in ViewBag.Genders)
+                            {
+                                <option value="@gender.GenderID">@gender.GenderName</option>
+                            }
                         }
                         else
                         {
-                        <p>Danh sách trống.</p>
+                            <p>Danh sách trống.</p>
                         }
                     </select>
                 </div>
@@ -51,42 +51,42 @@
                     <select id="departmentTypeDropdown">
                         @if (ViewBag.Departments != null)
                         {
-                        @foreach (var departmentType in ViewBag.Departments)
-                        {
-                        <option value="@departmentType.DepartmentID">@departmentType.DepartmentName</option>
-                        }
+                            @foreach (var departmentType in ViewBag.Departments)
+                            {
+                                <option value="@departmentType.DepartmentID">@departmentType.DepartmentName</option>
+                            }
                         }
                         else
                         {
-                        <p>Danh sách trống.</p>
+                            <p>Danh sách trống.</p>
                         }
                     </select>
                     <label for="positionType">Chức vụ:</label>
                     <select id="positionTypeDropdown">
                         @if (ViewBag.Positions != null)
                         {
-                        @foreach (var position in ViewBag.Positions)
-                        {
-                        <option value="@position.PositionID">@position.PositionName</option>
-                        }
+                            @foreach (var position in ViewBag.Positions)
+                            {
+                                <option value="@position.PositionID">@position.PositionName</option>
+                            }
                         }
                         else
                         {
-                        <p>Danh sách đơn vị tính trống.</p>
+                            <p>Danh sách đơn vị tính trống.</p>
                         }
                     </select>
                     <label for="employeeType">Loại nhân viên:</label>
                     <select id="employeeTypeDropdown">
                         @if (ViewBag.EmployeeTypes != null)
                         {
-                        @foreach (var employeeType in ViewBag.EmployeeTypes)
-                        {
-                        <option value="@employeeType.EmployeeTypeID">@employeeType.EmployeeTypeName</option>
-                        }
+                            @foreach (var employeeType in ViewBag.EmployeeTypes)
+                            {
+                                <option value="@employeeType.EmployeeTypeID">@employeeType.EmployeeTypeName</option>
+                            }
                         }
                         else
                         {
-                        <p>Danh sách trống.</p>
+                            <p>Danh sách trống.</p>
                         }
                     </select>
                 </div>
@@ -99,101 +99,75 @@
     </div>
 
     <div class="overlay"></div>
-        <table class="table datatable-column-search-inputs service" id="employeeTable">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Mã Nhân Viên</th>
-                    <th>Họ Tên</th>
-                    <th>Ngày Sinh</th>
-                    <th>Giới Tính</th>
-                    <th>SĐT</th>
-                    <th>Email</th>
-                    <th>Phòng Ban</th>
-                    <th>Chức Vụ</th>
-                    <th>Loại Nhân Viên</th>
-                </tr>
-            </thead>
-            <tbody id="serviceTableBody">
+    <table class="table datatable-column-search-inputs service" id="employeeTable">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã Nhân Viên</th>
+                <th>Họ Tên - Giới tính - SĐT</th>
+                <th>Ngày Sinh</th>
+                <th>Email</th>
+                <th>
+                    <div>Chức vụ - Hình thức</div>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="serviceTableBody">
 
-                @if (ViewBag.Employees != null)
-                {
+            @if (ViewBag.Employees != null)
+            {
                 int stt = 1;
 
                 @foreach (var employee in ViewBag.Employees)
                 {
-                // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
-                <tr>
-                    <td>@stt</td>
-                    <td>@employee.EmployeeID</td>
-                    <td>@employee.FullName</td>
-                    @{
-                    var dob = DateTime.Parse(employee.DOB.ToString());
-                    var formattedDOB = dob.ToString("dd'/'MM'/'yyyy");
-                    }
-                    <td>@formattedDOB</td>
-                    <td>@employee.GenderName</td>
-                    <td>@employee.Phone</td>
-                    <td>@employee.Email</td>
-                    <td>@employee.DepartmentName</td>
-                    <td>@employee.PositionName</td>
-                    <td>@employee.EmployeeTypeName</td>
-                    <td>
-                        <a data-employeeid="@employee.ID" href="#" onclick="openEditPopup(@employee.ID)"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="delete-link" data-employeeid="@employee.ID" onclick="deleteEmployee(event, @employee.ID)"><i class="fa-solid fa-trash-can"></i></a>
-                    </td>
-                </tr>
-                stt++;
+                    // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
+                    <tr>
+                        <td>@stt</td>
+                        <td>@employee.EmployeeID</td>
+                        <td>
+                            <div>@employee.FullName</div>
+                            <div>
+                                <span>GT: </span>
+                                <span style="font-weight: 700">@employee.GenderName</span>
+                                <span> - </span>
+                                <span>@employee.Phone</span>
+                            </div>
+                        </td>
+                        @{
+                            var dob = DateTime.Parse(employee.DOB.ToString());
+                            var formattedDOB = dob.ToString("dd'/'MM'/'yyyy");
+                        }
+                        <td>@formattedDOB</td>
+                        <td>@employee.Email</td>
+                        <td>
+                            <div>@employee.DepartmentName - @employee.PositionName</div>
+                            <div>@employee.EmployeeTypeName</div>
+                        </td>
+                        <td>
+                            <a data-employeeid="@employee.ID" href="#" onclick="openEditPopupE(@employee.ID)"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a class="delete-link" data-employeeid="@employee.ID" onclick="deleteEmployee(event, @employee.ID)"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                    stt++;
                 }
-                }
-                else
-                {
+            }
+            else
+            {
                 <tr>
                     <td colspan="7">Không có dữ liệu</td>
                 </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </tbody>
+    </table>
 </div>
 
-<script>
-    function deleteEmployee(event, id) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-
-        var $deletedRow = $(event.target).closest('tr'); // Lấy thẻ cha là <tr> chứa dòng
-
-        // Gửi Ajax request để xóa dịch vụ
-        $.ajax({
-            url: '/Employees/Delete',
-            type: 'DELETE',
-            dataType: 'json',
-            data: { ID: id },
-            success: function (result) {
-                alert("Xóa thành công!");
-
-                // Loại bỏ dòng vừa click xoá khỏi bảng
-                $deletedRow.remove();
-            },
-            error: function () {
-                alert("Lỗi: Xóa không thành công!");
-            }
-        });
-    }
-</script>
 
 <script>
     var selectedID;
-
     $("#openPopup").click(function () {
         openCreatePopup();
     });
-
-    function openCreatePopup() {
-        $("#myPopup").show();
-        $(".overlay").show();
-        $("body").addClass("popup-active");
-    }
-
     $("#closePopup").click(function () {
         $("#myPopup").hide();
         $(".overlay").hide();
@@ -204,91 +178,6 @@
         $("#phone").val("");
         $("#email").val("");
     });
-
-    function openEditPopup(id) {
-        $("#myPopup").show();
-        $(".overlay").show();
-        $("body").addClass("popup-active");
-        selectedID = id;
-
-
-        if (id) {
-            getEmployeeByID(id, function (getEmployee) {
-                if (getEmployee) {
-                    var genderName = getEmployee.genderName;
-                    var departmentName = getEmployee.departmentName;
-                    var positionName = getEmployee.positionName;
-                    var employeeTypeName = getEmployee.employeeTypeName;
-                    var $genderTypeDropdown = $("#genderTypeDropdown");
-                    var $departmentTypeDropdown = $("#departmentTypeDropdown");
-                    var $positionTypeDropdown = $("#positionTypeDropdown");
-                    var $employeeTypeDropdown = $("#employeeTypeDropdown");
-                    var dob = new Date(getEmployee.dob);
-                    var year = dob.getFullYear().toString().padStart(4, "0");
-                    var month = (dob.getMonth() + 1).toString().padStart(2, "0");
-                    var day = dob.getDate().toString().padStart(2, "0");
-                    var formattedDOB = year + "-" + month + "-" + day;
-
-
-
-                    $genderTypeDropdown
-                        .find("option")
-                        .filter(function () {
-                            return $(this).text().trim() === genderName;
-                        })
-                        .prop("selected", true);
-
-                    $departmentTypeDropdown
-                        .find("option")
-                        .filter(function () {
-                            return $(this).text().trim() === departmentName;
-                        })
-                        .prop("selected", true);
-                    $positionTypeDropdown
-                        .find("option")
-                        .filter(function () {
-                            return $(this).text().trim() === positionName;
-                        })
-                        .prop("selected", true);
-                    $employeeTypeDropdown
-                        .find("option")
-                        .filter(function () {
-                            return $(this).text().trim() === employeeTypeName;
-                        })
-                        .prop("selected", true);
-                    $("#employeeID").val(getEmployee.employeeID);
-                    $("#dob").val(formattedDOB);
-                    $("#fullName").val(getEmployee.fullName);
-                    $("#phone").val(getEmployee.phone);
-                    $("#email").val(getEmployee.email);
-                }
-            });
-        }
-    }
-
-    function getIndexByValue(selectElement, value) {
-        return selectElement.find("option[value='" + value + "']").index();
-    }
-
-    function getEmployeeByID(id, callback) {
-        $.ajax({
-            url: "/Employees/GetEmployee",
-            type: "GET",
-            dataType: "json",
-            data: { ID: id },
-            success: function (data) {
-                var getEmployee = data.employee[0];
-
-                if (typeof callback === "function") {
-                    callback(getEmployee);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log("Lỗi khi lấy dữ liệu:", error);
-                alert("Lỗi khi lấy dữ liệu. Vui lòng kiểm tra console log.");
-            },
-        });
-    }
 
     $(document).ready(function () {
         $("#saveButton").click(function () {
@@ -332,15 +221,7 @@
                     success: function (data) {
                         alert("Cập nhật thành công!");
                         console.log(data);
-
-                        $("#myPopup").hide();
-                        $(".overlay").hide();
-                        $("body").removeClass("popup-active");
-
-                        $("#employeeID").val("");
-                        $("#fullName").val("");
-                        $("#phone").val("");
-                        $("#email").val("");
+                        closePopupE();
                         location.reload();
                     },
                     error: function (error) {
@@ -360,15 +241,7 @@
 
                         alert("Tạo thành công!");
                         console.log(data);
-
-                        $("#myPopup").hide();
-                        $(".overlay").hide();
-                        $("body").removeClass("popup-active");
-
-                        $("#employeeID").val("");
-                        $("#fullName").val("");
-                        $("#phone").val("");
-                        $("#email").val("");
+                        closePopupE();
 
 
                         var newEmployee = data.employee[0];
@@ -378,16 +251,23 @@
                         var newRow = '<tr>' +
                             '<td>' + ($('.table.datatable-column-search-inputs.service tbody tr').length + 1) + '</td>' +
                             '<td>' + newEmployee.employeeID + '</td>' +
-                            '<td>' + newEmployee.fullName + '</td>' +
-                            '<td>' + formattedDOB + '</td>' +
-                            '<td>' + newEmployee.genderName + '</td>' +
-                            '<td>' + newEmployee.phone + '</td>' +
-                            '<td>' + newEmployee.email + '</td>' +
-                            '<td>' + newEmployee.departmentName + '</td>' +
-                            '<td>' + newEmployee.positionName + '</td>' +
-                            '<td>' + newEmployee.employeeTypeName + '</td>' +
                             '<td>' +
-                            '<a data-employeeid="' + newEmployee.id + '" href="#" onclick="openEditPopup(' + newEmployee.id + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
+                            '<div>' + newEmployee.fullName + '</div>' +
+                            '<div>' +
+                            '<span>GT: </span>' +
+                            '<span style="font-weight: 700">' + newEmployee.genderName + '</span>' +
+                            '<span> - </span>' +
+                            '<span style="font-weight: 700">' + newEmployee.phone + '</span>' +
+                            '</div>' +
+                            '</td>' +
+                            '<td>' + formattedDOB + '</td>' +
+                            '<td>' + newEmployee.email + '</td>' +
+                            '<td>' +
+                            '<div>' + newEmployee.departmentName + ' - ' + newEmployee.positionName + '</div>' +
+                            '<div>' + newEmployee.employeeTypeName + '</div>' +
+                            '</td>' +
+                            '<td>' +
+                            '<a data-employeeid="' + newEmployee.id + '" href="#" onclick="openEditPopupE(' + newEmployee.id + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
                             '<span class="icon-space"></span>' +
                             '<a class="delete-link" data-employeeid="' + newEmployee.id + '" onclick="deleteEmployee(event, ' + newEmployee.id + ')"><i class="fa-solid fa-trash-can"></i></a>' +
                             '</td>' +
@@ -405,4 +285,4 @@
         });
     });
 </script>
-
+<script src="~/assets/js/site.js"></script>

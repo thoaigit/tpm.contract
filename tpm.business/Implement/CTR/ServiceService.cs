@@ -17,9 +17,15 @@ namespace tpm.business
 {
     public class ServiceService : IServiceService
     {
+        #region Private Fields
+
         private readonly Lazy<IRepository> _objRepository;
         private readonly Lazy<IReadOnlyRepository> _objReadOnlyRepository;
         private bool _disposedValue;
+
+        #endregion
+
+        #region Constructors
 
         public ServiceService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
         {
@@ -27,6 +33,9 @@ namespace tpm.business
             _objReadOnlyRepository = objReadOnlyRepository;
         }
 
+        #endregion
+
+        #region List, ReadAll
         public IEnumerable<ServiceRes> List()
         {
             return ReadAll();
@@ -42,8 +51,9 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
-
+        #region GetServicesWithTypeName
         public IEnumerable<ServiceRes> GetServicesWithTypeName()
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesWithTypeName");
@@ -53,7 +63,9 @@ namespace tpm.business
             }
             return result;
         }
- 
+        #endregion
+
+        #region GetServicesByID
         public IEnumerable<ServiceRes> GetServicesByID(int Service_ID)
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ServiceRes>("CTR.GetServicesByID", new { Service_ID });
@@ -63,6 +75,7 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
         #region Create
         public bool Create(ServiceCreateReq objReq, out int newServiceID)
@@ -163,6 +176,7 @@ namespace tpm.business
         }
         #endregion
 
+        #region Dipose
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -189,5 +203,6 @@ namespace tpm.business
         {
             Dispose(false);
         }
+        #endregion
     }
 }

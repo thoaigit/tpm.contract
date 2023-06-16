@@ -7,9 +7,6 @@
 }
 
 
-
-
-
 <div class="tab">
     <button id="tab1" class="tablinks" onclick="openTab(event, 'Tab1')">Hợp Đồng</button>
     <button id="tab2" class="tablinks" onclick="openTab(event, 'Tab2')">Dịch Vụ</button>
@@ -70,19 +67,24 @@
     </div>
 
     <div class="overlay"></div>
-    <table class="table datatable-column-search-inputs contract" >
+    <table class="table datatable-column-search-inputs contract">
         <thead>
             <tr>
                 <th>STT</th>
                 <th>Loại Hợp Đồng</th>
-                <th>Số Hợp Đồng</th>
+                <th>
+                    <div>Số HĐ</div>
+                    <div>Mã Số Thuế</div>
+                </th>
                 <th>Tên Cty</th>
-                <th>Địa Chỉ LH</th>
-                <th>Địa Chỉ Cty</th>
-                <th>Điện Thoại</th>
-                <th>Điện Thoại Di Động</th>
-                <th>Mã Số Thuế</th>
-                <th>Email</th>
+                <th>
+                    <div>Địa Chỉ LH</div>
+                    <div>Địa chỉ Cty</div>
+                </th>
+                <th>
+                    <div>Điện Thoại - ĐTDĐ</div>
+                    <div>Email</div>
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -95,14 +97,23 @@
                     <tr>
                         <td>@stt</td>
                         <td>@contract.Contract_Type_Name</td>
-                        <td>@contract.Contract_Number</td>
+                        <td>
+                            <div style="font-weight: 700">@contract.Contract_Number</div>
+                            <div>@contract.TIN</div>
+                        </td>
                         <td>@contract.Customer_Company_Name</td>
-                        <td>@contract.Address</td>
-                        <td>@contract.Address</td>
-                        <td>@contract.Phone</td>
-                        <td>@contract.MobilePhone</td>
-                        <td>@contract.TIN</td>
-                        <td>@contract.Email</td>
+                        <td>
+                            <div>@contract.Address</div>
+                            <div>@contract.Address</div>
+                        </td>
+                        <td>
+                            <div>
+                                <span>@contract.Phone</span>
+                                <span> - </span>
+                                <span>@contract.MobilePhone</span>
+                            </div>
+                            <div>@contract.Email</div>
+                        </td>
                         <td>
                             <a data-serviceid="@contract.Contract_ID" href="#" onclick="openEditPopupC(@contract.Contract_ID)"><i class="fa-solid fa-pen-to-square"></i></a>
                             <a href="#" class="delete-link" data-serviceid="@contract.Contract_ID" onclick="deleteContract(event, @contract.Contract_ID)"><i class="fa-solid fa-trash-can"></i></a>
@@ -121,7 +132,6 @@
 
     </table>
 </div>
-
 
 <div id="Tab2" class="tabcontent">
     <div class="card-body">
@@ -198,7 +208,7 @@
                             <td>@service.Quantity</td>
                             <td>@service.Total_Amount.ToString("N0")</td>
                             <td>
-                                <a data-serviceid="@service.Service_ID" href="#" onclick="openEditPopup(@service.Service_ID)"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a data-serviceid="@service.Service_ID" href="#" onclick="openEditPopupS(@service.Service_ID)"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <a href="#" class="delete-link" data-serviceid="@service.Service_ID" onclick="deleteService(event, @service.Service_ID)"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
                         </tr>
@@ -282,129 +292,18 @@
     </div>
 </div>
 
-<script src="~/assets/js/site.js"></script>
-<script>
-    function deleteService(event, serviceID) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-
-        var $deletedRow = $(event.target).closest('tr'); // Lấy thẻ cha là <tr> chứa dòng
-
-        // Gửi Ajax request để xóa dịch vụ
-        $.ajax({
-            url: '/Contracts/Delete',
-            type: 'DELETE',
-            dataType: 'json',
-            data: { serviceID: serviceID },
-            success: function (result) {
-                alert("Xóa dịch vụ thành công!");
-
-                // Loại bỏ dòng vừa click xoá khỏi bảng
-                $deletedRow.remove();
-            },
-            error: function () {
-                alert("Lỗi: Xóa dịch vụ không thành công!");
-            }
-        });
-    }
-</script>
-
-<script>
-    function deleteContract(event, contractID) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-
-        var $deletedRow = $(event.target).closest('tr'); // Lấy thẻ cha là <tr> chứa dòng
-
-        // Gửi Ajax request để xóa dịch vụ
-        $.ajax({
-            url: '/Contracts/DeleteContract',
-            type: 'DELETE',
-            dataType: 'json',
-            data: { contractID: contractID },
-            success: function (result) {
-                alert("Xóa dịch vụ thành công!");
-
-                // Loại bỏ dòng vừa click xoá khỏi bảng
-                $deletedRow.remove();
-            },
-            error: function () {
-                alert("Lỗi: Xóa dịch vụ không thành công!");
-            }
-        });
-    }
-</script>
 
 <script>
     var selectedServiceID;
 
     $("#openPopup").click(function () {
-        openCreatePopup();
+        openCreatePopup(); 
     });
 
-    function openCreatePopup() {
-        $("#myPopup").show();
-        $(".overlay").show();
-        $("body").addClass("popup-active");
-    }
-
-    function openEditPopup(serviceID) {
-        $("#myPopup").show();
-        $(".overlay").show();
-        $("body").addClass("popup-active");
-        selectedServiceID = serviceID;
-
-        if (serviceID) {
-            getServiceByID(serviceID, function (getService) {
-                if (getService) {
-                    var serviceTypeName = getService.service_Type_Name;
-                    var unit = getService.unit;
-                    var $serviceTypeDropdown = $("#serviceTypeDropdown");
-                    var $unitDropdown = $("#unitDropdown");
-
-                    $serviceTypeDropdown
-                        .find("option")
-                        .filter(function () {
-                            return $(this).text().trim() === serviceTypeName;
-                        })
-                        .prop("selected", true);
-
-                    $unitDropdown
-                        .find("option")
-                        .filter(function () {
-                            return $(this).text().trim() === unit;
-                        })
-                        .prop("selected", true);
-
-                    $("#unitPrice").val(getService.unit_Price);
-                    $("#quantity").val(getService.quantity);
-                    $("#totalAmount").val(getService.total_Amount);
-                }
-            });
-        }
-    }
-
-    function getIndexByValue(selectElement, value) {
-        return selectElement.find("option[value='" + value + "']").index();
-    }
-
-    function getServiceByID(serviceID, callback) {
-        $.ajax({
-            url: "/Contracts/GetService",
-            type: "GET",
-            dataType: "json",
-            data: { Service_ID: serviceID },
-            success: function (data) {
-                var getService = data.service[0];
-
-                if (typeof callback === "function") {
-                    callback(getService);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log("Lỗi khi lấy dịch vụ:", error);
-                alert("Lỗi khi lấy dịch vụ. Vui lòng kiểm tra console log.");
-            },
-        });
-    }
+    // Hàm đóng popup
+    $("#closePopup").click(function () {
+        closePopupS();
+    });
 
     $(document).ready(function () {
         $("#saveButton").click(function () {
@@ -434,13 +333,7 @@
                     success: function (data) {
                         alert("Cập nhật dịch vụ thành công!");
                         // Ẩn popup và overlay
-                        $("#myPopup").hide();
-                        $(".overlay").hide();
-                        $("body").removeClass("popup-active");
-                        $("#unitPrice").val("");
-                        $("#quantity").val("");
-                        $("#totalAmount").val("");
-                        location.reload();
+                        closePopupS();
                     },
                     error: function (error) {
                         console.log("Lỗi khi cập nhật dịch vụ:", error);
@@ -461,12 +354,7 @@
                         console.log(data)
 
                         // Ẩn popup và overlay
-                        $("#myPopup").hide();
-                        $(".overlay").hide();
-                        $("body").removeClass("popup-active");
-                        $("#unitPrice").val("");
-                        $("#quantity").val("");
-                        $("#totalAmount").val("");
+                       closePopupS();
 
                         // Lấy thông tin dịch vụ mới từ kết quả trả về
                         var newService = data.service[0];
@@ -503,21 +391,7 @@
             }
         });
     });
-
-    // Hàm đóng popup
-    $("#closePopup").click(function () {
-        $("#myPopup").hide();
-        $(".overlay").hide();
-        $("body").removeClass("popup-active");
-
-        $("#unitPrice").val("");
-        $("#quantity").val("");
-        $("#totalAmount").val("");
-    });
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+</script> 
 
 <script>
     var selectedContractID;
@@ -526,68 +400,9 @@
         openCreatePopupC();
     });
 
-    function openCreatePopupC() {
-        $("#myPopupC").show();
-        $(".overlay").show();
-        $("body").addClass("popup-active");
-    }
-
-    function openEditPopupC(contractID) {
-        $("#myPopupC").show();
-        $(".overlay").show();
-        $("body").addClass("popup-active");
-        selectedContractID = contractID;
-
-        if (contractID) {
-            getContractByID(contractID, function (getContract) {
-                if (getContract) {
-                    var contractTypeName = getContract.contract_Type_Name;              
-                    var $contractsTypeDropdown = $("#contractsTypeDropdown");
-
-
-                    $contractsTypeDropdown
-                        .find("option")
-                        .filter(function () {
-                            return $(this).text().trim() === contractTypeName;
-                        })
-                        .prop("selected", true);
-
-                    $("#contractNumber").val(getContract.contract_Number);
-                    $("#customerCompanyName").val(getContract.customer_Company_Name);
-                    $("#address").val(getContract.address);
-                    $("#address2").val(getContract.address);
-                    $("#phone").val(getContract.phone);
-                    $("#mobilePhone").val(getContract.mobilePhone);
-                    $("#tin").val(getContract.tin);
-                    $("#email").val(getContract.email);
-                }
-            });
-        }
-    }
-
-    function getIndexByValue(selectElement, value) {
-        return selectElement.find("option[value='" + value + "']").index();
-    }
-
-    function getContractByID(contractID, callback) {
-        $.ajax({
-            url: "/Contracts/GetContract",
-            type: "GET",
-            dataType: "json",
-            data: { Contract_ID: contractID },
-            success: function (data) {
-                var getContract = data.contract[0];
-
-                if (typeof callback === "function") {
-                    callback(getContract);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log("Lỗi khi lấy dịch vụ:", error);
-                alert("Lỗi khi lấy dịch vụ. Vui lòng kiểm tra console log.");
-            },
-        });
-    }
+    $("#closePopupC").click(function () {
+        closePopupC();
+    });
 
     $(document).ready(function () {
         $("#saveButtonC").click(function () {
@@ -622,26 +437,16 @@
                     data: data,
                     success: function (data) {
                         console.log(data);
-                        alert("Cập nhật dịch vụ thành công!");
+                        alert("Cập nhật thành công!");
                         // Ẩn popup
-                        $("#myPopupC").hide();
-                        $(".overlay").hide();
-                        $("body").removeClass("popup-active");
-
-                        $("#contractNumber").val("");
-                        $("#customerCompanyName").val("");
-                        $("#address").val("");
-                        $("#phone").val("");
-                        $("#mobilePhone").val("");
-                        $("#tin").val("");
-                        $("#email").val("");
+                        closePopupC();
 
                         
                         location.reload();
                     },
                     error: function (error) {
-                        console.log("Lỗi khi cập nhật dịch vụ:", error);
-                        alert("Lỗi khi cập nhật dịch vụ. Vui lòng kiểm tra console log.");
+                        console.log("Lỗi khi cập nhật:", error);
+                        alert("Lỗi khi cập nhật. Vui lòng kiểm tra console log.");
                     }
                 });
 
@@ -654,20 +459,10 @@
                     data: data,
                     success: function (data) {
                         // Hiển thị thông báo
-                        alert("Tạo dịch vụ thành công!");
+                        alert("Tạo thành công!");
 
                         // Ẩn popup
-                        $("#myPopupC").hide();
-                        $(".overlay").hide();
-                        $("body").removeClass("popup-active");
-
-                        $("#contractNumber").val("");
-                        $("#customerCompanyName").val("");
-                        $("#address").val("");
-                        $("#phone").val("");
-                        $("#mobilePhone").val("");
-                        $("#tin").val("");
-                        $("#email").val("");
+                        closePopupC();
                         var newContract = data.contract[0];
 
 
@@ -676,14 +471,25 @@
                             var newRow = '<tr>' +
                                 '<td>' + ($('.table.datatable-column-search-inputs.contract tbody tr').length + 1) + '</td>' +
                                 '<td>' + newContract.contract_Type_Name + '</td>' +
-                                '<td>' + newContract.contract_Number + '</td>' +
-                                '<td>' + newContract.customer_Company_Name + '</td>' +
-                                '<td>' + newContract.address + '</td>' +
-                                '<td>' + newContract.address + '</td>' +
-                                '<td>' + newContract.phone + '</td>' +
-                                '<td>' + newContract.mobilePhone + '</td>' +
-                                '<td>' + newContract.tin + '</td>' +
-                                '<td>' + newContract.email + '</td>' +
+                                '<td>' +
+                                '<div style="font-weight: 700">' + newContract.contract_Number + '</div>' +
+                                '<div>' + newContract.tin + '</div>' +
+                                '</td>' +
+                                '<td>' +
+                                '<div>' + newContract.customer_Company_Name + '</div>' +
+                                '</td>' +
+                                '<td>' +
+                                '<div>' + newContract.address + '</div>' +
+                                '<div>' + newContract.address + '</div>' +
+                                '</td>' +
+                                '<td>' +
+                                '<div>' +
+                                '<span>' + newContract.phone + '</span>' +
+                                '<span> - </span>' +
+                                '<span>' + newContract.mobilePhone + '</span>' +
+                                '</div>' +
+                                '<div>' + newContract.email + '</div>' +
+                                '</td>' +
                                 '<td>' +
                                 '<a data-serviceid="' + newContract.contract_ID + '" href="#" onclick="openEditPopupC(' + newContract.contract_ID + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
                                 '<span class="icon-space"></span>' + // Khoảng cách giữa hai biểu tượng
@@ -695,32 +501,24 @@
                             // Thêm dòng mới vào bảng
                             $('.table.datatable-column-search-inputs.contract tbody').append(newRow);
                         } catch (ex) {
-                            console.log("Lỗi khi thêm dịch vụ vào bảng:", ex);
+                            console.log("Lỗi khi thêm dữ liệu vào bảng:", ex);
                         }
                     },
                     error: function (error) {
-                        console.log("Lỗi khi tạo dịch vụ:", error);
-                        alert("Lỗi khi tạo dịch vụ. Vui lòng kiểm tra console log.");
+                        console.log("Lỗi khi tạo:", error);
+                        alert("Lỗi khi tạo. Vui lòng kiểm tra console log.");
                     }
                 });
             }
         });
     });
 
-    $("#closePopupC").click(function () {
-        $("#myPopupC").hide();
-        $(".overlay").hide();
-        $("body").removeClass("popup-active");
+    
+</script> 
 
-        $("#contractNumber").val("");
-        $("#customerCompanyName").val("");
-        $("#address").val("");
-        $("#phone").val("");
-        $("#mobilePhone").val("");
-        $("#tin").val("");
-        $("#email").val("");
-    });
-</script>
+<script src="~/assets/js/site.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
 
 
 

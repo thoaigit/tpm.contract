@@ -25,6 +25,7 @@ namespace tpm.web.contract.Controllers
             _genderService = genderService;
 
         }
+        #region Index
         public IActionResult Index()
         {
             var employees = _employeeService.GetEmployeesWithTypeName();
@@ -41,7 +42,9 @@ namespace tpm.web.contract.Controllers
             ViewBag.Genders = genders;
             return View();
         }
+        #endregion
 
+        #region GetEmployee
         [HttpGet]
         public IActionResult GetEmployee(int ID)
         {
@@ -49,7 +52,7 @@ namespace tpm.web.contract.Controllers
 
             return Json(new { Employee = getEmployee });
         }
-
+        #endregion
 
         #region Create Post
         [HttpPost]
@@ -172,15 +175,6 @@ namespace tpm.web.contract.Controllers
             }
         }
         #endregion
-
-        public IActionResult Detail()
-        {
-            return View();
-        }
-        public IActionResult Edit()
-        {
-            return View();
-        }
 
     }
 }

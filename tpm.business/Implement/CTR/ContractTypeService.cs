@@ -10,15 +10,25 @@ namespace tpm.business
 {
     public class ContractTypeService :IContractTypeService
     {
+        #region Private Fields
+
         private readonly Lazy<IRepository> _objRepository;
         private readonly Lazy<IReadOnlyRepository> _objReadOnlyRepository;
         private bool _disposedValue;
+
+        #endregion
+
+        #region Constructors
 
         public ContractTypeService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
         {
             _objRepository = objRepository;
             _objReadOnlyRepository = objReadOnlyRepository;
         }
+
+        #endregion
+
+        #region GetAllContractTypes
         public IEnumerable<ContractTypeRes> GetAllContractTypes()
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ContractTypeRes>("CTR.ContractType_ReadAll");
@@ -28,9 +38,9 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
-
-
+        #region Dispose
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -56,5 +66,6 @@ namespace tpm.business
         {
             Dispose(false);
         }
+        #endregion
     }
 }

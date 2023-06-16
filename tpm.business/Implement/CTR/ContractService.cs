@@ -13,15 +13,25 @@ namespace tpm.business
 {
     public class ContractService : IContractService
     {
+        #region Private Fields
+
         private readonly Lazy<IRepository> _objRepository;
         private readonly Lazy<IReadOnlyRepository> _objReadOnlyRepository;
         private bool _disposedValue;
+
+        #endregion
+
+        #region Constructors
 
         public ContractService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
         {
             _objRepository = objRepository;
             _objReadOnlyRepository = objReadOnlyRepository;
         }
+
+        #endregion
+
+        #region List, ReadAll
         public IEnumerable<ContractRes> List()
         {
             return ReadAll();
@@ -37,8 +47,9 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
-
+        #region GetContractsWithTypeName
         public IEnumerable<ContractRes> GetContractsWithTypeName()
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ContractRes>("CTR.GetContractsWithTypeName");
@@ -48,7 +59,9 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
+        #region GetContractsByID
         public IEnumerable<ContractRes> GetContractsByID(int Contract_ID)
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<ContractRes>("CTR.GetContractByID", new { Contract_ID });
@@ -58,6 +71,7 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
         #region Create
         public bool Create(ContractCreateReq objReq, out int newContractID)
@@ -167,6 +181,7 @@ namespace tpm.business
         }
         #endregion
 
+        #region Dispose
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -193,5 +208,6 @@ namespace tpm.business
         {
             Dispose(false);
         }
+        #endregion
     }
 }

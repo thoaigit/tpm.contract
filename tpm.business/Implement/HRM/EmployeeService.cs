@@ -13,9 +13,15 @@ namespace tpm.business
 {
     public class EmployeeService : IEmployeeService
     {
+        #region Private Fields
+
         private readonly Lazy<IRepository> _objRepository;
         private readonly Lazy<IReadOnlyRepository> _objReadOnlyRepository;
         private bool _disposedValue;
+
+        #endregion
+
+        #region Constructors
 
         public EmployeeService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
         {
@@ -23,6 +29,9 @@ namespace tpm.business
             _objReadOnlyRepository = objReadOnlyRepository;
         }
 
+        #endregion
+
+        #region List, ReadALL
         public IEnumerable<EmployeeRes> List()
         {
             return ReadAll();
@@ -37,8 +46,10 @@ namespace tpm.business
                 result = new List<EmployeeRes>();
             }
             return result;
-        }    
+        }
+        #endregion
 
+        #region GetEmployeesWithTypeName
         public IEnumerable<EmployeeRes> GetEmployeesWithTypeName()
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeWithTypeName");
@@ -48,7 +59,9 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
+        #region GetEmployeesByID
         public IEnumerable<EmployeeRes> GetEmployeesByID(int ID)
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeRes>("HRM.GetEmployeeByID", new { ID });
@@ -58,6 +71,7 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
         #region Create
         public bool Create(EmployeeCreateReq objReq, out int newID)
@@ -165,6 +179,7 @@ namespace tpm.business
         }
         #endregion
 
+        #region Dispose
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -190,5 +205,6 @@ namespace tpm.business
         {
             Dispose(false);
         }
+        #endregion
     }
 }

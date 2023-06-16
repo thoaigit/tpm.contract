@@ -1,4 +1,5 @@
 ﻿
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,19 @@ namespace tpm.dto.admin
         public string MobilePhone { get; set; }
         public string TIN { get; set; }
         public string Email { get; set; }   
+    }
+    public class ContractCreateReqValidator : AbstractValidator<ContractCreateReq>
+    {
+        public ContractCreateReqValidator()
+        {
+            RuleFor(contract => contract.Contract_Type_ID).NotEmpty();
+            RuleFor(contract => contract.Contract_Number).NotEmpty();
+            RuleFor(contract => contract.Customer_Company_Name).NotEmpty();
+            RuleFor(contract => contract.Address).NotEmpty();
+            RuleFor(contract => contract.Phone).NotEmpty();
+            RuleFor(contract => contract.MobilePhone).NotEmpty();
+            RuleFor(contract => contract.TIN).NotEmpty();
+            RuleFor(contract => contract.Email).NotEmpty().EmailAddress();
+        }
     }
 }

@@ -10,9 +10,15 @@ namespace tpm.business
 {
     public class EmployeeTypeService : IEmployeeTypeService
     {
+        #region Private Fields
+
         private readonly Lazy<IRepository> _objRepository;
         private readonly Lazy<IReadOnlyRepository> _objReadOnlyRepository;
         private bool _disposedValue;
+
+        #endregion
+
+        #region Constructors
 
         public EmployeeTypeService(Lazy<IRepository> objRepository, Lazy<IReadOnlyRepository> objReadOnlyRepository)
         {
@@ -20,6 +26,9 @@ namespace tpm.business
             _objReadOnlyRepository = objReadOnlyRepository;
         }
 
+        #endregion
+
+        #region GetAllEmployees
         public IEnumerable<EmployeeTypeRes> GetAllEmployees()
         {
             var result = _objReadOnlyRepository.Value.StoreProcedureQuery<EmployeeTypeRes>("HRM.EmployeeType_ReadAll");
@@ -29,9 +38,9 @@ namespace tpm.business
             }
             return result;
         }
+        #endregion
 
-
-
+        #region Dispose
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -57,5 +66,6 @@ namespace tpm.business
         {
             Dispose(false);
         }
+        #endregion
     }
 }
