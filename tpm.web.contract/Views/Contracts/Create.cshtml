@@ -297,7 +297,7 @@
     var selectedServiceID;
 
     $("#openPopup").click(function () {
-        openCreatePopup(); 
+        openCreatePopup();
     });
 
     // Hàm đóng popup
@@ -325,7 +325,7 @@
 
 
             if (serviceID) {
-                $.ajax({
+                $.ajax ({
                     url: "/Contracts/Update",
                     type: "POST",
                     dataType: "json",
@@ -343,7 +343,7 @@
 
 
             } else {
-                $.ajax({
+                $.ajax ({
                     url: '/Contracts/Create',
                     type: 'POST',
                     dataType: 'json',
@@ -452,7 +452,7 @@
 
 
             } else {
-                $.ajax({
+                $.ajax ({
                     url: '/Contracts/CreateContract',
                     type: 'POST',
                     dataType: 'json',
@@ -519,25 +519,3 @@
 <script src="~/assets/js/site.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

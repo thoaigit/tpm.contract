@@ -129,7 +129,7 @@ function openEditPopupC(contractID) {
 }
 
 
-// hàm ấy contract theo id
+// hàm lấy contract theo id
 function getContractByID(contractID, callback) {
     $.ajax({
         url: "/Contracts/GetContract",
@@ -404,12 +404,4 @@ function initializeScript() {
 $(document).ready(function () {
     initializeScript();
 });
-
-
-
-
-
-
-
-
 
