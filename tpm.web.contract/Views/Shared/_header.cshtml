@@ -12,7 +12,8 @@
 		<div class="d-flex w-100 w-xl-auto overflow-auto overflow-xl-visible scrollbar-hidden border-top border-top-xl-0 order-1 order-xl-0 pt-2 pt-xl-0 mt-2 mt-xl-0">
 			<ul class="nav gap-1 justify-content-center flex-nowrap flex-xl-wrap mx-auto">
 				<li class="nav-item">
-					<a href="/Home" class="navbar-nav-link rounded"> @*active*@
+					<a href="/Home" class="navbar-nav-link rounded">
+						@*active*@
 						<i class="ph-house me-2"></i>
 						Home
 					</a>
@@ -38,6 +39,17 @@
 						<a href="/Contracts/Create" class="dropdown-item rounded">Thêm mới</a>
 					</div>
 				</li>
+
+				<li class="nav-item nav-item-dropdown-xl dropdown">
+					<a href="#" class="navbar-nav-link dropdown-toggle rounded" data-bs-toggle="dropdown">
+						<i class="ph-service me-2"></i>
+						Dịch vụ
+					</a>
+					<div class="dropdown-menu">
+						<a href="/Services" class="dropdown-item rounded">Danh sách</a>
+						@*<a href="/Services/Create" class="dropdown-item rounded">Thêm mới</a>*@
+					</div>
+				</li>
 			</ul>
 		</div>
 
@@ -45,7 +57,7 @@
 			<li class="nav-item nav-item-dropdown-xl dropdown">
 				<a href="#" class="navbar-nav-link align-items-center rounded-pill p-1" data-bs-toggle="dropdown">
 					@*<div class="status-indicator-container">
-						<img src="/assets/images/demo/users/face11.jpg" class="w-32px h-32px rounded-pill" alt="">
+					<img src="/assets/images/demo/users/face11.jpg" class="w-32px h-32px rounded-pill" alt="">
 					</div>*@
 					<span class="name-icon name-icon-@Html.Raw(Model.CFName)"></span>
 					<span class="d-none d-md-inline-block mx-md-2">@Html.Raw(string.Format("{0}", Model.FullName))</span>
