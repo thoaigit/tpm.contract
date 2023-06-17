@@ -17,12 +17,10 @@ namespace tpm.web.contract.Controllers
         private readonly ServiceCreateReqValidator _validator;
         private readonly IServiceTypeService _serviceTypeService;
         private readonly IUnitService _serviceUnit;
-        public ServicesController(IServiceService serviceService, ServiceCreateReqValidator validator, IServiceTypeService serviceTypeService, IUnitService serviceUnit)
+        public ServicesController(ServiceCreateReqValidator validator, IServiceTypeService serviceTypeService)
         {
-            _serviceService = serviceService;
             _validator = validator;
             _serviceTypeService = serviceTypeService;
-            _serviceUnit = serviceUnit;
         }
         [HttpGet]
         public IActionResult GetService(int Service_ID)
@@ -33,13 +31,9 @@ namespace tpm.web.contract.Controllers
         }
         public IActionResult Index()
         {
-            var services = _serviceService.GetServicesWithTypeName();
             var serviceTypes = _serviceTypeService.GetAllServiceTypes();
-            var unit = _serviceUnit.GetAllUnits();
 
-            ViewBag.Services = services;
             ViewBag.ServiceTypes = serviceTypes;
-            ViewBag.Unit = unit;
 
             return View();
         }
@@ -47,5 +41,53 @@ namespace tpm.web.contract.Controllers
         {
             return View();
         }
+        #region Create Post
+        [HttpPost]
+        public JsonResult Create(Service_TypeCreateReq objReq)
+        {
+            try
+            {
+                int newServiceTypeID = 0;
+
+                bool result = _serviceTypeService.Create(objReq, out newServiceTypeID);
+
+                if (result)
+                {
+                    // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
+                    var newServiceType = _serviceTypeService.GetServicesTypeByID(newServiceTypeID);
+
+                    return Json(new
+                    {
+                        objCodeStep = new
+                        {
+                            Status = CRUDStatusCodeRes.Success,
+                            Message = "Tạo mới thành công"
+                        },
+                        Service = newServiceType // Trả về thông tin dịch vụ mới
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        objCodeStep = new
+                        {
+                            Status = CRUDStatusCodeRes.Deny,
+                            Message = "Tạo mới không thành công"
+                        }
+                    });
+                }
+            }
+            catch (Exception objEx)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Có lỗi xảy ra khi thực hiện tạo mới: " + objEx.Message
+                });
+            }
+
+        }
+        #endregion
     }
 }

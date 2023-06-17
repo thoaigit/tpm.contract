@@ -16,6 +16,16 @@
         if (serviceName.trim() === '') {
             alert('Vui lòng nhập tên dịch vụ.');
             return;
+        } else {
+            $.ajax({
+                url: "/Services/Create",
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+
+                }
+            });
         }
 
         // Thực hiện xử lý lưu dịch vụ
