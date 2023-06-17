@@ -15,8 +15,10 @@
 	<!-- Global stylesheets -->
 	<link href="/assets/fonts/inter/inter.css" rel="stylesheet" type="text/css">
 	<link href="/assets/icons/phosphor/styles.min.css" rel="stylesheet" type="text/css">
+	<link href="/assets/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css"/>
 	<link href="/assets/css/ltr/all.min.css" id="stylesheet" rel="stylesheet" type="text/css">
 	<link href="/tpm/css/tpm_style.css" rel="stylesheet"  type="text/css"/>
+<<<<<<< Updated upstream
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" />
     <link href="~/assets/fontawesome-free-6.4.0-web/css/all.min.css" rel="stylesheet" />
@@ -38,9 +40,15 @@
     <script src="~/wwwroot/js/datatables.min.js"></script>
 	<!-- /theme JS files -->
 
+=======
+	<!-- /global stylesheets -->
+>>>>>>> Stashed changes
 </head>
 
-<body>
+<body ng-app="MyApp">
+	@{
+		await Html.RenderPartialAsync("~/Views/Shared/_scripts.cshtml", CurrentUser);
+	}
 	@{
 		await Html.RenderPartialAsync("~/Views/Shared/_header.cshtml", CurrentUser);
     }
@@ -60,5 +68,6 @@
 	@{
 		await Html.RenderPartialAsync("~/Views/Shared/_footer.cshtml", CurrentUser);
 	}
+	@RenderSection("jsScript", false)
 </body>
 </html>

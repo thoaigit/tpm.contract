@@ -12,6 +12,7 @@ namespace tpm.dto.admin
     {
         public int Service_Type_ID { get; set; }
         public string Name { get; set; }
-
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

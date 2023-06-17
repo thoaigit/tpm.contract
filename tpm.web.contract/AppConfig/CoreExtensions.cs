@@ -20,20 +20,28 @@ namespace tpm.web.contract
         {
             AppSetting.Logger = new AppSettingLogger();
             AppSetting.Connection = new ConnectionStrings();
+            AppSetting.Common = new AppSettingCommon();
             Configuration.Bind("Logger", AppSetting.Logger);
             Configuration.Bind("ConnectionStrings", AppSetting.Connection);
+            Configuration.Bind("CommonStrings", AppSetting.Common);
 
             //services.AddAutoMapper();
             services.AddHttpContextAccessor();
             services.AddMemoryCache();
 
+			services.AddControllersWithViews();
+            services.AddControllers()
+                    .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddDistributedMemoryCache();
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
                 options.IdleTimeout = TimeSpan.FromSeconds(60 * 30);
                 options.Cookie.HttpOnly = true;
-            });
-
+				options.Cookie.IsEssential = true;
+			});
+            
             MemoryCacheOptions memCacheOption = new MemoryCacheOptions();
             //MemoryCacheManager memCache = new MemoryCacheManager(new MemoryCache(memCacheOption));
             //services.AddSingleton<IMemoryCacheManager>(memCache);

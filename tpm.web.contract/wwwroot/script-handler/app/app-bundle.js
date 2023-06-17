@@ -4092,7 +4092,6 @@ var toFixedDecimal = function ($filter) {
 toFixedDecimal.$inject = ["$filter"];
 var lstDependency = [];
 lstDependency.push("ngRoute");
-lstDependency.push("angular.filter");
 lstDependency.push("ngTagsInput");
 //lstDependency.push("ui.sortable");
 //lstDependency.push("ngAnimate");

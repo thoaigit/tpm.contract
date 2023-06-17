@@ -4,6 +4,7 @@
     {
         public static AppSettingLogger Logger;
         public static ConnectionStrings Connection;
+        public static AppSettingCommon Common;
     }
     public class AppSettingLogger
     {
@@ -16,4 +17,8 @@
     {
         public string DefaultConnection { get; set; }
     }
+	public class AppSettingCommon
+	{
+        public bool APIDebug { get; set; } = false;
+	}
 }
