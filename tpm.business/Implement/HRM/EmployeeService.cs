@@ -78,6 +78,16 @@ namespace tpm.business
         {
             try
             {
+                // Kiểm tra các thông tin bắt buộc
+                if (string.IsNullOrEmpty(objReq.EmployeeID) || string.IsNullOrEmpty(objReq.FullName) ||
+                    objReq.DOB == null || objReq.DepartmentID <= 0 || objReq.PositionID <= 0 ||
+                    objReq.GenderID <= 0 || string.IsNullOrEmpty(objReq.Phone) || string.IsNullOrEmpty(objReq.Email) ||
+                    objReq.EmployeeTypeID <= 0)
+                {
+                    newID = 0;
+                    return false;
+                }
+
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
@@ -118,6 +128,15 @@ namespace tpm.business
         {
             try
             {
+                // Kiểm tra các thông tin bắt buộc
+                if (string.IsNullOrEmpty(objReq.EmployeeID) || string.IsNullOrEmpty(objReq.FullName) ||
+                    objReq.DOB == null || objReq.DepartmentID <= 0 || objReq.PositionID <= 0 ||
+                    objReq.GenderID <= 0 || string.IsNullOrEmpty(objReq.Phone) || string.IsNullOrEmpty(objReq.Email) ||
+                    objReq.EmployeeTypeID <= 0)
+                {
+                    return false;
+                }
+
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
