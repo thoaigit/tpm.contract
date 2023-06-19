@@ -31,16 +31,10 @@ function openTab(evt, tabName) {
 
 // Xử lý sự kiện khi tải trang
 window.onload = function () {
-    // Kiểm tra xem tab mặc định đã được lưu trong sessionStorage chưa
-    var defaultTab = sessionStorage.getItem('defaultTab');
-    if (defaultTab) {
-        // Nếu đã có tab mặc định, nhấp vào tab tương ứng để duy trì tab hiện tại
-        document.querySelector(defaultTab).click();
-    } else {
-        // Nếu chưa có tab mặc định, nhấp vào tab đầu tiên để đặt tab mặc định
-        document.getElementById("tab1").click();
-    }
+    document.getElementById("Tab1").style.display = "block";
+    document.getElementById("Tab1").classList.add("active");
 };
+
 
 // hàm đóng popup
 function closePopupE() {
