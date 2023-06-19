@@ -1,7 +1,7 @@
 ﻿<div class="content">
     <div class="card-body">
         <input style="padding: 7px; border-radius: 7px;" type="text" placeholder="Thêm dịch vụ"></input>
-        <a href="/Services/Create" ; style="margin-bottom: 4px; margin-left: 0px;" class="btn btn-primary">Thêm Dịch Vụ</a>
+        <button class="save-button" onclick="saveServiceType()" style="margin-bottom: 4px; margin-left: 0px;">Thêm Dịch Vụ</button>
     </div>
     <div class="card">
         <div>
@@ -41,3 +41,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    function saveService() {
+        // Lấy giá trị từ trường nhập liệu
+        var serviceName = document.getElementById('serviceName').value;
+
+        // Kiểm tra nếu serviceName rỗng
+        if (serviceName.trim() === '') {
+            alert('Vui lòng nhập tên dịch vụ.');
+            return;
+        } else {
+            $.ajax({
+                url: "/Services/Create",
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+
+                }
+            });
+        }
+
+        // Thực hiện xử lý lưu dịch vụ
+        console.log('Đã lưu dịch vụ:', serviceName);
+    }
+</script>
