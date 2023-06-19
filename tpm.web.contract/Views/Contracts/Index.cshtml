@@ -2,6 +2,7 @@
     ViewData["Title"] = "Index";
 }
 
+
 <div class="page-header page-header-light shadow">
     <div class="page-header-content d-lg-flex">
         <div class="collapse d-lg-block ms-lg-auto" id="breadcrumb_elements">
@@ -31,7 +32,7 @@
         </div>
         <div class="column-right">
             <input type="text" id="keyword" class="input-contract" placeholder="Nhập từ khóa tìm kiếm">
-            <button onclick="search()" class="button-contract"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button onclick="search()" class="button-contract"><i class="icon-search4"></i></button>
         </div>
     </div>
 </div>
@@ -42,7 +43,7 @@
         <div>
             <table class="table datatable-column-search-inputs">
                 <thead>
-                    <tr class="list-contract">
+                    <tr >
                         <th>Tên hợp đồng</th>
                         <th>Tên công ty</th>
                         <th>Ngày bắt đầu</th>
@@ -57,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr class="list-contract">
                         <td>Hợp Đồng Kinh Doanh</td>
                         <td>Công Ty Nông Lâm</td>
                         <td>2011/04/25</td>
@@ -86,6 +87,4 @@
         </div>
     </div>
 </div>
-
-
-
+<script src="/assets/js/contractindex.js"></script>
