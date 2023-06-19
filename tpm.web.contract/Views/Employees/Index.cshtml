@@ -12,10 +12,10 @@
 
 <div class="content">
     <div class="card-body">
-        <a id="openPopup" class="btn btn-primary">Thêm Nhân Viên</a>
+        <a id="openPopupE" class="btn btn-primary">Thêm Nhân Viên</a>
     </div>
     <div class="card">
-        <div id="myPopup" class="popup">
+        <div id="myPopupE" class="popup">
             <h2>Nhập thông tin</h2>
             <div class="form-row">
                 <div class="form-column">
@@ -92,8 +92,8 @@
                 </div>
             </div>
             <div class="form-buttons">
-                <button id="saveButton">Lưu</button>
-                <button id="closePopup">Đóng</button>
+                <button type="submit" id="saveButtonE">Lưu</button>
+                <button type="submit" id="closePopupE">Đóng</button>
             </div>
         </div>
     </div>
@@ -162,25 +162,19 @@
     </table>
 </div>
 
-
+<script src="~/assets/js/site.js"></script>
 <script>
     var selectedID;
-    $("#openPopup").click(function () {
-        openCreatePopup();
+    $("#openPopupE").click(function () {
+        openCreatePopupE();
     });
-    $("#closePopup").click(function () {
-        $("#myPopup").hide();
-        $(".overlay").hide();
-        $("body").removeClass("popup-active");
 
-        $("#employeeID").val("");
-        $("#fullName").val("");
-        $("#phone").val("");
-        $("#email").val("");
+    $("#closePopupE").click(function () {
+        closePopupE();
     });
 
     $(document).ready(function () {
-        $("#saveButton").click(function () {
+        $("#saveButtonE").click(function () {
             var id = selectedID;
             var employeeID = $("#employeeID").val();
             var genderID = $("#genderTypeDropdown").val();
@@ -189,14 +183,13 @@
             var employeeTypeID = $("#employeeTypeDropdown").val();
             var dobValue = $("#dob").val();
             var dobParts = dobValue.split('-');
-            var day = dobParts[0].padStart(2, '0');
-            var month = dobParts[1].padStart(2, '0');
-            var year = dobParts[2];
+            var day = dobParts[2];
+            var month = dobParts[1];
+            var year = dobParts[0];
             var formattedDOB = day + '-' + month + '-' + year;
             var phone = $("#phone").val();
             var email = $("#email").val();
             var fullName = $("#fullName").val();
-
 
             var data = {
                 ID: id,
@@ -210,7 +203,6 @@
                 PositionID: positionID,
                 EmployeeTypeID: employeeTypeID
             };
-
 
             if (id) {
                 $.ajax({
@@ -229,8 +221,6 @@
                         alert("Lỗi khi cập nhật. Vui lòng kiểm tra console log.");
                     }
                 });
-
-
             } else {
                 $.ajax({
                     url: '/Employees/Create',
@@ -238,51 +228,57 @@
                     dataType: 'json',
                     data: data,
                     success: function (data) {
-
-                        alert("Tạo thành công!");
                         console.log(data);
-                        closePopupE();
 
+                        if (data.objCodeStep.Status === 0) {
+                            alert("Tạo thành công");
+                            // Ẩn popup
+                            closePopupE();
+                            try {
+                                var newEmployee = data.Employee[0];
+                                var dob = new Date(newEmployee.DOB);
+                                var formattedDOB = dob.getDate().toString().padStart(2, "0") + '/' + (dob.getMonth() + 1).toString().padStart(2, "0") + '/' + dob.getFullYear();
+                                // Tạo chuỗi HTML cho dòng mới trong bảng
+                                var newRow = '<tr>' +
+                                    '<td>' + ($('.table.datatable-column-search-inputs.service tbody tr').length + 1) + '</td>' +
+                                    '<td>' + newEmployee.EmployeeID + '</td>' +
+                                    '<td>' +
+                                    '<div>' + newEmployee.FullName + '</div>' +
+                                    '<div>' +
+                                    '<span>GT: </span>' +
+                                    '<span style="font-weight: 700">' + newEmployee.GenderName + '</span>' +
+                                    '<span> - </span>' +
+                                    '<span style="font-weight: 700">' + newEmployee.Phone + '</span>' +
+                                    '</div>' +
+                                    '</td>' +
+                                    '<td>' + formattedDOB + '</td>' +
+                                    '<td>' + newEmployee.Email + '</td>' +
+                                    '<td>' +
+                                    '<div>' + newEmployee.DepartmentName + ' - ' + newEmployee.PositionName + '</div>' +
+                                    '<div>' + newEmployee.EmployeeTypeName + '</div>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<a data-employeeid="' + newEmployee.ID + '" href="#" onclick="openEditPopupE(' + newEmployee.ID + ')"><i class="fas fa-edit me-1 fa-1x"></i></a>' +
+                                    '<span class="icon-space"></span>' +
+                                    '<a class="delete-link" data-employeeid="' + newEmployee.ID + '" onclick="deleteEmployee(event, ' + newEmployee.ID + ')"><i class="fas fa-trash me-1 fa-1x"></i></a>' +
+                                    '</td>' +
+                                    '</tr>';
+                                $('.table.datatable-column-search-inputs.service tbody').append(newRow);
 
-                        var newEmployee = data.employee[0];
-                        var dob = new Date(newEmployee.dob);
-
-                        var formattedDOB = dob.getDate().toString().padStart(2, "0") + '/' + (dob.getMonth() + 1).toString().padStart(2, "0") + '/' + dob.getFullYear();
-                        var newRow = '<tr>' +
-                            '<td>' + ($('.table.datatable-column-search-inputs.service tbody tr').length + 1) + '</td>' +
-                            '<td>' + newEmployee.employeeID + '</td>' +
-                            '<td>' +
-                            '<div>' + newEmployee.fullName + '</div>' +
-                            '<div>' +
-                            '<span>GT: </span>' +
-                            '<span style="font-weight: 700">' + newEmployee.genderName + '</span>' +
-                            '<span> - </span>' +
-                            '<span style="font-weight: 700">' + newEmployee.phone + '</span>' +
-                            '</div>' +
-                            '</td>' +
-                            '<td>' + formattedDOB + '</td>' +
-                            '<td>' + newEmployee.email + '</td>' +
-                            '<td>' +
-                            '<div>' + newEmployee.departmentName + ' - ' + newEmployee.positionName + '</div>' +
-                            '<div>' + newEmployee.employeeTypeName + '</div>' +
-                            '</td>' +
-                            '<td>' +
-                            '<a data-employeeid="' + newEmployee.id + '" href="#" onclick="openEditPopupE(' + newEmployee.id + ')"><i class="fas fa-edit me-1 fa-1x"></i></a>' +
-                            '<span class="icon-space"></span>' +
-                            '<a class="delete-link" data-employeeid="' + newEmployee.id + '" onclick="deleteEmployee(event, ' + newEmployee.id + ')"><i class="fas fa-trash me-1 fa-1x"></i></a>' +
-                            '</td>' +
-                            '</td>' +
-                            '</tr>';
-                        $('.table.datatable-column-search-inputs.service tbody').append(newRow);
-
+                            } catch (ex) {
+                                alert("Lỗi khi thêm dữ liệu vào bảng" + ex);
+                            }
+                        } else {
+                            alert("Vui lòng kiểm tra đầy đủ thông tin ");
+                        }
                     },
                     error: function (error) {
-                        console.log("Lỗi khi tạo:", error);
-                        alert("Lỗi khi tạo. Vui lòng kiểm tra console log.");
+                        alert("Lỗi khi tạo: " + error.responseJSON.message);
                     }
                 });
             }
         });
     });
 </script>
-<script src="~/assets/js/site.js"></script>
+
+

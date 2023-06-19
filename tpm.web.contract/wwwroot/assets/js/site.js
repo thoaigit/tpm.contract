@@ -44,9 +44,11 @@ window.onload = function () {
 
 // hàm đóng popup
 function closePopupE() {
-    $("#myPopup").hide();
+    $("#myPopupE").hide();
     $(".overlay").hide();
     $("body").removeClass("popup-active");
+
+    location.reload();
 
     $("#employeeID").val("");
     $("#fullName").val("");
@@ -59,7 +61,7 @@ function closePopupS() {
     $("#myPopup").hide();
     $(".overlay").hide();
     $("body").removeClass("popup-active");
-
+    location.reload();
     $("#unitPrice").val("");
     $("#quantity").val("");
     $("#totalAmount").val("");
@@ -69,7 +71,7 @@ function closePopupC() {
     $("#myPopupC").hide();
     $(".overlay").hide();
     $("body").removeClass("popup-active");
-
+    location.reload();
     $("#contractNumber").val("");
     $("#customerCompanyName").val("");
     $("#address").val("");
@@ -83,6 +85,12 @@ function closePopupC() {
 // hàm mở popup create
 function openCreatePopup() {
     $("#myPopup").show();
+    $(".overlay").show();
+    $("body").addClass("popup-active");
+}
+// hàm mở popup create employee
+function openCreatePopupE() {
+    $("#myPopupE").show();
     $(".overlay").show();
     $("body").addClass("popup-active");
 }
@@ -130,7 +138,7 @@ function openEditPopupC(contractID) {
 
 // hàm mở popup edit Employee
 function openEditPopupE(id) {
-    $("#myPopup").show();
+    $("#myPopupE").show();
     $(".overlay").show();
     $("body").addClass("popup-active");
     selectedID = id;
@@ -238,7 +246,7 @@ function getEmployeeByID(id, callback) {
         data: { ID: id },
         success: function (data) {
             var getEmployee = data.Employee[0];
-            console.log(getEmployee);
+           
 
             if (typeof callback === "function") {
                 callback(getEmployee);
