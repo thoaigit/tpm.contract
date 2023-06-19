@@ -82,6 +82,18 @@ namespace tpm.business
         {
             try
             {
+                if (objReq.Unit_ID == 0 ||
+                    objReq.Quantity <= 0 ||
+                    objReq.Unit_Price <= 0 ||
+                    objReq.Total_Amount <= 0 ||
+                    objReq.Service_Type_ID <= 0 ||
+                    objReq.Contract_ID <= 0)
+                {
+                    // Trả về false nếu thông tin không đủ
+                    newServiceID = 0;
+                    return false;
+                }
+
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
@@ -91,6 +103,7 @@ namespace tpm.business
                 param.Add("@Unit_Price", objReq.Unit_Price);
                 param.Add("@Total_Amount", objReq.Total_Amount);
                 param.Add("@Service_Type_ID", objReq.Service_Type_ID);
+                param.Add("@Contract_ID", objReq.Contract_ID);
 
                 // Thực hiện gọi stored procedure để thêm dữ liệu vào database
                 newServiceID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("CTR.Service_Create", param, commandType: CommandType.StoredProcedure);
@@ -111,6 +124,7 @@ namespace tpm.business
                 throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
+
         #endregion
 
         #region Update
@@ -118,6 +132,17 @@ namespace tpm.business
         {
             try
             {
+                if (objReq.Unit_ID == 0 ||
+                    objReq.Quantity <= 0 ||
+                    objReq.Unit_Price <= 0 ||
+                    objReq.Total_Amount <= 0 ||
+                    objReq.Service_Type_ID <= 0 ||
+                    objReq.Contract_ID <= 0)
+                {
+                    // Trả về false nếu thông tin không đủ
+                    return false;
+                }
+
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
@@ -128,6 +153,7 @@ namespace tpm.business
                 param.Add("@Unit_Price", objReq.Unit_Price);
                 param.Add("@Total_Amount", objReq.Total_Amount);
                 param.Add("@Service_Type_ID", objReq.Service_Type_ID);
+                param.Add("@Contract_ID", objReq.Contract_ID);
 
                 // Thực hiện gọi stored procedure để cập nhật dữ liệu trong database
                 _objReadOnlyRepository.Value.Connection.Execute("CTR.Service_Update", param, commandType: CommandType.StoredProcedure);
@@ -141,7 +167,6 @@ namespace tpm.business
                 throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
-
         #endregion
 
         #region Delete

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Dapper;
 using System;
 using tpm.dto.admin.Response;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace tpm.web.contract.Controllers
 {
@@ -208,33 +210,53 @@ namespace tpm.web.contract.Controllers
         {
             try
             {
-                int newContractID = 0;
+                // Tạo một instance của ServiceCreateReqValidator và kiểm tra xem dữ liệu có hợp lệ hay không
+                ContractCreateReqValidator validator = new ContractCreateReqValidator();
+                ValidationResult result = validator.Validate(objReq);
 
-                bool result = _contractService.Create(objReq, out newContractID);
-
-                if (result)
+                if (result.IsValid)
                 {
-                    // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
-                    var newContract = _contractService.GetContractsByID(newContractID);
+                    int newContractID = 0;
 
-                    return Json(new
+                    bool createResult = _contractService.Create(objReq, out newContractID);
+
+                    if (createResult)
                     {
-                        objCodeStep = new
+                        // Gọi phương thức GetServiceById để lấy thông tin dịch vụ mới
+                        var newContract = _contractService.GetContractsByID(newContractID);
+
+                        return Json(new
                         {
-                            Status = CRUDStatusCodeRes.Success,
-                            Message = "Tạo mới thành công"
-                        },
-                        Contract = newContract // Trả về thông tin dịch vụ mới
-                    });
+                            objCodeStep = new
+                            {
+                                Status = CRUDStatusCodeRes.Success,
+                                Message = "Tạo mới thành công"
+                            },
+                            Contract = newContract // Trả về thông tin dịch vụ mới
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            objCodeStep = new
+                            {
+                                Status = CRUDStatusCodeRes.Deny,
+                                Message = "Tạo mới không thành công"
+                            }
+                        });
+                    }
                 }
                 else
                 {
+                    // Xử lý khi dữ liệu không hợp lệ, ví dụ: hiển thị thông báo lỗi
+                    string errorMessage = string.Join("\n", result.Errors.Select(error => error.ErrorMessage));
                     return Json(new
                     {
                         objCodeStep = new
                         {
                             Status = CRUDStatusCodeRes.Deny,
-                            Message = "Tạo mới không thành công"
+                            Message = "Dữ liệu không hợp lệ: " + errorMessage
                         }
                     });
                 }

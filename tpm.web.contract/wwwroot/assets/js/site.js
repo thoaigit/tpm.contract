@@ -101,13 +101,13 @@ function openEditPopupC(contractID) {
     $("body").addClass("popup-active");
     selectedContractID = contractID;
 
+
     if (contractID) {
         getContractByID(contractID, function (getContract) {
             if (getContract) {
-                var contractTypeName = getContract.contract_Type_Name;
+
+                var contractTypeName = getContract.Contract_Type_Name;
                 var $contractsTypeDropdown = $("#contractsTypeDropdown");
-
-
                 $contractsTypeDropdown
                     .find("option")
                     .filter(function () {
@@ -115,41 +115,18 @@ function openEditPopupC(contractID) {
                     })
                     .prop("selected", true);
 
-                $("#contractNumber").val(getContract.contract_Number);
-                $("#customerCompanyName").val(getContract.customer_Company_Name);
-                $("#address").val(getContract.address);
-                $("#address2").val(getContract.address);
-                $("#phone").val(getContract.phone);
-                $("#mobilePhone").val(getContract.mobilePhone);
-                $("#tin").val(getContract.tin);
-                $("#email").val(getContract.email);
+                $("#contractNumber").val(getContract.Contract_Number);
+                $("#customerCompanyName").val(getContract.Customer_Company_Name);
+                $("#address").val(getContract.Address);
+                $("#address2").val(getContract.Address);
+                $("#phone").val(getContract.Phone);
+                $("#mobilePhone").val(getContract.MobilePhone);
+                $("#tin").val(getContract.TIN);
+                $("#email").val(getContract.Email);
             }
         });
     }
 }
-
-
-// hàm lấy contract theo id
-function getContractByID(contractID, callback) {
-    $.ajax({
-        url: "/Contracts/GetContract",
-        type: "GET",
-        dataType: "json",
-        data: { Contract_ID: contractID },
-        success: function (data) {
-            var getContract = data.contract[0];
-
-            if (typeof callback === "function") {
-                callback(getContract);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log("Lỗi khi lấy dữ liệu:", error);
-            alert("Lỗi khi lấy dữ liệu. Vui lòng kiểm tra console log.");
-        },
-    });
-}
-
 
 // hàm mở popup edit Employee
 function openEditPopupE(id) {
@@ -162,21 +139,19 @@ function openEditPopupE(id) {
     if (id) {
         getEmployeeByID(id, function (getEmployee) {
             if (getEmployee) {
-                var genderName = getEmployee.genderName;
-                var departmentName = getEmployee.departmentName;
-                var positionName = getEmployee.positionName;
-                var employeeTypeName = getEmployee.employeeTypeName;
+                var genderName = getEmployee.GenderName;
+                var departmentName = getEmployee.DepartmentName;
+                var positionName = getEmployee.PositionName;
+                var employeeTypeName = getEmployee.EmployeeTypeName;
                 var $genderTypeDropdown = $("#genderTypeDropdown");
                 var $departmentTypeDropdown = $("#departmentTypeDropdown");
                 var $positionTypeDropdown = $("#positionTypeDropdown");
                 var $employeeTypeDropdown = $("#employeeTypeDropdown");
-                var dob = new Date(getEmployee.dob);
+                var dob = new Date(getEmployee.DOB);
                 var year = dob.getFullYear().toString().padStart(4, "0");
                 var month = (dob.getMonth() + 1).toString().padStart(2, "0");
                 var day = dob.getDate().toString().padStart(2, "0");
                 var formattedDOB = year + "-" + month + "-" + day;
-
-
 
                 $genderTypeDropdown
                     .find("option")
@@ -191,23 +166,26 @@ function openEditPopupE(id) {
                         return $(this).text().trim() === departmentName;
                     })
                     .prop("selected", true);
+
                 $positionTypeDropdown
                     .find("option")
                     .filter(function () {
                         return $(this).text().trim() === positionName;
                     })
                     .prop("selected", true);
+
                 $employeeTypeDropdown
                     .find("option")
                     .filter(function () {
                         return $(this).text().trim() === employeeTypeName;
                     })
                     .prop("selected", true);
-                $("#employeeID").val(getEmployee.employeeID);
+
+                $("#employeeID").val(getEmployee.EmployeeID);
                 $("#dob").val(formattedDOB);
-                $("#fullName").val(getEmployee.fullName);
-                $("#phone").val(getEmployee.phone);
-                $("#email").val(getEmployee.email);
+                $("#fullName").val(getEmployee.FullName);
+                $("#phone").val(getEmployee.Phone);
+                $("#email").val(getEmployee.Email);
             }
         });
     }
@@ -250,10 +228,6 @@ function openEditPopupS(serviceID) {
     }
 }
 
-// Hàm lấy gia trị value
-function getIndexByValue(selectElement, value) {
-    return selectElement.find("option[value='" + value + "']").index();
-}
 
 // hàm lấy dữ liệu theo id
 function getEmployeeByID(id, callback) {
@@ -263,7 +237,8 @@ function getEmployeeByID(id, callback) {
         dataType: "json",
         data: { ID: id },
         success: function (data) {
-            var getEmployee = data.employee[0];
+            var getEmployee = data.Employee[0];
+            console.log(getEmployee);
 
             if (typeof callback === "function") {
                 callback(getEmployee);
@@ -293,6 +268,27 @@ function getServiceByID(serviceID, callback) {
         error: function (xhr, status, error) {
             console.log("Lỗi khi lấy dịch vụ:", error);
             alert("Lỗi khi lấy dịch vụ. Vui lòng kiểm tra console log.");
+        },
+    });
+}
+
+// hàm lấy contract theo id
+function getContractByID(contractID, callback) {
+    $.ajax({
+        url: "/Contracts/GetContract",
+        type: "GET",
+        dataType: "json",
+        data: { Contract_ID: contractID },
+        success: function (data) {
+            var getContract = data.Contract[0];
+
+            if (typeof callback === "function") {
+                callback(getContract);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("Lỗi khi lấy dữ liệu:", error);
+            alert("Lỗi khi lấy dữ liệu. Vui lòng kiểm tra console log.");
         },
     });
 }
@@ -367,6 +363,11 @@ function deleteContract(event, contractID) {
             alert("Lỗi: Xóa dịch vụ không thành công!");
         }
     });
+}
+
+// Hàm lấy gia trị value
+function getIndexByValue(selectElement, value) {
+    return selectElement.find("option[value='" + value + "']").index();
 }
 
 // hàm tính toán dịch vụ

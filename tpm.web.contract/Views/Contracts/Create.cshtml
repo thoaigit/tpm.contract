@@ -60,8 +60,8 @@
 
             </div>
             <div class="form-buttons">
-                <button id="saveButtonC">Lưu</button>
-                <button id="closePopupC">Đóng</button>
+                <button type="submit" id="saveButtonC">Lưu</button>
+                <button type="submit" id="closePopupC">Đóng</button>
             </div>
         </div>
     </div>
@@ -115,8 +115,8 @@
                             <div>@contract.Email</div>
                         </td>
                         <td>
-                            <a data-serviceid="@contract.Contract_ID" href="#" onclick="openEditPopupC(@contract.Contract_ID)"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="#" class="delete-link" data-serviceid="@contract.Contract_ID" onclick="deleteContract(event, @contract.Contract_ID)"><i class="fa-solid fa-trash-can"></i></a>
+                            <a data-serviceid="@contract.Contract_ID" href="#" onclick="openEditPopupC(@contract.Contract_ID)"><i class="fas fa-edit me-1 fa-1x"></i></a>
+                            <a href="#" class="delete-link" data-serviceid="@contract.Contract_ID" onclick="deleteContract(event, @contract.Contract_ID)"><i class="fas fa-trash me-1 fa-1x"></i></a>
                         </td>
                     </tr>
                     stt++;
@@ -325,7 +325,7 @@
 
 
             if (serviceID) {
-                $.ajax ({
+                $.ajax({
                     url: "/Contracts/Update",
                     type: "POST",
                     dataType: "json",
@@ -343,7 +343,7 @@
 
 
             } else {
-                $.ajax ({
+                $.ajax({
                     url: '/Contracts/Create',
                     type: 'POST',
                     dataType: 'json',
@@ -354,7 +354,7 @@
                         console.log(data)
 
                         // Ẩn popup và overlay
-                       closePopupS();
+                        closePopupS();
 
                         // Lấy thông tin dịch vụ mới từ kết quả trả về
                         var newService = data.service[0];
@@ -370,7 +370,7 @@
                                 '<td>' + newService.quantity + '</td>' +
                                 '<td>' + newService.total_Amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>' +
                                 '<td>' +
-                                '<a data-serviceid="' + newService.service_ID + '" href="#" onclick="openEditPopup(' + newService.service_ID + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
+                                '<a data-serviceid="' + newService.service_ID + '" href="#" onclick="openEditPopup(' + newService.service_ID + ')"><i class="fas fa-edit me-1 fa-2x"></i></a>' +
                                 '<span class="icon-space"></span>' + // Khoảng cách giữa hai biểu tượng
                                 '<a href="#" class="delete-link" data-serviceid="' + newService.service_ID + '" onclick="deleteService(event, ' + newService.service_ID + ')"><i class="fa-solid fa-trash-can"></i></a>' +
                                 '</td>' +
@@ -391,7 +391,7 @@
             }
         });
     });
-</script> 
+</script>
 
 <script>
     var selectedContractID;
@@ -428,7 +428,6 @@
                 Email: email
             };
 
-
             if (contractID) {
                 $.ajax({
                     url: "/Contracts/UpdateContract",
@@ -440,8 +439,6 @@
                         alert("Cập nhật thành công!");
                         // Ẩn popup
                         closePopupC();
-
-                        
                         location.reload();
                     },
                     error: function (error) {
@@ -449,72 +446,73 @@
                         alert("Lỗi khi cập nhật. Vui lòng kiểm tra console log.");
                     }
                 });
-
-
             } else {
-                $.ajax ({
-                    url: '/Contracts/CreateContract',
-                    type: 'POST',
-                    dataType: 'json',
+                $.ajax({
+                    url: "/Contracts/CreateContract",
+                    type: "POST",
+                    dataType: "json",
                     data: data,
                     success: function (data) {
-                        // Hiển thị thông báo
-                        alert("Tạo thành công!");
+                        console.log(data);
 
-                        // Ẩn popup
-                        closePopupC();
-                        var newContract = data.contract[0];
+                        var newContract = data.Contract[0];
 
+                        if (data.objCodeStep.Status === 0) {
+                            alert("Tạo thành công");
+                            // Ẩn popup
+                            closePopupC();
+                            try {
+                                // Tạo chuỗi HTML cho dòng mới trong bảng
+                                var newRow = '<tr>' +
+                                    '<td>' + ($('.table.datatable-column-search-inputs.contract tbody tr').length + 1) + '</td>' +
+                                    '<td>' + newContract.Contract_Type_Name + '</td>' +
+                                    '<td>' +
+                                    '<div style="font-weight: 700">' + newContract.Contract_Number + '</div>' +
+                                    '<div>' + newContract.TIN + '</div>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<div>' + newContract.Customer_Company_Name + '</div>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<div>' + newContract.Address + '</div>' +
+                                    '<div>' + newContract.Address + '</div>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<div>' +
+                                    '<span>' + newContract.Phone + '</span>' +
+                                    '<span> - </span>' +
+                                    '<span>' + newContract.MobilePhone + '</span>' +
+                                    '</div>' +
+                                    '<div>' + newContract.Email + '</div>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<a data-serviceid="' + newContract.Contract_ID + '" href="#" onclick="openEditPopupC(' + newContract.Contract_ID + ')"><i class="fas fa-edit me-1 fa-1x"></i></a>' +
+                                    '<span class="icon-space"></span>' + // Khoảng cách giữa hai biểu tượng
+                                    '<a href="#" class="delete-link" data-serviceid="' + newContract.Contract_ID + '" onclick="deleteContract(event, ' + newContract.Contract_ID + ')"><i class="fas fa-trash me-1 fa-1x"></i></a>' +
+                                    '</td>' +
+                                    '</td>' +
+                                    '</tr>';
 
-                        try {
-                            // Tạo chuỗi HTML cho dòng mới trong bảng
-                            var newRow = '<tr>' +
-                                '<td>' + ($('.table.datatable-column-search-inputs.contract tbody tr').length + 1) + '</td>' +
-                                '<td>' + newContract.contract_Type_Name + '</td>' +
-                                '<td>' +
-                                '<div style="font-weight: 700">' + newContract.contract_Number + '</div>' +
-                                '<div>' + newContract.tin + '</div>' +
-                                '</td>' +
-                                '<td>' +
-                                '<div>' + newContract.customer_Company_Name + '</div>' +
-                                '</td>' +
-                                '<td>' +
-                                '<div>' + newContract.address + '</div>' +
-                                '<div>' + newContract.address + '</div>' +
-                                '</td>' +
-                                '<td>' +
-                                '<div>' +
-                                '<span>' + newContract.phone + '</span>' +
-                                '<span> - </span>' +
-                                '<span>' + newContract.mobilePhone + '</span>' +
-                                '</div>' +
-                                '<div>' + newContract.email + '</div>' +
-                                '</td>' +
-                                '<td>' +
-                                '<a data-serviceid="' + newContract.contract_ID + '" href="#" onclick="openEditPopupC(' + newContract.contract_ID + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
-                                '<span class="icon-space"></span>' + // Khoảng cách giữa hai biểu tượng
-                                '<a href="#" class="delete-link" data-serviceid="' + newContract.contract_ID + '" onclick="deleteContract(event, ' + newContract.contract_ID + ')"><i class="fa-solid fa-trash-can"></i></a>' +
-                                '</td>' +
-                                '</td>' +
-                                '</tr>';
+                                // Thêm dòng mới vào bảng
+                                $(".table.datatable-column-search-inputs.contract tbody").append(newRow);
 
-                            // Thêm dòng mới vào bảng
-                            $('.table.datatable-column-search-inputs.contract tbody').append(newRow);
-                        } catch (ex) {
-                            console.log("Lỗi khi thêm dữ liệu vào bảng:", ex);
+                                // Hiển thị thông báo
+
+                            } catch (ex) {
+                                alert("Lỗi khi thêm dữ liệu vào bảng" + ex);
+                            }
+                        } else {
+                            alert("Vui lòng kiểm tra đầy đủ thông tin ");
                         }
                     },
                     error: function (error) {
-                        console.log("Lỗi khi tạo:", error);
-                        alert("Lỗi khi tạo. Vui lòng kiểm tra console log.");
+                        alert("Lỗi khi tạo: " + error);
                     }
                 });
             }
         });
     });
-
-    
-</script> 
+</script>
 
 <script src="~/assets/js/site.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXE1s5DfC8y7X5OZGqDz3asGtLJpTDAyAeJSEhMn79A2cHTt45wEUJqOqDO3oF" crossorigin="anonymous"></script>

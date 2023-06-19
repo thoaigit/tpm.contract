@@ -13,6 +13,7 @@ namespace tpm.dto.admin
         public decimal Unit_Price { get; set; }
         public decimal Total_Amount { get; set; }
         public int Service_Type_ID { get; set; }      
+        public int Contract_ID { get; set; }
     }
 
     public class ServiceCreateReqValidator : AbstractValidator<ServiceCreateReq>
@@ -20,10 +21,11 @@ namespace tpm.dto.admin
         public ServiceCreateReqValidator()
         {
             RuleFor(x => x.Unit_ID).NotEmpty().WithMessage("Đơn vị không được để trống");
-            RuleFor(x => x.Quantity).GreaterThan(0).WithMessage("Số lượng phải lớn hơn 0");
-            RuleFor(x => x.Unit_Price).GreaterThan(0).WithMessage("Đơn giá phải lớn hơn 0");
-            RuleFor(x => x.Total_Amount).GreaterThan(0).WithMessage("Tổng giá trị phải lớn hơn 0");
-            RuleFor(x => x.Service_Type_ID).GreaterThan(0).WithMessage("ID loại dịch vụ phải lớn hơn 0"); // Sửa đổi tên thuộc tính từ Name thành Service_Type_ID         
+            RuleFor(x => x.Quantity).NotEmpty().WithMessage("Số lượng không được để trống");
+            RuleFor(x => x.Unit_Price).NotEmpty().WithMessage("Đơn giá không được để trống");
+            RuleFor(x => x.Total_Amount).NotEmpty().WithMessage("Tổng giá trị không được để trống");
+            RuleFor(x => x.Service_Type_ID).NotEmpty().WithMessage("ID loại dịch vụ không được để trống");    
+            RuleFor(x => x.Contract_ID).NotEmpty().WithMessage("ID hợp đồng không được để trống");
         }
     }
 }

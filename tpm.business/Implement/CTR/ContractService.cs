@@ -78,6 +78,20 @@ namespace tpm.business
         {
             try
             {
+                if (objReq.Contract_Type_ID <= 0 ||
+                    string.IsNullOrEmpty(objReq.Contract_Number) ||
+                    string.IsNullOrEmpty(objReq.Customer_Company_Name) ||
+                    string.IsNullOrEmpty(objReq.Address) ||
+                    string.IsNullOrEmpty(objReq.Phone) ||
+                    string.IsNullOrEmpty(objReq.MobilePhone) ||
+                    string.IsNullOrEmpty(objReq.TIN) ||
+                    string.IsNullOrEmpty(objReq.Email))
+                {
+                    // Trả về false nếu thông tin không đủ
+                    newContractID = 0;
+                    return false;
+                }
+
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
@@ -90,13 +104,11 @@ namespace tpm.business
                 param.Add("@MobilePhone", objReq.MobilePhone);
                 param.Add("@TIN", objReq.TIN);
                 param.Add("@Email", objReq.Email);
-               
-
 
                 // Thực hiện gọi stored procedure để thêm dữ liệu vào database
                 newContractID = _objReadOnlyRepository.Value.Connection.ExecuteScalar<int>("CTR.Contract_Create", param, commandType: CommandType.StoredProcedure);
 
-                // Kiểm tra Service_ID mới
+                // Kiểm tra Contract_ID mới
                 if (newContractID > 0)
                 {
                     // Trả về kết quả thành công
@@ -112,6 +124,7 @@ namespace tpm.business
                 throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
+
         #endregion
 
         #region Update
@@ -119,6 +132,19 @@ namespace tpm.business
         {
             try
             {
+                if (objReq.Contract_Type_ID <= 0 ||
+                    string.IsNullOrEmpty(objReq.Contract_Number) ||
+                    string.IsNullOrEmpty(objReq.Customer_Company_Name) ||
+                    string.IsNullOrEmpty(objReq.Address) ||
+                    string.IsNullOrEmpty(objReq.Phone) ||
+                    string.IsNullOrEmpty(objReq.MobilePhone) ||
+                    string.IsNullOrEmpty(objReq.TIN) ||
+                    string.IsNullOrEmpty(objReq.Email))
+                {
+                    // Trả về false nếu thông tin không đủ
+                    return false;
+                }
+
                 // Tạo một đối tượng DynamicParameters để lưu trữ các tham số truyền vào stored procedure
                 var param = new DynamicParameters();
 
@@ -132,7 +158,6 @@ namespace tpm.business
                 param.Add("@MobilePhone", objReq.MobilePhone);
                 param.Add("@TIN", objReq.TIN);
                 param.Add("@Email", objReq.Email);
-            
 
                 // Thực hiện gọi stored procedure để cập nhật dữ liệu trong database
                 _objReadOnlyRepository.Value.Connection.Execute("CTR.Contract_Update", param, commandType: CommandType.StoredProcedure);
@@ -146,6 +171,7 @@ namespace tpm.business
                 throw new Exception("Có lỗi xảy ra trong quá trình thực thi stored procedure.", ex);
             }
         }
+
 
         #endregion
 

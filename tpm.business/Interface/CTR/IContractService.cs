@@ -14,7 +14,7 @@ namespace tpm.business
         bool Update(ContractCreateReq objReq, int Contract_ID);
         bool Delete(int contractID);
         IEnumerable<ContractRes> ReadAll();
-        IEnumerable<ContractRes> GetContractsByID(int contractID);
+        IEnumerable<ContractRes> GetContractsByID(int Contract_ID);
         IEnumerable<ContractRes> GetContractsWithTypeName();
     }
 }

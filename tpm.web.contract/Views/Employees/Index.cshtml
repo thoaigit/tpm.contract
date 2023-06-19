@@ -145,8 +145,8 @@
                             <div>@employee.EmployeeTypeName</div>
                         </td>
                         <td>
-                            <a data-employeeid="@employee.ID" href="#" onclick="openEditPopupE(@employee.ID)"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a class="delete-link" data-employeeid="@employee.ID" onclick="deleteEmployee(event, @employee.ID)"><i class="fa-solid fa-trash-can"></i></a>
+                            <a data-employeeid="@employee.ID" href="#" onclick="openEditPopupE(@employee.ID)"><i class="fas fa-edit me-1 fa-1x"></i></a>
+                            <a class="delete-link" data-employeeid="@employee.ID" onclick="deleteEmployee(event, @employee.ID)"><i class="fas fa-trash me-1 fa-1x"></i></a>
                         </td>
                     </tr>
                     stt++;
@@ -267,9 +267,9 @@
                             '<div>' + newEmployee.employeeTypeName + '</div>' +
                             '</td>' +
                             '<td>' +
-                            '<a data-employeeid="' + newEmployee.id + '" href="#" onclick="openEditPopupE(' + newEmployee.id + ')"><i class="fa-solid fa-pen-to-square"></i></a>' +
+                            '<a data-employeeid="' + newEmployee.id + '" href="#" onclick="openEditPopupE(' + newEmployee.id + ')"><i class="fas fa-edit me-1 fa-1x"></i></a>' +
                             '<span class="icon-space"></span>' +
-                            '<a class="delete-link" data-employeeid="' + newEmployee.id + '" onclick="deleteEmployee(event, ' + newEmployee.id + ')"><i class="fa-solid fa-trash-can"></i></a>' +
+                            '<a class="delete-link" data-employeeid="' + newEmployee.id + '" onclick="deleteEmployee(event, ' + newEmployee.id + ')"><i class="fas fa-trash me-1 fa-1x"></i></a>' +
                             '</td>' +
                             '</td>' +
                             '</tr>';
