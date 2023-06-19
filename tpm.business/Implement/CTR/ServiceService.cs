@@ -84,10 +84,9 @@ namespace tpm.business
             {
                 if (objReq.Unit_ID == 0 ||
                     objReq.Quantity <= 0 ||
-                    objReq.Unit_Price <= 0 ||
-                    objReq.Total_Amount <= 0 ||
-                    objReq.Service_Type_ID <= 0 ||
-                    objReq.Contract_ID <= 0)
+                    objReq.Unit_Price <= 0 ||                   
+                    objReq.Service_Type_ID <= 0
+                   )
                 {
                     // Trả về false nếu thông tin không đủ
                     newServiceID = 0;
@@ -134,10 +133,9 @@ namespace tpm.business
             {
                 if (objReq.Unit_ID == 0 ||
                     objReq.Quantity <= 0 ||
-                    objReq.Unit_Price <= 0 ||
-                    objReq.Total_Amount <= 0 ||
-                    objReq.Service_Type_ID <= 0 ||
-                    objReq.Contract_ID <= 0)
+                    objReq.Unit_Price <= 0 ||                  
+                    objReq.Service_Type_ID <= 0
+                   )
                 {
                     // Trả về false nếu thông tin không đủ
                     return false;

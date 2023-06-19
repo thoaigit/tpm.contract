@@ -14,6 +14,7 @@ namespace tpm.dto.admin.Response
         public decimal? Total_Amount { get; set; }
         public string Service_Type_Name { get; set; }
         public string Unit { get; set; }
+        public int Contract_ID { get; set; }
 
     }
 }

@@ -67,7 +67,7 @@ function closePopupS() {
     $("#totalAmount").val("");
 }
 
-function closePopupC() {
+/*function closePopupC() {
     $("#myPopupC").hide();
     $(".overlay").hide();
     $("body").removeClass("popup-active");
@@ -79,7 +79,7 @@ function closePopupC() {
     $("#mobilePhone").val("");
     $("#tin").val("");
     $("#email").val("");
-}
+}*/
 
 
 // hàm mở popup create
@@ -96,14 +96,14 @@ function openCreatePopupE() {
 }
 
 // hàm mở popup create contract
-function openCreatePopupC() {
+/*function openCreatePopupC() {
     $("#myPopupC").show();
     $(".overlay").show();
     $("body").addClass("popup-active");
-}
+}*/
 
 // hàm mở popup edit contract
-function openEditPopupC(contractID) {
+/*function openEditPopupC(contractID) {
     $("#myPopupC").show();
     $(".overlay").show();
     $("body").addClass("popup-active");
@@ -134,7 +134,7 @@ function openEditPopupC(contractID) {
             }
         });
     }
-}
+}*/
 
 // hàm mở popup edit Employee
 function openEditPopupE(id) {
@@ -209,8 +209,8 @@ function openEditPopupS(serviceID) {
     if (serviceID) {
         getServiceByID(serviceID, function (getService) {
             if (getService) {
-                var serviceTypeName = getService.service_Type_Name;
-                var unit = getService.unit;
+                var serviceTypeName = getService.Service_Type_Name;
+                var unit = getService.Unit;
                 var $serviceTypeDropdown = $("#serviceTypeDropdown");
                 var $unitDropdown = $("#unitDropdown");
 
@@ -228,9 +228,9 @@ function openEditPopupS(serviceID) {
                     })
                     .prop("selected", true);
 
-                $("#unitPrice").val(getService.unit_Price);
-                $("#quantity").val(getService.quantity);
-                $("#totalAmount").val(getService.total_Amount);
+                $("#unitPrice").val(getService.Unit_Price);
+                $("#quantity").val(getService.Quantity);
+                $("#totalAmount").val(getService.Total_Amount);
             }
         });
     }
@@ -267,8 +267,7 @@ function getServiceByID(serviceID, callback) {
         dataType: "json",
         data: { Service_ID: serviceID },
         success: function (data) {
-            var getService = data.service[0];
-
+            var getService = data.Service[0];
             if (typeof callback === "function") {
                 callback(getService);
             }
