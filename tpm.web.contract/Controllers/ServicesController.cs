@@ -37,10 +37,6 @@ namespace tpm.web.contract.Controllers
 
             return View();
         }
-        public IActionResult Create()
-        {
-            return View();
-        }
         #region Create Post
         [HttpPost]
         public JsonResult Create(Service_TypeCreateReq objReq)
