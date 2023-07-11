@@ -26,7 +26,7 @@ namespace tpm.web.contract.Controllers
 
         }
         #region Index
-        public IActionResult Index()
+        public IActionResult Index1()
         {
             var employees = _employeeService.GetEmployeesWithTypeName();
             var employeeTypes = _employeeTypeService.GetAllEmployees();

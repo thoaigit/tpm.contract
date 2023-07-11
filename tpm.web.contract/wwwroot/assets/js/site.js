@@ -6,8 +6,6 @@ toggleBtn.addEventListener('click', function () {
     toggleBtn.innerHTML = isToggleOn ? '<i class="fa-solid fa-toggle-on fa-lg"></i>' : '<i class="fa-solid fa-toggle-off fa-lg"></i>';
 });
 
-
-
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
 
@@ -400,10 +398,6 @@ function initializeScript() {
     }
 }
 
-
-
-
 $(document).ready(function () {
     initializeScript();
 });
-

@@ -1,0 +1,281 @@
+﻿@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Danh sách nhân viên";
+    List<string> BreadCrumb = new List<string>();
+    BreadCrumb.Add("<span class='breadcrumb-item'>Nhân viên</span>");
+    BreadCrumb.Add("<span class='breadcrumb-item active'> Danh sách</span>");
+    ViewBag.BreadCrumb = BreadCrumb;
+}
+
+@*<div class="card">
+    <a id="openPopupE" class="btn btn-primary"></a>
+</div>*@
+<div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form_vertical">
+        <i class="ph-plus me-2"></i>
+        Thêm Nhân Viên
+    </button>
+</div>
+<div class="card">
+    <div id="myPopupE" class="popup">
+        <h2>Nhập thông tin</h2>
+        <div class="form-row">
+            <div class="form-column">
+                <label for="employeeID">Mã Nhân Viên:</label>
+                <input type="text" placeholder="Mã Nhân Viên" id="employeeID">
+                <label for="FullName">Họ và tên:</label>
+                <input type="text" placeholder="Họ Tên" id="fullName">
+                <label for="genderType">Giới tính:</label>
+                <select id="genderTypeDropdown">
+                    @if (ViewBag.Genders != null)
+                    {
+                        @foreach (var gender in ViewBag.Genders)
+                        {
+                            <option value="@gender.GenderID">@gender.GenderName</option>
+                        }
+                    }
+                    else
+                    {
+                        <p>Danh sách trống.</p>
+                    }
+                </select>
+            </div>
+            <div class="form-column">
+                <label for="dob">Ngày sinh:</label>
+                <input type="date" id="dob">
+                <label for="phone">Điện Thoại:</label>
+                <input type="text" placeholder="09(xxxx)" id="phone">
+                <label for="email">Email:</label>
+                <input type="text" placeholder="abc@gmail.com" id="email">
+            </div>
+            <div class="form-column">
+                <label for="departmentType">Phòng ban:</label>
+                <select id="departmentTypeDropdown">
+                    @if (ViewBag.Departments != null)
+                    {
+                        @foreach (var departmentType in ViewBag.Departments)
+                        {
+                            <option value="@departmentType.DepartmentID">@departmentType.DepartmentName</option>
+                        }
+                    }
+                    else
+                    {
+                        <p>Danh sách trống.</p>
+                    }
+                </select>
+                <label for="positionType">Chức vụ:</label>
+                <select id="positionTypeDropdown">
+                    @if (ViewBag.Positions != null)
+                    {
+                        @foreach (var position in ViewBag.Positions)
+                        {
+                            <option value="@position.PositionID">@position.PositionName</option>
+                        }
+                    }
+                    else
+                    {
+                        <p>Danh sách đơn vị tính trống.</p>
+                    }
+                </select>
+                <label for="employeeType">Loại nhân viên:</label>
+                <select id="employeeTypeDropdown">
+                    @if (ViewBag.EmployeeTypes != null)
+                    {
+                        @foreach (var employeeType in ViewBag.EmployeeTypes)
+                        {
+                            <option value="@employeeType.EmployeeTypeID">@employeeType.EmployeeTypeName</option>
+                        }
+                    }
+                    else
+                    {
+                        <p>Danh sách trống.</p>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" id="saveButtonE">Lưu</button>
+            <button type="submit" id="closePopupE">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã Nhân Viên</th>
+                    <th>Họ Tên - Giới tính - SĐT</th>
+                    <th>Ngày Sinh</th>
+                    <th>Email</th>
+                    <th>
+                        <div>Chức vụ - Hình thức</div>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Employees != null)
+                {
+                    int stt = 1;
+
+                    @foreach (var employee in ViewBag.Employees)
+                    {
+                        // Khai báo biến đếm và tăng giá trị sau mỗi lần lặp
+                        <tr>
+                            <td>@stt</td>
+                            <td>@employee.EmployeeID</td>
+                            <td>
+                                <div>@employee.FullName</div>
+                                <div>
+                                    <span>GT: </span>
+                                    <span style="font-weight: 700">@employee.GenderName</span>
+                                    <span> - </span>
+                                    <span>@employee.Phone</span>
+                                </div>
+                            </td>
+                            @{
+                                var dob = DateTime.Parse(employee.DOB.ToString());
+                                var formattedDOB = dob.ToString("dd'/'MM'/'yyyy");
+                            }
+                            <td>@formattedDOB</td>
+                            <td>@employee.Email</td>
+                            <td>
+                                <div>@employee.DepartmentName - @employee.PositionName</div>
+                                <div>@employee.EmployeeTypeName</div>
+                            </td>
+                            <td>
+                                <a data-employeeid="@employee.ID" href="#" onclick="openEditPopupE(@employee.ID)"><i class="fas fa-edit me-1 fa-1x"></i></a>
+                                <a class="delete-link" data-employeeid="@employee.ID" onclick="deleteEmployee(event, @employee.ID)"><i class="fas fa-trash me-1 fa-1x"></i></a>
+                            </td>
+                        </tr>
+                        stt++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">Không có dữ liệu</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="modal_form_vertical" class="modal fade show" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nhập thông tin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="#">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div>
+                                <label class="form-label">Mã nhân viên</label>
+                                <input type="text" placeholder="1010" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="form-label">Họ và tên</label>
+                                <input type="text" placeholder="Nguyễn Văn A" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="form-label">Giới tính</label>
+                                <div>
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-light dropdown-toggle" id="genderDropdown" data-bs-toggle="dropdown">Giới tính</a>
+
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item" data-gender="Nam">Nam</a>
+                                            <a href="#" class="dropdown-item" data-gender="Nữ">Nữ</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="form-label">Address line 1</label>
+                                <input type="text" placeholder="Ring street 12" class="form-control">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="form-label">Address line 2</label>
+                                <input type="text" placeholder="building D, flat #67" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="form-label">City</label>
+                                <input type="text" placeholder="Munich" class="form-control">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label class="form-label">State/Province</label>
+                                <input type="text" placeholder="Bayern" class="form-control">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label class="form-label">ZIP code</label>
+                                <input type="text" placeholder="1031" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="form-label">Email</label>
+                                <input type="text" placeholder="eugene@kopyov.com" class="form-control">
+                                <div class="form-text text-muted">name@domain.com</div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="form-label">Phone #</label>
+                                <input type="text" placeholder="+84-99-9999-9999" data-mask="+84-99-9999-9999" class="form-control">
+                                <div class="form-text text-muted">+84-99-9999-9999</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".dropdown-item").click(function () {
+            var selectedGender = $(this).data("gender");
+            $("#genderDropdown").text(selectedGender);
+        });
+    });
+
+    $(".btn-primary").click(function () {
+        $("#mypopupe").show();
+        $(".overlay").show();
+        $("body").addclass("popup-active");
+    });
+</script>
